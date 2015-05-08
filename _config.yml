@@ -1,0 +1,10 @@
+title: zverok with ruby
+email: zverok.offline@gmail.com
+description: > 
+  Zverok. Ukrainian, Ruby programmer & poet.
+baseurl: "" # the subpath of your site, e.g. /blog/
+twitter_username: zverok
+github_username:  zverok
+
+# Build settings
+markdown: kramdown
