@@ -9,7 +9,7 @@ Hi.
 I am Victor Shepelev (aka "zverok"), Ruby programmer and also poet.
 I live in Kharkiv, Ukraine* and work for [BrandSpotter](http://brandspotter.ru/).
 
-<small>* If, by chance, you care about actual politics, I am pro-[Euromaidan](http://en.wikipedia.org/wiki/Euromaidan) and pro-Ukrainian, despite what you may have been told about citizens of Eastern Ukraine. In fact, most of us kharkovites are.</small>
+<small>* If, by chance, you care about actual politics, I am pro-[Euromaidan](http://en.wikipedia.org/wiki/Euromaidan) and pro-Ukrainian, despite what you may have been told about citizens of Eastern Ukraine. In fact, most of us kharkivites are.</small>
 
 Recently I've released some useful Ruby gems (and plan to do much more):
 
