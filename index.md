@@ -20,7 +20,7 @@ Recently I've released some useful Ruby gems (and plan to do much more):
 
 ## Contacts
 
-* [zverok.offline@gmail.com](zverok.offline@gmail.com) (also gtalk/hangouts)
+* [zverok.offline@gmail.com](mailto:zverok.offline@gmail.com) (also gtalk/hangouts)
 * zver_ok in Skype
 * [GitHub](http://github.com/zverok), [Facebook](http://facebook.com/zverok)
 
