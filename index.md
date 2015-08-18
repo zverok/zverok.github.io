@@ -13,10 +13,12 @@ I live in Kharkiv, Ukraine* and work for [BrandSpotter](http://brandspotter.ru/)
 
 Recently I've released some useful Ruby gems (and plan to do much more):
 
+* [infoboxer](https://github.com/molybdenum-99/infoboxer) -- Wikipedia client and parser, targeting data extraction;
 * [time_boots](http://github.com/zverok/time_boots) -- library for handling time steps, like "round time to the day age" or "add two months to current date" or "generate hour-by-hour sequence".
 * [magic_cloud](http://github.com/zverok/magic_cloud) -- pretty Wordle-like wordcloud in pure Ruby.
 * [procme](http://github.com/zverok/procme) -- experimental Ruby syntax extension for DRYer array filtering and processing.
-* [dokaz](http://github.com/zverok/dokaz) -- test code from inside of your Markdown documentation files.
+* [dokaz](http://github.com/zverok/dokaz) -- test code from inside of your Markdown documentation files;
+* [linkhum](https://github.com/zverok/linkhum) -- "links-in-text humanizer", linkify text-only input.
 
 ## Contacts
 
