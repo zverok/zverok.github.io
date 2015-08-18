@@ -20,6 +20,11 @@ Recently I've released some useful Ruby gems (and plan to do much more):
 * [dokaz](http://github.com/zverok/dokaz) -- test code from inside of your Markdown documentation files;
 * [linkhum](https://github.com/zverok/linkhum) -- "links-in-text humanizer", linkify text-only input.
 
+And, not a gems, but also worse mentioning:
+* [rubyseeds](https://github.com/zverok/rubyseeds) -- public repository of useful core_exts;
+* [xkcdize](https://github.com/zverok/xkcdize) and [drosterize](https://github.com/zverok/drosterize) -- experiments on converting some "cool" image-processing tricks from Wolfram Language (Mathematica) to Ruby + RMagick;
+* [matchish](https://github.com/zverok/matchish) -- experiment in doing pattern-matching "the Ruby way".
+
 ## Contacts
 
 * [zverok.offline@gmail.com](mailto:zverok.offline@gmail.com) (also gtalk/hangouts)
