@@ -7,30 +7,30 @@ comments: true
 ---
 
 **TL;DR**: Readme-driven development (writing README and usage examples
-**before the code**) is considered a useful way for designing public
-interface for new library. Tool for automating readme-driven design
-proposed, named [dokaz](https://github.com/zverok/dokaz).
+**before the code**) is considered to be an effective way for designing a public
+interface for a new library. A tool for automating readme-driven design
+has been proposed, named [dokaz](https://github.com/zverok/dokaz).
 
 ## The problem
 
-When you are starting to create a new library (either for internal needs
-or for public release as a gem), the toughest thing is oftenly designing
+When you start creating a new library (either for your own needs
+or for releasing to public as a gem), often the toughest thing is designing
 a good public interface. Classes, modules, methods, service objects, return
-values, exceptions and more and more.
+values, exceptions and so on.
 
 Making things natural and easy to remember, providing consistent,
 transparent and useful behavior, keeping both integrity and loose coupling
-of concepts—all of those were never been easy, but it is possibly the
-hardest when you just starting to create something.
+of concepts—all of those have never been easy, but it is possibly the
+hardest when you just start creating something.
 
 ## Existing approaches
 
-One of possible approaches is **following the internals**. You do, for
+One of the possible approaches is **following the internals**. You make, for
 example, some new database-abstraction gem, or data processing one, or
-wrapper for some complicated web API, and you just start this car with
-an engine and hope that seets and dashboard and doors and steering wheel
-will emerge somehow at some point. And even if those "seets" and "doors"
-would be ugly, or uncomfortable, you don't give a damn, as engine is
+wrapper for some complicated web API, and you just start building this car with
+an engine and hope that seats and dashboard and doors and steering wheel
+will emerge somehow at some point. And even if those "seats" and "doors"
+would be ugly or uncomfortable, you don't give a damn, since the engine is
 powerful and fast.
 
 Shortcomings of this approach is obvious: unless your domain is truly
