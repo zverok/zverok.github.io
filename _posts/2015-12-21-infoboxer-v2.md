@@ -1,13 +1,13 @@
 ---
 layout: post
-title:  "Infoboxer 0.2.0: Effective Wikipedia data extraction"
+title:  "Infoboxer 0.2: Effective Wikipedia data extraction"
 date:   2015-12-21 16:30:00
 categories: ruby gems
 comments: true
 ---
 
 **We are releasing [Infoboxer](https://github.com/molybdenum-99/infoboxer)
-version 0.2.0 today -- which is still young but already
+version 0.2 today -- which is still young but already
 highly useful MediaWiki (including Wikipedia) hi-level _data client_**.
 
 Please look at Infoboxer's [showcase](https://github.com/molybdenum-99/infoboxer/wiki/Showcase)
@@ -39,7 +39,7 @@ Infoboxer.wikipedia.get('Argentina', 'Bolivia', 'Chile')
 Number of pages you could fetch this way was limited to 50 (MediaWiki
 API limitation) in version 0.1.
 
-Currently, with version 0.2.0 and new backend library, you can fetch as
+Currently, with version 0.2 and new backend library, you can fetch as
 many pages as you like in one `#get` call. Internally, it will be translated
 in several API requests. Overall process can take some time, but eventually
 you'll have them :)
