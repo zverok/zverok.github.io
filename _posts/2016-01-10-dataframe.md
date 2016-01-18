@@ -42,7 +42,7 @@ It can be described this way:
 * like 2-dimensional array (columns × rows), but...
 * ...columns are named,
 * ...and rows are "indexed": each row has corresponding label,
-  which can be just sequental number (simplest and default case), or
+  which can be just sequential number (simplest and default case), or
   timestamp, or something else;
 * each column has data of only one type inside it (different columns
   can have different data types);
