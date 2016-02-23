@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Good Ruby Idiom: and/or operators"
-date:   2016-02-23 20:45:00
+date:   2016-02-23 18:45:00
 categories: ruby rants
 comments: true
 ---
