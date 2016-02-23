@@ -56,3 +56,4 @@ And, not a gems, but also worth mentioning:
 
 * Master degree in Computer Science
 * Variable level of English: excellent reading, strange yet understandable writing (as you can see), really bad spoken one
+
