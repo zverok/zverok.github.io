@@ -13,6 +13,7 @@ I live in Kharkiv, Ukraine* and work for [BrandSpotter](http://brandspotter.ru/)
 
 Recently I've released some useful Ruby gems (and plan to do much more):
 
+* [reality](https://github.com/molybdenum-99/reality) -- Easy access to all world knowledge as a computable entities (via Wikipedia, Wikidata and other open datasources);
 * [infoboxer](https://github.com/molybdenum-99/infoboxer) -- Wikipedia client and parser, targeting data extraction;
 * [worldize](https://github.com/zverok/worldize) -- simple coloured countries stats drawing with RMagick;
 * [wheretz](https://github.com/zverok/wheretz) -- fast and precise time zone by geo coordinates lookup;
