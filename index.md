@@ -2,7 +2,7 @@
 layout: default
 ---
 
-<img src="img/zverok2.jpg" style="float:right; margin: 10px;"/>
+<img src="img/zverok3.jpg" style="float:right; margin: 10px;"/>
 
 Hi.
 
@@ -17,7 +17,8 @@ Recently I've released some useful Ruby gems (and plan to do much more):
 * [infoboxer](https://github.com/molybdenum-99/infoboxer) -- Wikipedia client and parser, targeting data extraction;
 * [worldize](https://github.com/zverok/worldize) -- simple coloured countries stats drawing with RMagick;
 * [wheretz](https://github.com/zverok/wheretz) -- fast and precise time zone by geo coordinates lookup;
-* [time_math2](http://github.com/zverok/time_math2) -- library for handling simple time arithmetics, like "round time to the day edge" or "add two months to current date" or "generate hour-by-hour sequence".
+* [time_math2](https://github.com/zverok/time_math2) -- library for handling simple time arithmetics, like "round time to the day edge" or "add two months to current date" or "generate hour-by-hour sequence".
+* [geo_coord](https://github.com/zverok/geo_coord) -- `Geo::Coord` class, abstracting `[latitude, longitude]` pair;
 * [magic_cloud](http://github.com/zverok/magic_cloud) -- pretty Wordle-like wordcloud in pure Ruby;
 * [procme](http://github.com/zverok/procme) -- experimental Ruby syntax extension for DRYer array filtering and processing;
 * [dokaz](http://github.com/zverok/dokaz) -- test code from inside of your Markdown documentation files;
