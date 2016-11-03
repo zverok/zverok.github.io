@@ -1,0 +1,61 @@
+начальный слайд
+кто я
+а вы кто? (вик-то-ри-на!)
+о чём говорим? (enumerable)
+→ общий план с зачёркиваемыми фишечками
+при чём тут функциональное программирование
+принцип: последовательность преобразований
+чистота, вход и выход только в начале и в конце
+why it matters? why it is Ruby
+! реализация: конкретные методы
+each & map, each_***
+select, reject, detect
+all?, any?, none?, include? (side note: Range: is Enumerable, but be careful!)
+min, max, sum, count
+group_by, reduce, partition ...........
+(сноска: парадигма map/reduce)
+! реализация: chain of methods
+.with_index, zip, each_cons
+
+! реализация: procs & lambdas
+what's it?..
+proc vs lambda vs closure vs ...
+everything is computable (symbol, method, custom!) - пример из TimeMath
+! задачки для самопроверки
+
+
+ =======> перерыв
+! реализация: enumeration in progress
+it is still objects!
+lazy
+enumerating innumerable
+! реализация Enumerable
+о модулях вообще
+что это может быть?
+практические вопросы принятия блоков
+
+
+
+
+
+Enumerable как стиль (AR)
+
+
+
+
+
+
+! как сломать фукнциональное программиирование
+bang/no bang
+Array is not
+cover? vs include?
+itself, .tap (и .derp)
+
+! франциск асизский проповедует птицам
+читайте доки, всё там
+последовательность вызовов лучше чем
+дизайните свой код
+домашка
+
+
+=> fin

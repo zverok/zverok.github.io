@@ -1,0 +1,967 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+   <meta http-equiv="content-type" content="text/html;charset=utf-8"> 
+   <title>Your Title Here</title>
+
+<meta name="generator" content="Slide Show (S9) v3.3.0 on Ruby 2.2.4 (2015-12-16) [i686-linux]">
+<meta name="author"    content="Your Name Here" >
+
+
+<!-- S6 style sheet links -->
+<link rel="stylesheet" href="index.css"  media="projection" id="styleProjection">
+<link rel="stylesheet" href="s6/screen.css"    media="screen"     id="styleScreen">
+<link rel="stylesheet" href="s6/print.css"     media="print">
+
+<!-- S6 JS -->
+<script src="s6/jquery.js"></script>
+<script src="s6/jquery.slideshow.js"></script>
+<script>
+  $(document).ready( function() {
+    Slideshow.init();
+  } );
+
+  
+</script>
+
+<!-- Better Browser Banner for Microsoft Internet Explorer (IE) -->
+<!--[if IE]>
+<script src="s6/jquery.microsoft.js"></script>
+<![endif]-->
+
+
+
+</head>
+<body>
+
+<div class="layout"> 
+  <div id="header"></div>
+  <div id="footer">
+    <h1>Your Footer Here</h1>
+    <h2>Your Subfooter Here</h2>
+  </div>
+</div>
+
+<div class="presentation">
+   
+<div class='slide '>
+
+<!-- _S9SLIDE_ -->
+<h1 id="enumerable-------">Enumerable, зачем он нужен и чему нас учит</h1>
+
+<p><strong>Kottans-Ruby</strong>, осень 2016</p>
+
+<p><strong>Виктор Шепелев</strong> (zverok)</p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section">Кто я?</h1>
+
+<p>Виктор Шепелев (Обычно «Зверёк»/zverok в интернете)</p>
+
+<ul>
+  <li>Ruby больше 10 лет</li>
+  <li>Toptal</li>
+  <li>Опенсорс: github.com/zverok</li>
+  <li>Ruby Association Grant 2015</li>
+  <li>Ruby-ментор последние 2 года (в т.ч. Google Summer of Code)</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section-1">А вы кто?</h1>
+
+<p><strong>Весёлая Викторина!</strong> (без призов)</p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section-2">А о чём мы вообще?</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="constant">File</span>.read(<span class="string"><span class="delimiter">'</span><span class="content">data.txt</span><span class="delimiter">'</span></span>)
+  .each_with_index
+  .map { |ln, i| [i, *ln.split(<span class="string"><span class="delimiter">'</span><span class="content">|</span><span class="delimiter">'</span></span>)] }
+  .map { |data| <span class="symbol"><span class="delimiter">%i[</span><span class="content">num name salary</span><span class="delimiter">]</span></span>.zip(data).to_h }
+  .reject { |employee| employee[<span class="symbol">:salary</span>] &lt; <span class="integer">1_000</span> }
+  .to_yaml
+  .tap { |yml| <span class="constant">File</span>.write(<span class="string"><span class="delimiter">'</span><span class="content">salaries.yml</span><span class="delimiter">'</span></span>, yml) }
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="enumerable----ruby">Enumerable: Функциональный стиль в Ruby</h1>
+
+<ol>
+  <li>Что это такое и зачем это надо</li>
+  <li>Основные принципы</li>
+  <li>Как эти принципы реализованы в Ruby’s Enumerable</li>
+  <li>Что нам это даёт</li>
+  <li>В глубины реализации</li>
+  <li>Ещё немного деталей</li>
+</ol>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="vs-">Функциональное vs императивное</h1>
+
+<p><strong>Императивное</strong></p>
+
+<ul>
+  <li>программа как последовательность <em>действий</em></li>
+  <li>меняем данные</li>
+</ul>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+</pre></td>
+  <td class="code"><pre>
+lines = <span class="constant">File</span>.read(<span class="string"><span class="delimiter">'</span><span class="content">data.txt</span><span class="delimiter">'</span></span>)
+lines.map! { |ln| ln.split(<span class="string"><span class="delimiter">'</span><span class="content">|</span><span class="delimiter">'</span></span>) }
+i = <span class="integer">0</span>
+lines.each { |ln| ln.unshift(i); i += <span class="integer">1</span>  }
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+<p><strong>Фукциональное</strong></p>
+
+<ul>
+  <li>программа как последовательность <em>преобразований</em></li>
+  <li>не меняем данные, только порождаем новые</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section-3">Зачем стремиться к функциональному?</h1>
+
+<ul>
+  <li>Проще тестировать и отлаживать</li>
+  <li>Меньше кода</li>
+  <li>Проще обеспечить конкурентность</li>
+  <li>Лучше выражает смысл</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="enumerable--">Enumerable: полезные методы</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+<a href="#n14" name="n14">14</a>
+<a href="#n15" name="n15">15</a>
+<a href="#n16" name="n16">16</a>
+</pre></td>
+  <td class="code"><pre>
+  <span class="comment"># перечисляем</span>
+  (<span class="integer">1</span>..<span class="integer">10</span>).each { |i| p i }
+  <span class="comment"># преобразуем</span>
+  (<span class="integer">1</span>..<span class="integer">10</span>).map { |i| i ** <span class="integer">2</span>}
+  <span class="comment"># выбираем</span>
+  (<span class="integer">1</span>..<span class="integer">10</span>).select(&amp;<span class="symbol">:odd?</span>)
+  (<span class="integer">1</span>..<span class="integer">10</span>).reject { |i| &lt; <span class="integer">5</span> }
+  <span class="comment"># проверяем</span>
+  (<span class="integer">1</span>..<span class="integer">10</span>).any?(&amp;<span class="symbol">:even?</span>)
+  (<span class="integer">1</span>..<span class="integer">10</span>).all? { |i| i.is_a?(<span class="constant">Numeric</span>) }
+  <span class="comment"># статистика</span>
+  (<span class="integer">1</span>..<span class="integer">10</span>).max
+  <span class="string"><span class="delimiter">%w[</span><span class="content">one two three four</span><span class="delimiter">]</span></span>.max_by(&amp;<span class="symbol">:length</span>)
+  (<span class="integer">1</span>..<span class="integer">10</span>).sum
+  <span class="string"><span class="delimiter">%w[</span><span class="content">one two three four</span><span class="delimiter">]</span></span>.group_by(&amp;<span class="symbol">:length</span>)
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="enumerable----">Enumerable: ещё больше полезных методов!</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+</pre></td>
+  <td class="code"><pre>
+  <span class="comment"># grep</span>
+  <span class="string"><span class="delimiter">%w[</span><span class="content">foo bar baz</span><span class="delimiter">]</span></span>.grep(<span class="regexp"><span class="delimiter">/</span><span class="content">^f</span><span class="delimiter">/</span></span>)
+  [<span class="integer">1</span>, <span class="symbol">:foo</span>, <span class="integer">2</span>, {}].grep(<span class="constant">Numeric</span>)
+
+  <span class="comment"># partition</span>
+  [<span class="integer">1</span>, <span class="symbol">:foo</span>, <span class="integer">2</span>, {}].partition { |v| v.is_a?(<span class="constant">Numeric</span>) }
+
+  <span class="comment"># reduce</span>
+  (<span class="integer">1</span>..<span class="integer">20</span>).reduce(<span class="symbol">:+</span>)
+  [картошка, колбаса, горошек].reduce(тарелка) { |тарелка_с_салатом, компонент|
+    тарелка_с_салатом.положить(компонент)
+  }
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+<p>Тысячи их!</p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section-4">Примечание</h1>
+
+<ul>
+  <li>Понимаешь <code>map</code>?</li>
+  <li>Понимаешь <code>reduce</code>?</li>
+  <li>Значит, знаешь парадигму Map-Reduce!</li>
+</ul>
+
+<p><img src="./like-a-boss.png" alt="" /> <img src="./mapreduce-workflow.png" alt="" /></p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="enumerable---1">Enumerable: цепочки методов</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="constant">File</span>.read(<span class="string"><span class="delimiter">'</span><span class="content">data.txt</span><span class="delimiter">'</span></span>)
+  .each_with_index
+  .map { |ln, i| [i, *ln.split(<span class="string"><span class="delimiter">'</span><span class="content">|</span><span class="delimiter">'</span></span>)] }
+  .map { |data| <span class="symbol"><span class="delimiter">%i[</span><span class="content">num name salary</span><span class="delimiter">]</span></span>.zip(data).to_h }
+  .reject { |employee| employee[<span class="symbol">:salary</span>] &lt; <span class="integer">1_000</span> }
+  .to_yaml
+  .tap { |yml| <span class="constant">File</span>.write(<span class="string"><span class="delimiter">'</span><span class="content">salaries.yml</span><span class="delimiter">'</span></span>, yml) }
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="proc-lambda----">Сердце тьмы: proc, lambda и все-все-все</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+</pre></td>
+  <td class="code"><pre>
+(<span class="integer">1</span>..<span class="integer">10</span>).map { |i| i ** <span class="integer">2</span> }
+<span class="comment"># примерно то же самое что...</span>
+block = proc { |i| i ** <span class="integer">2</span> }
+(<span class="integer">1</span>..<span class="integer">10</span>).map(&amp;block)
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+<p>Вопросы для самопроверки:</p>
+
+<ul>
+  <li><code>block</code> в коде выше - это объект? а какого класса?</li>
+  <li>чем <code>proc</code> отличается от <code>lambda</code>?</li>
+  <li>что такое «замыкание» и какое отношение оно имеет ко всему происходящему?</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="proc--proc">Когда proc не proc</h1>
+
+<ul>
+  <li><code>Symbol</code></li>
+</ul>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+</pre></td>
+  <td class="code"><pre>
+[<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>].map(&amp;<span class="symbol">:to_s</span>)
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+<ul>
+  <li><code>Method</code></li>
+</ul>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+</pre></td>
+  <td class="code"><pre>
+[<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>].each(&amp;<span class="constant">Kernel</span>.method(<span class="symbol">:puts</span>))
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+<ul>
+  <li>…anything!</li>
+</ul>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+</pre></td>
+  <td class="code"><pre>
+  require <span class="string"><span class="delimiter">'</span><span class="content">time_math</span><span class="delimiter">'</span></span>
+
+  op = TimeMath().floor(<span class="symbol">:month</span>).advance(<span class="symbol">:hour</span>, <span class="integer">10</span>)
+  <span class="comment"># =&gt; #&lt;TimeMath::Op floor(:month).advance(:hour, 10)&gt;</span>
+  <span class="string"><span class="delimiter">%w[</span><span class="content">2016-02-01 2016-03-06 2016-04-15</span><span class="delimiter">]</span></span>.map(&amp;<span class="constant">Time</span>.method(<span class="symbol">:parse</span>)).map(&amp;op)
+  <span class="comment"># =&gt; [2016-02-01 10:00:00, 2016-03-01 10:00:00, 2016-04-01 10:00:00]</span>
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="enumerable----ruby-1">Enumerable: Функциональный стиль в Ruby</h1>
+
+<ol>
+  <li>
+    <s>Что это такое и зачем это надо</s>
+  </li>
+  <li>
+    <s>Основные принципы</s>
+  </li>
+  <li>
+    <s>Как эти принципы реализованы в Ruby's Enumerable</s>
+  </li>
+  <li>Что нам это даёт</li>
+  <li>В глубины реализации</li>
+  <li>Ещё немного деталей</li>
+</ol>
+
+<p><em>Здесь можно покурить.</em></p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="enumerator">Мощь абстракций: Enumerator</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+</pre></td>
+  <td class="code"><pre>
+  (<span class="integer">1</span>..<span class="integer">10</span>).each
+  <span class="comment"># =&gt; #&lt;Enumerator: 1..10:each&gt;</span>
+  <span class="integer">20</span>.times
+  <span class="comment"># =&gt; #&lt;Enumerator: 20:times&gt;</span>
+  (<span class="string"><span class="delimiter">'</span><span class="content">a</span><span class="delimiter">'</span></span>..<span class="string"><span class="delimiter">'</span><span class="content">e</span><span class="delimiter">'</span></span>).each_with_index.map
+  <span class="comment"># =&gt; #&lt;Enumerator: #&lt;Enumerator: &quot;a&quot;..&quot;e&quot;:each_with_index&gt;:map&gt;</span>
+  (<span class="string"><span class="delimiter">'</span><span class="content">a</span><span class="delimiter">'</span></span>..<span class="string"><span class="delimiter">'</span><span class="content">e</span><span class="delimiter">'</span></span>).each_with_index.map.take(<span class="integer">2</span>)
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="lazy">Мощь абстракций: lazy</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+</pre></td>
+  <td class="code"><pre>
+  <span class="comment"># медленно:</span>
+  (<span class="integer">1</span>..<span class="integer">10_000</span>).reject(&amp;<span class="symbol">:odd?</span>).map(&amp;<span class="symbol">:to_s</span>).first(<span class="integer">3</span>)
+  <span class="comment"># быстро:</span>
+  (<span class="integer">1</span>..<span class="integer">10_000</span>).lazy <span class="comment"># &lt;-- MAGIC!!!</span>
+    .reject(&amp;<span class="symbol">:odd?</span>).map(&amp;<span class="symbol">:to_s</span>).first(<span class="integer">3</span>)
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section-5">Мощь абстракций: перечисление неисчислимого</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+</pre></td>
+  <td class="code"><pre>
+(<span class="integer">1</span>..<span class="constant">Float</span>::<span class="constant">INFINITY</span>).lazy.select(&amp;<span class="symbol">:odd?</span>).take_while { |i| i &lt; <span class="integer">12</span> }.to_a
+<span class="comment"># =&gt; [1, 3, 5, 7, 9, 11]</span>
+
+socket.lazy.take_while { |b| b != <span class="integer">0</span> }
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="enumerable-">Как сделать свой класс Enumerable-ом?</h1>
+
+<p>…просто добавь <code>each</code>!</p>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="keyword">class</span> <span class="class">ThreeLittlePigs</span>
+  <span class="keyword">def</span> <span class="function">each</span>
+    <span class="keyword">yield</span> <span class="string"><span class="delimiter">'</span><span class="content">Ниф-Ниф</span><span class="delimiter">'</span></span>
+    <span class="keyword">yield</span> <span class="string"><span class="delimiter">'</span><span class="content">Наф-Наф</span><span class="delimiter">'</span></span>
+    <span class="keyword">yield</span> <span class="string"><span class="delimiter">'</span><span class="content">Нуф-Нуф</span><span class="delimiter">'</span></span>
+  <span class="keyword">end</span>
+
+  include <span class="constant">Enumerable</span>
+<span class="keyword">end</span>
+
+<span class="constant">ThreeLittlePigs</span>.new.map(&amp;<span class="symbol">:reverse</span>)
+<span class="comment"># =&gt; [&quot;фиН-фиН&quot;, &quot;фaН-фaН&quot;, &quot;фуН-фуН&quot;]</span>
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section-6">Явные и неявные аргументы</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+<a href="#n14" name="n14">14</a>
+</pre></td>
+  <td class="code"><pre>
+  <span class="keyword">def</span> <span class="function">each</span>
+    raise <span class="constant">ArgumentError</span> <span class="keyword">unless</span> block_given?
+
+    <span class="keyword">yield</span> <span class="string"><span class="delimiter">'</span><span class="content">Ниф-Ниф</span><span class="delimiter">'</span></span>
+    <span class="keyword">yield</span> <span class="string"><span class="delimiter">'</span><span class="content">Наф-Наф</span><span class="delimiter">'</span></span>
+    <span class="keyword">yield</span> <span class="string"><span class="delimiter">'</span><span class="content">Нуф-Нуф</span><span class="delimiter">'</span></span>
+  <span class="keyword">end</span>
+
+  <span class="keyword">def</span> <span class="function">each</span>(&amp;block)
+    raise <span class="constant">ArgumentError</span> <span class="keyword">unless</span> block
+
+    internal_data.each(&amp;block)
+  <span class="keyword">end</span>
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="enumerator-1">Не забывать про Enumerator!</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+<a href="#n14" name="n14">14</a>
+<a href="#n15" name="n15">15</a>
+<a href="#n16" name="n16">16</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="constant">ThreeLittlePigs</span>.new.each
+<span class="comment"># LocalJumpError: no block given (yield)</span>
+
+<span class="keyword">class</span> <span class="class">ThreeLittlePigs</span>
+  <span class="keyword">def</span> <span class="function">each</span>
+    <span class="keyword">return</span> to_enum(<span class="symbol">:each</span>) <span class="keyword">unless</span> block_given?
+
+    <span class="keyword">yield</span> <span class="string"><span class="delimiter">'</span><span class="content">Ниф-Ниф</span><span class="delimiter">'</span></span>
+    <span class="keyword">yield</span> <span class="string"><span class="delimiter">'</span><span class="content">Наф-Наф</span><span class="delimiter">'</span></span>
+    <span class="keyword">yield</span> <span class="string"><span class="delimiter">'</span><span class="content">Нуф-Нуф</span><span class="delimiter">'</span></span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="constant">ThreeLittlePigs</span>.new.each
+<span class="comment"># =&gt; #&lt;Enumerator: #&lt;ThreeLittlePigs:0xa4c7c64&gt;:each&gt;</span>
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="enumerator------">Иногда Enumerator - это всё что нужно!</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="keyword">class</span> <span class="class">Day</span>
+  <span class="keyword">def</span> <span class="function">each</span>(&amp;block)
+    <span class="comment"># каждый час дня</span>
+  <span class="keyword">end</span>
+  include <span class="constant">Enumerable</span>
+<span class="keyword">end</span>
+day.map { ... } <span class="comment"># hm?..</span>
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+<p>А если так?</p>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="keyword">class</span> <span class="class">Day</span>
+  <span class="keyword">def</span> <span class="function">hours</span>(&amp;block)
+    <span class="constant">Enumerator</span>.new { .... }
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+day.hours.map { ... } <span class="comment"># m!</span>
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section-7">И ещё немного деталей</h1>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="enumerable---2">Не Enumerable, но …</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="constant">People</span>.where { salary &lt; <span class="integer">1000</span> }.order(<span class="symbol">:name</span>).group(<span class="symbol">:department</span>)
+  .select(<span class="symbol">:department</span>, <span class="symbol">:sum</span>[<span class="symbol">:salary</span>], <span class="symbol">:count</span>[])
+  .order(<span class="symbol">:count</span>)
+  .first(<span class="integer">5</span>)
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="array---enumerable">А Array - Enumerable?..</h1>
+
+<ul>
+  <li>Конечно, да!</li>
+</ul>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>…а также нет:
+      <ul>
+        <li>собственная реализация многих методов;</li>
+        <li>методы изменяющие данные.</li>
+      </ul>
+    </li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="bang-no-bang-----">bang, no bang и как сломать функциональное программирование</h1>
+
+<p>Штуки, которые бывают полезными… или стреляют в ногу!</p>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+</pre></td>
+  <td class="code"><pre>
+  <span class="comment"># bang-версии методов</span>
+  a = [<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>]
+  a.map!(&amp;<span class="symbol">:to_s</span>)
+
+  <span class="comment"># методы изменяющие получателя</span>
+  a.concat([<span class="integer">4</span>, <span class="integer">5</span>, <span class="integer">6</span>])
+  a.replace([<span class="integer">7</span>, <span class="integer">8</span>, <span class="integer">9</span>])
+  a.clear
+
+  <span class="comment"># ...никогда не знаешь где их ожидать</span>
+  t = <span class="constant">Time</span>.now
+  t.utc
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="include">подлый <code>include?</code></h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+</pre></td>
+  <td class="code"><pre>
+allowed = <span class="constant">IP</span>.new(<span class="string"><span class="delimiter">&quot;</span><span class="content">88.198.0.0</span><span class="delimiter">&quot;</span></span>)..<span class="constant">IP</span>.new(<span class="string"><span class="delimiter">&quot;</span><span class="content">88.198.191.128</span><span class="delimiter">&quot;</span></span>)
+allowed.include?(user_ip) <span class="comment"># МЕДЛЕННО</span>
+allowed.cover?(user_ip) <span class="comment"># быстро!</span>
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section-8">…и всякое такое</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="integer">200</span>.times.map { rand(<span class="integer">20</span>) }
+  .group_by(&amp;<span class="symbol">:itself</span>)
+  .map { |n, group| [n, group.count] }.to_h
+  .tap { |data| <span class="constant">File</span>.write(<span class="string"><span class="delimiter">'</span><span class="content">numers.yml</span><span class="delimiter">'</span></span>, data.to_yaml) }
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="enumerable----ruby-2">Enumerable: Функциональный стиль в Ruby</h1>
+
+<ol>
+  <li>
+    <s>Что это такое и зачем это надо</s>
+  </li>
+  <li>
+    <s>Основные принципы</s>
+  </li>
+  <li>
+    <s>Как эти принципы реализованы в Ruby's Enumerable</s>
+  </li>
+  <li>
+    <s>Что нам это даёт</s>
+  </li>
+  <li>
+    <s>В глубины реализации</s>
+  </li>
+  <li>
+    <s>Ещё немного деталей</s>
+  </li>
+</ol>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="enumerable----ruby-3">Enumerable: Функциональный стиль в Ruby</h1>
+
+<ol>
+  <li>Что это такое и зачем это надо</li>
+  <li>Основные принципы</li>
+  <li>Как эти принципы реализованы в Ruby’s Enumerable</li>
+  <li>Что нам это даёт</li>
+  <li>В глубины реализации</li>
+  <li>Ещё немного деталей</li>
+</ol>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section-9">Домашнее задание!</h1>
+
+<ol>
+  <li>Модуль Ebuberable</li>
+  <li>Класс «последовательность бизнес-дней»</li>
+  <li>Класс для выбиралки из шахматной доски</li>
+</ol>
+
+<p>(Будет также в чате и почте)</p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="ebuberable">1. Модуль Ebuberable</h1>
+
+<p>Воплотить модуль <code>Ebuberable</code>: когда его включаешь в класс, он предоставляет методы:</p>
+<ul>
+  <li><code>map</code>;</li>
+  <li><code>select</code>;</li>
+  <li><code>reject</code>;</li>
+  <li><code>grep</code>;</li>
+  <li><code>all?</code>;</li>
+  <li><code>reduce</code>.</li>
+</ul>
+
+<p>Дополнительное задание: реализовать как можно больше методов Enumerable</p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section-10">2. Класс «последовательность бизнес-дней»</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="constant">BusnessDays</span>.new(<span class="key">start</span>: <span class="constant">Date</span>.parse(<span class="string"><span class="delimiter">'</span><span class="content">2016-05-01</span><span class="delimiter">'</span></span>), <span class="key">region</span>: <span class="symbol">:fr</span>)
+  .reject { |d| d.wday == <span class="integer">5</span> }.take(<span class="integer">5</span>)
+<span class="comment"># =&gt; возвращает 5 бизнес-дней, начиная с 1 мая, кроме пятниц</span>
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+<p>Использовать гем <code>holidays</code>.</p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section-11">3. Класс для работы с шахматной доской</h1>
+
+<div class="CodeRay">&lt;pre 'code'&gt;
+<table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="constant">CHESSBOARD</span> = (<span class="symbol">:a1</span>..<span class="symbol">:h8</span>)
+position = <span class="constant">Position</span>.new(<span class="key">a1</span>: <span class="symbol">:black_queen</span>, <span class="key">e2</span>: <span class="symbol">:white_queen</span>, <span class="key">h5</span>: <span class="symbol">:white_bishop</span>, ...)
+<span class="constant">CHESSBOARD</span>.map(&amp;position).to_h <span class="comment"># =&gt; {a1: :black_queen, a2: :empty, a3: :empty...}</span>
+<span class="constant">CHESSBOARD</span>.select(&amp;position.occupied) <span class="comment"># =&gt; [:a1, :e2, :h5 ...]</span>
+<span class="constant">CHESSBOARD</span>.select(&amp;position.occupied(<span class="symbol">:queen</span>)) <span class="comment"># =&gt; [:a1, :e2]</span>
+</pre></td>
+</tr></table>
+&lt;/pre&gt;</div>
+
+<p>Дополнительное задание: test driven development (подготовит вас к следующей лекции!)</p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section-12">Спасибо!</h1>
+
+<p>Не переключайте канал.</p>
+
+<p>Советы напоследок:</p>
+
+<ul>
+  <li>Читайте доки</li>
+  <li>Экспериментируйте</li>
+  <li>Полюбите функциональный стиль</li>
+</ul>
+
+<p><strong>Следующие лекции</strong>:</p>
+
+<ul>
+  <li>5 ноября (суббота) - мастер-класс по метапрограммированию;</li>
+  <li>8 ноября (вторник) - лекция по RSpec.</li>
+</ul>
+
+</div>
+
+
+</div><!-- presentation -->
+</body>
+</html>
