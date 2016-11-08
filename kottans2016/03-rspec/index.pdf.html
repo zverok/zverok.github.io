@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <title>Kottans-2016: RSpec</title>
+   
+   
+
+<style>
+html, body { margin: 0; padding: 0; }
+
+body { font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; }
+
+a:link, a:visited { color: black; }
+
+h1 { font-size: 30pt;  }
+h2 { font-size: 28pt;  }
+h3 { font-size: 25pt;  }
+p, li, dt, dd, td, th { font-size: 18pt; }
+
+pre { font-size: 14pt;  }
+pre.small { font-size: 11pt; }
+
+pre.code {
+        background-color: azure;
+        padding: 5px;
+      }
+     
+ul { list-style-type: square; }    
+   
+.center { text-align: center; }   
+     
+.slide { page-break-after: always;
+         min-height: 100mm;
+         padding: 40px;
+         
+         border: 1px dotted black;
+
+/*      
+  background: -moz-linear-gradient( top, maroon, red);
+*/
+       }
+
+/* styles for built-in coderay syntax highlighting theme */
+
+.CodeRay {
+  background-color: hsl(0,0%,95%);
+  border: 1px solid silver;
+  color: black;
+}
+.CodeRay pre {
+  margin: 0px;
+}
+
+span.CodeRay { white-space: pre; border: 0px; padding: 2px; }
+
+table.CodeRay { border-collapse: collapse; width: 100%; padding: 2px; }
+table.CodeRay td { padding: 2px 4px; vertical-align: top; }
+
+.CodeRay .line-numbers {
+  background-color: hsl(180,65%,90%);
+  color: gray;
+  text-align: right;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+.CodeRay .line-numbers a {
+  background-color: hsl(180,65%,90%) !important;
+  color: gray !important;
+  text-decoration: none !important;
+}
+.CodeRay .line-numbers pre {
+  word-break: normal;
+}
+.CodeRay .line-numbers a:target { color: blue !important; }
+.CodeRay .line-numbers .highlighted { color: red !important; }
+.CodeRay .line-numbers .highlighted a { color: red !important; }
+.CodeRay span.line-numbers { padding: 0px 4px; }
+.CodeRay .line { display: block; float: left; width: 100%; }
+.CodeRay .code { width: 100%; }
+
+.CodeRay .debug { color: white !important; background: blue !important; }
+
+.CodeRay .annotation { color:#007 }
+.CodeRay .attribute-name { color:#b48 }
+.CodeRay .attribute-value { color:#700 }
+.CodeRay .binary { color:#549 }
+.CodeRay .binary .char { color:#325 }
+.CodeRay .binary .delimiter { color:#325 }
+.CodeRay .char { color:#D20 }
+.CodeRay .char .content { color:#D20 }
+.CodeRay .char .delimiter { color:#710 }
+.CodeRay .class { color:#B06; font-weight:bold }
+.CodeRay .class-variable { color:#369 }
+.CodeRay .color { color:#0A0 }
+.CodeRay .comment { color:#777 }
+.CodeRay .comment .char { color:#444 }
+.CodeRay .comment .delimiter { color:#444 }
+.CodeRay .constant { color:#036; font-weight:bold }
+.CodeRay .decorator { color:#B0B }
+.CodeRay .definition { color:#099; font-weight:bold }
+.CodeRay .delimiter { color:black }
+.CodeRay .directive { color:#088; font-weight:bold }
+.CodeRay .docstring { color:#D42; }
+.CodeRay .doctype { color:#34b }
+.CodeRay .done { text-decoration: line-through; color: gray }
+.CodeRay .entity { color:#800; font-weight:bold }
+.CodeRay .error { color:#F00; background-color:#FAA }
+.CodeRay .escape  { color:#666 }
+.CodeRay .exception { color:#C00; font-weight:bold }
+.CodeRay .float { color:#60E }
+.CodeRay .function { color:#06B; font-weight:bold }
+.CodeRay .function .delimiter { color:#059 }
+.CodeRay .function .content { color:#037 }
+.CodeRay .global-variable { color:#d70 }
+.CodeRay .hex { color:#02b }
+.CodeRay .id  { color:#33D; font-weight:bold }
+.CodeRay .include { color:#B44; font-weight:bold }
+.CodeRay .inline { background-color: hsla(0,0%,0%,0.07); color: black }
+.CodeRay .inline-delimiter { font-weight: bold; color: #666 }
+.CodeRay .instance-variable { color:#33B }
+.CodeRay .integer  { color:#00D }
+.CodeRay .imaginary { color:#f00 }
+.CodeRay .important { color:#D00 }
+.CodeRay .key { color: #606 }
+.CodeRay .key .char { color: #60f }
+.CodeRay .key .delimiter { color: #404 }
+.CodeRay .keyword { color:#080; font-weight:bold }
+.CodeRay .label { color:#970; font-weight:bold }
+.CodeRay .local-variable { color:#950 }
+.CodeRay .map .content { color:#808 }
+.CodeRay .map .delimiter { color:#40A}
+.CodeRay .map { background-color:hsla(200,100%,50%,0.06); }
+.CodeRay .namespace { color:#707; font-weight:bold }
+.CodeRay .octal { color:#40E }
+.CodeRay .operator { }
+.CodeRay .predefined { color:#369; font-weight:bold }
+.CodeRay .predefined-constant { color:#069 }
+.CodeRay .predefined-type { color:#0a8; font-weight:bold }
+.CodeRay .preprocessor { color:#579 }
+.CodeRay .pseudo-class { color:#00C; font-weight:bold }
+.CodeRay .regexp { background-color:hsla(300,100%,50%,0.06); }
+.CodeRay .regexp .content { color:#808 }
+.CodeRay .regexp .delimiter { color:#404 }
+.CodeRay .regexp .modifier { color:#C2C }
+.CodeRay .reserved { color:#080; font-weight:bold }
+.CodeRay .shell { background-color:hsla(120,100%,50%,0.06); }
+.CodeRay .shell .content { color:#2B2 }
+.CodeRay .shell .delimiter { color:#161 }
+.CodeRay .string { background-color:hsla(0,100%,50%,0.05); }
+.CodeRay .string .char { color: #b0b }
+.CodeRay .string .content { color: #D20 }
+.CodeRay .string .delimiter { color: #710 }
+.CodeRay .string .modifier { color: #E40 }
+.CodeRay .symbol { color:#A60 }
+.CodeRay .symbol .content { color:#A60 }
+.CodeRay .symbol .delimiter { color:#740 }
+.CodeRay .tag { color:#070; font-weight:bold }
+.CodeRay .type { color:#339; font-weight:bold }
+.CodeRay .value { color: #088 }
+.CodeRay .variable { color:#037 }
+
+.CodeRay .insert { background: hsla(120,100%,50%,0.12) }
+.CodeRay .delete { background: hsla(0,100%,50%,0.12) }
+.CodeRay .change { color: #bbf; background: #007 }
+.CodeRay .head { color: #f8f; background: #505 }
+.CodeRay .head .filename { color: white; }
+
+.CodeRay .delete .eyecatcher { background-color: hsla(0,100%,50%,0.2); border: 1px solid hsla(0,100%,45%,0.5); margin: -1px; border-bottom: none; border-top-left-radius: 5px; border-top-right-radius: 5px; }
+.CodeRay .insert .eyecatcher { background-color: hsla(120,100%,50%,0.2); border: 1px solid hsla(120,100%,25%,0.5); margin: -1px; border-top: none; border-bottom-left-radius: 5px; border-bottom-right-radius: 5px; }
+
+.CodeRay .insert .insert { color: #0c0; background:transparent; font-weight:bold }
+.CodeRay .delete .delete { color: #c00; background:transparent; font-weight:bold }
+.CodeRay .change .change { color: #88f }
+.CodeRay .head .head { color: #f4f }
+
+
+
+
+/*
+for princexml (CSS3 paged media support)
+@page { size: A4 landscape }
+*/
+</style>
+
+</head>
+<body>
+
+<div class="presentation">
+
+<div class='slide '>
+
+<!-- _S9SLIDE_ -->
+<h1 id="rspec------ruby">RSpec и подходы к тестированию на Ruby</h1>
+
+<p><strong>Kottans-Ruby</strong>, осень 2016</p>
+
+<p>Лекция <strong>Третья</strong> (не считая мастер-класса)</p>
+
+<p><strong>Виктор Шепелев</strong> (zverok)</p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section">Что такое тестирование и зачем оно надо</h1>
+
+<p>Давайте построим самолёт!</p>
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_  -->
+
+<p>День первый…</p>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="comment"># plane.rb</span>
+<span class="keyword">class</span> <span class="class">Plane</span>
+  <span class="keyword">def</span> <span class="function">fly!</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment"># test_plane.rb</span>
+plane = <span class="constant">Plane</span>.new
+
+plane.fly!
+</pre></td>
+</tr></table>
+</div>
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_  -->
+
+<p>День 1015…</p>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+<a href="#n14" name="n14">14</a>
+<a href="#n15" name="n15">15</a>
+<a href="#n16" name="n16">16</a>
+<a href="#n17" name="n17">17</a>
+<a href="#n18" name="n18">18</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="comment"># test_plane.rb</span>
+
+<span class="comment"># plane = Plane.new</span>
+<span class="comment"># plane.fly! =&gt; EngineError: Not enough gasoline!</span>
+
+plane = <span class="constant">Plane</span>.new(<span class="key">gasoline</span>: <span class="integer">3000</span>)
+<span class="comment"># plane.fly! =&gt; PathError: You are not at runway!</span>
+
+plane.drive_to(<span class="constant">Runway</span>.first)
+<span class="comment"># plane.fly! =&gt; TechError: Ladder is still connected!</span>
+
+plane.ladders.each(&amp;<span class="symbol">:disconnect!</span>)
+<span class="comment"># plane.fly! =&gt; SpeedError: Not enough speed for flying!</span>
+
+plane.speedup(<span class="key">until</span>: <span class="constant">Plane</span>::<span class="constant">TAKEOFF_SPEED</span>)
+plane.fly!
+<span class="comment"># =&gt; CriticalError: Engine malfunction. 3 crew members and 74 passengers dead.</span>
+</pre></td>
+</tr></table>
+</div>
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_  -->
+
+<p>ОК, тестируем только двигатель…</p>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+</pre></td>
+  <td class="code"><pre>
+e = <span class="constant">Engine</span>.new
+p e
+p e.active?
+p e.speed
+e.activate!
+p e.active?
+p e.speed
+</pre></td>
+</tr></table>
+</div>
+
+<!-- begin code{:lang=>"text"} -->
+<div class="code"><pre class="brush: text toolbar: false gutter: true">
+#&lt;Plane::EnginesGasolineEngine:0x9db6240 ..................&gt;
+false
+0
+true
+ZeroDivisionError: divided by 0
+  ....1000 lines of backtrace...
+</pre></div>
+<!-- end code -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="rspec">Инструменты тестирования: RSpec</h2>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+<a href="#n14" name="n14">14</a>
+<a href="#n15" name="n15">15</a>
+<a href="#n16" name="n16">16</a>
+<a href="#n17" name="n17">17</a>
+</pre></td>
+  <td class="code"><pre>
+describe <span class="constant">Engine</span> <span class="keyword">do</span>
+  subject { described_class.new }
+  it { is_expected.to be_an <span class="constant">Engine</span> }
+
+  context <span class="string"><span class="delimiter">'</span><span class="content">when not activated</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+    it { is_expected.not_to be_activated }
+    its(<span class="symbol">:speed</span>) { is_expected.to eq <span class="integer">0</span> }
+  <span class="keyword">end</span>
+
+  context <span class="string"><span class="delimiter">'</span><span class="content">when activated</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+    before { subject.activate! }
+
+    it { is_expected.to be_activated }
+    its(<span class="symbol">:speed</span>) { is_expected.to eq <span class="integer">1000</span> }
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-1">Базовый тест</h2>
+
+<ul>
+  <li>Expectation - ожидание:</li>
+</ul>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+</pre></td>
+  <td class="code"><pre>
+  expect(engine.speed).to eq <span class="integer">1000</span>
+</pre></td>
+</tr></table>
+</div>
+
+<ul>
+  <li>Единичный тест:</li>
+</ul>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+</pre></td>
+  <td class="code"><pre>
+it <span class="string"><span class="delimiter">'</span><span class="content">has some speed</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  engine = <span class="constant">Engine</span>.new
+  engine.start!
+  expect(engine.speed).to eq <span class="integer">1000</span>
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-2">Начальные (и финальные) действия</h2>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+</pre></td>
+  <td class="code"><pre>
+before { engine.start }
+after { engine.stop }
+
+before(<span class="symbol">:all</span>) { <span class="constant">Laboratory</span>.open!(<span class="key">password</span>: <span class="string"><span class="delimiter">'</span><span class="content">Дядя Вася</span><span class="delimiter">'</span></span>) }
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="let">Объекты, участвующие в тесте (<code>let</code>)</h2>
+
+<ul>
+  <li>Без <code>let</code>:</li>
+</ul>
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+</pre></td>
+  <td class="code"><pre>
+before {
+  <span class="instance-variable">@engine</span> = <span class="constant">Engine</span>.new
+  <span class="instance-variable">@engine</span>.start
+}
+it <span class="string"><span class="delimiter">'</span><span class="content">has some speed</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  expect(<span class="instance-variable">@engine</span>.speed).to eq <span class="integer">1000</span>
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+<ul>
+  <li>С <code>let</code>:</li>
+</ul>
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+</pre></td>
+  <td class="code"><pre>
+let(<span class="symbol">:engine</span>) { <span class="constant">Engine</span>.new }
+before { engine.start }
+it <span class="string"><span class="delimiter">'</span><span class="content">has some speed</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  expect(engine.speed).to eq <span class="integer">1000</span>
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="subject">Кого мы тестируем? (<code>subject</code>)</h2>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+</pre></td>
+  <td class="code"><pre>
+subject { <span class="constant">Engine</span>.new }
+it <span class="string"><span class="delimiter">'</span><span class="content">has some speed</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  expect(subject.speed).to eq <span class="integer">1000</span>
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+<p>… тоже может иметь имя:</p>
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+</pre></td>
+  <td class="code"><pre>
+subject(<span class="symbol">:engine</span>) { <span class="constant">Engine</span>.new }
+it <span class="string"><span class="delimiter">'</span><span class="content">has some speed</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  expect(engine.speed).to eq <span class="integer">1000</span>
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="subject---"><code>subject</code> и краткость тестов</h2>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+</pre></td>
+  <td class="code"><pre>
+subject(<span class="symbol">:engine</span>) { <span class="constant">Engine</span>.new }
+
+it { is_expected.to be_activated }
+it { is_expected.to have_attributes(<span class="key">speed</span>: <span class="integer">1000</span>) }
+
+<span class="comment"># с гемом rspec-its:</span>
+its(<span class="symbol">:speed</span>) { is_expected.to eq <span class="integer">1000</span> }
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="let--let"><code>let</code> и <code>let!</code></h2>
+
+<ul>
+  <li><code>let</code>: создаётся только при явном обращении:</li>
+</ul>
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+</pre></td>
+  <td class="code"><pre>
+let(<span class="symbol">:tank</span>) { <span class="constant">GasTank</span>.new(<span class="integer">100</span>) }
+subject { <span class="constant">Engine</span>.new(tank) }
+</pre></td>
+</tr></table>
+</div>
+
+<ul>
+  <li><code>let!</code>: создаётся всегда:</li>
+</ul>
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+</pre></td>
+  <td class="code"><pre>
+let!(<span class="symbol">:environment</span>) { <span class="constant">TestBench</span>.create }
+subject { <span class="constant">Engine</span>.new }
+</pre></td>
+</tr></table>
+</div>
+
+<p>PS: <code>subject!</code> тоже существуует. И иногда полезен.</p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="matchers">Проверки (matchers)</h2>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+</pre></td>
+  <td class="code"><pre>
+expect(engine.speed).to eq <span class="integer">1000</span>
+expect(engine.speed).to be &gt; <span class="integer">800</span>
+expect(engine.speed).to be_within(<span class="float">0.1</span>).of(<span class="integer">1000</span>)
+
+expect(engine).to be_an <span class="constant">Engine</span>
+
+expect(engine).to be_activated <span class="comment"># calls engine.activated?</span>
+
+expect(engine.components).to include(<span class="string"><span class="delimiter">'</span><span class="content">Carburator</span><span class="delimiter">'</span></span>)
+expect(engine.components).to contain_exactly(<span class="string"><span class="delimiter">'</span><span class="content">Carburator</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">Ignition</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">Cylinder</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">Cylinder</span><span class="delimiter">'</span></span>)
+
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="matchers-1">Съешь ещё этих мягких французских matchers</h2>
+
+<p>Используем блоки кода:</p>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+</pre></td>
+  <td class="code"><pre>
+expect { engine.speed = <span class="integer">10_000</span> }.to raise_error(<span class="constant">ArgumentError</span>, <span class="regexp"><span class="delimiter">/</span><span class="content">crazy</span><span class="delimiter">/</span></span>)
+expect { engine.start }.to change(engine, <span class="symbol">:state</span>).from(<span class="symbol">:stopped</span>).to(<span class="symbol">:active</span>)
+</pre></td>
+</tr></table>
+</div>
+
+<p>Собираем всякие сложные штуки:</p>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+</pre></td>
+  <td class="code"><pre>
+expect { engine.start }
+  .to change(engine, <span class="symbol">:state</span>).from(<span class="symbol">:stopped</span>).to(<span class="symbol">:active</span>)
+  .and change(engine, <span class="symbol">:speed</span>).to(<span class="integer">1000</span>)
+
+expect(engine.internals)
+  .to include(<span class="string"><span class="delimiter">'</span><span class="content">Carburator</span><span class="delimiter">'</span></span>)
+  .and have_attributes(<span class="key">gasoline</span>: an_instance_of(<span class="constant">Numeric</span>))
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="describe--context">Группировка тестов: <code>describe</code> и <code>context</code></h2>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+<a href="#n14" name="n14">14</a>
+<a href="#n15" name="n15">15</a>
+<a href="#n16" name="n16">16</a>
+</pre></td>
+  <td class="code"><pre>
+describe <span class="constant">Engine</span> <span class="keyword">do</span>
+  its(<span class="symbol">:state</span>) { is_expected.to eq <span class="symbol">:stopped</span> }
+
+  describe <span class="string"><span class="delimiter">'</span><span class="content">#start</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+    context <span class="string"><span class="delimiter">'</span><span class="content">when engine has gasoline</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+      let(<span class="symbol">:gasoline</span>) { <span class="integer">1_000</span> }
+      it <span class="string"><span class="delimiter">'</span><span class="content">starts</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+        expect { engine.start }.not_to raise_error
+      <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    context <span class="string"><span class="delimiter">'</span><span class="content">when engine does not have gasoline</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+<p><em>(Тут можно выдохнуть и покурить)</em></p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="rspec------ruby-1">RSpec и подходы к тестированию на Ruby</h2>
+
+<p>Дальше в программе:</p>
+
+<ul>
+  <li>Как это всё работает;</li>
+  <li>BDD: Behavior-Driven Development;</li>
+  <li>Bottom-Up vs Top-Down testing;</li>
+  <li>Advanced RSpec (если успеем);</li>
+  <li>Другие средства тестирования (если успеем).</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-3">Взгляд под капот</h2>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+<a href="#n14" name="n14">14</a>
+<a href="#n15" name="n15">15</a>
+<a href="#n16" name="n16">16</a>
+<a href="#n17" name="n17">17</a>
+<a href="#n18" name="n18">18</a>
+<a href="#n19" name="n19">19</a>
+<strong><a href="#n20" name="n20">20</a></strong>
+</pre></td>
+  <td class="code"><pre>
+describe <span class="constant">Engine</span> <span class="keyword">do</span>
+  subject { described_class.new(gasoline) }
+
+  context <span class="string"><span class="delimiter">'</span><span class="content">when engine has gasoline</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+    let(<span class="symbol">:gasoline</span>) { <span class="integer">1_000</span> }
+
+    it { is_expected.to be_full }
+
+    it <span class="string"><span class="delimiter">'</span><span class="content">is stopped initially</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+      expect(engine.speed).to eq <span class="integer">0</span>
+    <span class="keyword">end</span>
+
+    it <span class="string"><span class="delimiter">'</span><span class="content">starts</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+      expect { engine.start }
+        .not_to raise_error
+        .and change(engine, <span class="symbol">:speed</span>).to(<span class="integer">1000</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="behavior-driven-design">Подход: Behavior-Driven Design</h2>
+
+<ul>
+  <li>Test-Driven Development: пишем тесты ДО кода;</li>
+  <li>Behavior-Driven Development: описываем поведение ДО написания кода;</li>
+</ul>
+
+<p>Одно и то же?.. Да, но есть нюансы.</p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-4">Код как план</h2>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+<a href="#n14" name="n14">14</a>
+<a href="#n15" name="n15">15</a>
+<a href="#n16" name="n16">16</a>
+<a href="#n17" name="n17">17</a>
+</pre></td>
+  <td class="code"><pre>
+describe <span class="constant">Plane</span> <span class="keyword">do</span>
+  context <span class="string"><span class="delimiter">'</span><span class="content">when takeoff</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+    context <span class="string"><span class="delimiter">'</span><span class="content">when not enough speed</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+    <span class="keyword">end</span>
+
+    context <span class="string"><span class="delimiter">'</span><span class="content">when enough speed</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+      it <span class="string"><span class="delimiter">'</span><span class="content">takes off!</span><span class="delimiter">'</span></span>
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+
+  context <span class="string"><span class="delimiter">'</span><span class="content">when in flight</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+    it <span class="string"><span class="delimiter">'</span><span class="content">is stable</span><span class="delimiter">'</span></span>
+    it <span class="string"><span class="delimiter">'</span><span class="content">spends gasoline</span><span class="delimiter">'</span></span>
+    it <span class="string"><span class="delimiter">'</span><span class="content">controls position</span><span class="delimiter">'</span></span>
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="bottom-up">Подход к тестированию: Bottom-Up</h2>
+
+<p>Начинаем с деталей реализации.</p>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+</pre></td>
+  <td class="code"><pre>
+describe <span class="string"><span class="delimiter">'</span><span class="content">Элерон</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  it { должен быть беленький }
+  it { должен подниматься }
+  it { должен опускаться }
+<span class="keyword">end</span>
+
+describe <span class="string"><span class="delimiter">'</span><span class="content">Крыло</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  it { должно иметь элерон }
+<span class="keyword">end</span>
+<span class="comment"># ...</span>
+</pre></td>
+</tr></table>
+</div>
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_  -->
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="comment"># ...</span>
+describe <span class="string"><span class="delimiter">'</span><span class="content">Летательный аппарат</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  it { должен надуваться гелием }
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+<p><img src="oops.jpg" alt="" /></p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="top-down">Подход к тестированию: Top-Down</h2>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+<a href="#n14" name="n14">14</a>
+<a href="#n15" name="n15">15</a>
+<a href="#n16" name="n16">16</a>
+<a href="#n17" name="n17">17</a>
+<a href="#n18" name="n18">18</a>
+<a href="#n19" name="n19">19</a>
+</pre></td>
+  <td class="code"><pre>
+describe <span class="string"><span class="delimiter">'</span><span class="content">Летательный аппарат</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  it { должен летать }
+<span class="keyword">end</span>
+
+<span class="comment"># реализуем метод «летать»:</span>
+  <span class="keyword">def</span> <span class="function">fly</span>
+    speedup <span class="keyword">until</span> liftable?
+    change_angle
+  <span class="keyword">end</span>
+
+  <span class="comment"># или</span>
+  <span class="keyword">def</span> <span class="function">fly</span>
+    fill_volume(<span class="symbol">:helium</span>) <span class="keyword">until</span> mass &lt; air_mass(volume)
+  <span class="keyword">end</span>
+
+<span class="comment"># → получаем ошибки</span>
+<span class="comment"># → воплощаем недостающий функционал</span>
+<span class="comment"># → повторяем</span>
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="top-down---">Top-Down: заглушки на ненаписанное</h2>
+
+<ul>
+  <li>Мок = mock (подделка) - объект, который ведёт себя как будто он правда есть;</li>
+  <li>Стаб = stub (заглушка) - поддельное поведение (возможно, существующего) метода.</li>
+</ul>
+
+<p><img src="MockTurtle.jpg" alt="" /></p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-5">Моки, стабы, дубли</h2>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+</pre></td>
+  <td class="code"><pre>
+let(<span class="symbol">:left_wing</span>) { double }
+let(<span class="symbol">:right_wing</span>) { double }
+
+let(<span class="symbol">:plane</span>) { <span class="constant">Plane</span>.new(<span class="key">wings</span>: [left_wing, right_wing] }
+
+it <span class="string"><span class="delimiter">'</span><span class="content">uses elerons</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  expect(left_wing).to receive(<span class="symbol">:lift_eleron</span>).with(<span class="integer">10</span>)
+  expect(right_wing).to receive(<span class="symbol">:lift_eleron</span>).with(<span class="integer">10</span>)
+  plane.up!
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-6">И ещё: сложные моки</h2>
+
+<p>(Это не про самолёт уже)</p>
+
+<ul>
+  <li>WebMock:</li>
+</ul>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+</pre></td>
+  <td class="code"><pre>
+stub_request(<span class="symbol">:get</span>, <span class="regexp"><span class="delimiter">%r{</span><span class="content">en</span><span class="char">\.</span><span class="content">wikipedia</span><span class="char">\.</span><span class="content">org</span><span class="delimiter">}</span></span>).
+  to_return(<span class="key">body</span>: <span class="string"><span class="delimiter">'</span><span class="content">Купи слона!</span><span class="delimiter">'</span></span>)
+
+expect(get(<span class="string"><span class="delimiter">'</span><span class="content">https://en.wikipedia.org/wiki/Elephant</span><span class="delimiter">'</span></span>)).to include(<span class="string"><span class="delimiter">'</span><span class="content">слон</span><span class="delimiter">'</span></span>)
+</pre></td>
+</tr></table>
+</div>
+
+<ul>
+  <li>VCR:</li>
+</ul>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+</pre></td>
+  <td class="code"><pre>
+context <span class="string"><span class="delimiter">'</span><span class="content">when wikipedia queried</span><span class="delimiter">'</span></span>, <span class="key">vcr</span>: <span class="predefined-constant">true</span> <span class="keyword">do</span>
+  it <span class="string"><span class="delimiter">'</span><span class="content">extracts article text</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+    expect(get(<span class="string"><span class="delimiter">'</span><span class="content">https://en.wikipedia.org/wiki/Elephant</span><span class="delimiter">'</span></span>)).to include(<span class="string"><span class="delimiter">'</span><span class="content">mastodons</span><span class="delimiter">'</span></span>)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-7">И ещё: фикстуры и фабрики</h2>
+
+<ul>
+  <li>Фикстуры: данные для тестирования, определённые раз и навсегда</li>
+</ul>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+</pre></td>
+  <td class="code"><pre>
+let(<span class="symbol">:airport</span>) { <span class="constant">Airport</span>.load_from_yaml(<span class="string"><span class="delimiter">'</span><span class="content">spec/fixtures/airport1.yml</span><span class="delimiter">'</span></span>) }
+</pre></td>
+</tr></table>
+</div>
+
+<ul>
+  <li>Фабрики: способ создания (полу)случайных данных для тестов</li>
+</ul>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="comment"># в спеке</span>
+let(<span class="symbol">:airport</span>) { build(<span class="symbol">:airport</span>) }
+
+<span class="comment"># отдельно</span>
+<span class="constant">Factory</span>.define(<span class="symbol">:airport</span>) <span class="keyword">do</span>
+  runways { rand(<span class="integer">3</span>..<span class="integer">5</span>).times.map { build(<span class="symbol">:runway</span>) } }
+  name { <span class="constant">Faker</span>.city }
+  weather <span class="keyword">do</span>
+    temp { rand(<span class="integer">-10</span>..<span class="integer">+20</span>) }
+    wind { rand(<span class="integer">0</span>..<span class="integer">100</span>) }
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="top-down-discovery-testing">Top-Down: Discovery testing</h2>
+
+<p>Тесты для понимания, что нам вообще надо:</p>
+<ul>
+  <li>описываем поведение «главной части»;</li>
+  <li>делаем его работающим, заменяя заглушками всё важное;</li>
+  <li>реализуем самые важные классы, подменяя ими заглушки;</li>
+  <li>повторяем!</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="tips-tricks-and-mindfucks">Tips, tricks and mindfucks</h2>
+
+<p><img src="mindblown.jpg" alt="" /></p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="dry-shared-contexts">DRY: shared contexts</h2>
+
+<p>Плохо:</p>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+</pre></td>
+  <td class="code"><pre>
+context <span class="string"><span class="delimiter">'</span><span class="content">when speed is below sonic</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  let(<span class="symbol">:speed</span>) { <span class="integer">500</span> }
+  its(<span class="symbol">:speed</span>) { is_expected.to eq <span class="integer">500</span> }
+  its(<span class="symbol">:supersonic?</span>) { is_expected.to eq <span class="predefined-constant">false</span> }
+<span class="keyword">end</span>
+
+context <span class="string"><span class="delimiter">'</span><span class="content">when speed is above sonic</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  let(<span class="symbol">:speed</span>) { <span class="integer">2000</span> }
+  its(<span class="symbol">:speed</span>) { is_expected.to eq <span class="integer">2000</span> }
+  its(<span class="symbol">:supersonic?</span>) { is_expected.to eq <span class="predefined-constant">true</span> }
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_  -->
+
+<p>Хорошо:</p>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+</pre></td>
+  <td class="code"><pre>
+context <span class="string"><span class="delimiter">'</span><span class="content">when speed is below sonic</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  it_should_behave_like <span class="string"><span class="delimiter">'</span><span class="content">speed examples</span><span class="delimiter">'</span></span>, <span class="integer">500</span>, <span class="predefined-constant">false</span>
+<span class="keyword">end</span>
+
+context <span class="string"><span class="delimiter">'</span><span class="content">when speed is above sonic</span><span class="delimiter">'</span></span> <span class="keyword">do</span>
+  it_should_behave_like <span class="string"><span class="delimiter">'</span><span class="content">speed examples</span><span class="delimiter">'</span></span>, <span class="integer">2000</span>, <span class="predefined-constant">true</span>
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="readable-custom-matchers">Readable: custom matchers</h2>
+
+<p>Плохо:</p>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+</pre></td>
+  <td class="code"><pre>
+expect(engine).to be_active.and have_attributes(<span class="key">rpm</span>: <span class="integer">1000</span>).and not_be_exploding
+</pre></td>
+</tr></table>
+</div>
+
+<p>Хорошо:</p>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+</pre></td>
+  <td class="code"><pre>
+<span class="constant">RSpec</span>::<span class="constant">Matchers</span>.define <span class="symbol">:work_at_rpm</span> <span class="keyword">do</span> |expected|
+  match <span class="keyword">do</span> |engine|
+    engine.active? &amp;&amp; engine.rpm == expected &amp;&amp; !engine.exploding?
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+expect(engine).to work_at_rpm(<span class="integer">1000</span>)
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-8">Знай свой инструмент</h2>
+
+<ul>
+  <li><code>spec/spec_helper.rb</code></li>
+  <li><code>rspec spec/my/specs.rb:123</code></li>
+  <li><code>.rspec</code></li>
+  <li><code>--seed</code>, <code>--bisect</code> и другие</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="minitest">Другие инструменты тестирования: MiniTest</h2>
+
+<p>(«Замена» RSpec)</p>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+</pre></td>
+  <td class="code"><pre>
+<span class="keyword">class</span> <span class="class">TestPlane</span>
+  <span class="keyword">def</span> <span class="function">setup</span>
+    <span class="instance-variable">@plane</span> = <span class="constant">Plane</span>.new
+  <span class="keyword">end</span>
+
+  <span class="keyword">def</span> <span class="function">test_plane_can_fly</span>
+    assert_equal(<span class="instance-variable">@plane</span>.speed, <span class="integer">1000</span>)
+  <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="cucumber">Другие инструменты тестирования: Cucumber</h2>
+
+<p>Более высокоуровневое описание тестов.</p>
+
+<!-- begin code{} -->
+<div class="code"><pre class="brush: ruby toolbar: false gutter: true">
+Фича: Самолёт летает
+  Сценарий: Взлёт
+    Дано: Пилот заводит самолёт
+    И: Разгоняется по взлётной полосе
+    Когда: Он тянет штурвал на себя
+    Тогда: Самолёт должен взлететь
+</pre></div>
+<!-- end code -->
+
+<p>…потом реализуем шаги…</p>
+
+<div class="CodeRay"><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+</pre></td>
+  <td class="code"><pre>
+step <span class="regexp"><span class="delimiter">/</span><span class="content">(.+) заводит (.+)</span><span class="delimiter">/</span></span> <span class="keyword">do</span> |who, what|
+  what.engine.activate!
+<span class="keyword">end</span>
+</pre></td>
+</tr></table>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-9">Собираем всё в кучку</h2>
+
+<ul>
+  <li>Тестирование - это хорошо!</li>
+  <li>RSpec - это очень хорошо! Всё просто:
+    <ul>
+      <li>говорим, что <code>describe</code> что-то,</li>
+      <li>…потом в каком-то <code>context</code>,</li>
+      <li>…<code>it</code> ожидается что будет вести себя так-то</li>
+      <li>…и это, в общем, всё</li>
+    </ul>
+  </li>
+  <li>Behavior-driven development наш путь,
+    <ul>
+      <li>…и RSpec на нём ужасно полезен,</li>
+      <li>…но не забывайте сначала описывать общее поведение, потом опускаться к деталям.</li>
+    </ul>
+  </li>
+  <li>Штук много, все они пригодятся.</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-10">Домашнее задание</h2>
+
+<ul>
+  <li>Берём статью из Википедии про какого-нибудь зверя, напр. <a href="https://en.wikipedia.org/wiki/Elephant">слона</a>.
+Или <a href="https://en.wikipedia.org/wiki/Raccoon">енота</a>;</li>
+  <li>Переписываем её в виде тестов на RSpec - начиная с базовых свойств зверя, затем ко всем
+его «компонентам»;</li>
+  <li>Можно и нужно добавить custom matchers;</li>
+  <li>Групповая работа над базовыми тестами зверей одобряется и поощряется (с пометкой «Вася разработал
+тесты для пищеварительной системы млекопитающих, использую её»), тупое списывание вызывает
+отвращение лектора;</li>
+  <li>Реализация тестируемого зверя поощряется, но не обязательна; для «реализации» достаточно
+возвращать какие-то значения или выводить в консоль что-нибудь, не надо живых слонов
+приводить на лекцию (или 3D-модели оных воплощать).</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="section-11">Спасибо!</h1>
+
+<p>Не переключайте канал.</p>
+
+<p>Советы напоследок:</p>
+
+<ul>
+  <li><a href="http://rspec.info/documentation/">Читайте доки</a> и <a href="http://betterspecs.org/ru/">BetterSpecs</a>;</li>
+  <li>Полюбите разработку через тестирование;</li>
+  <li>Тестируйте сверху вниз.</li>
+</ul>
+
+<p><strong>Следующие лекции</strong>:</p>
+
+<ul>
+  <li>10 ноября (четверг) - лекция по построению руби-гемов;</li>
+  <li>15 ноября (вторник) - Building web apps with Rack.</li>
+</ul>
+
+</div>
+
+
+  </div> <!-- presentation -->
+</body>
+</html> 
+
