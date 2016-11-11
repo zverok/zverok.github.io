@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <title>Kottans-2016: RSpec</title>
+   
+   
+
+<style>
+html, body { margin: 0; padding: 0; }
+
+body { font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; }
+
+a:link, a:visited { color: black; }
+
+h1 { font-size: 30pt;  }
+h2 { font-size: 28pt;  }
+h3 { font-size: 25pt;  }
+p, li, dt, dd, td, th { font-size: 18pt; }
+
+pre { font-size: 14pt;  }
+pre.small { font-size: 11pt; }
+
+pre.code {
+        background-color: azure;
+        padding: 5px;
+      }
+     
+ul { list-style-type: square; }    
+   
+.center { text-align: center; }   
+     
+.slide { page-break-after: always;
+         min-height: 100mm;
+         padding: 40px;
+         
+         border: 1px dotted black;
+
+/*      
+  background: -moz-linear-gradient( top, maroon, red);
+*/
+       }
+
+
+
+/*
+for princexml (CSS3 paged media support)
+@page { size: A4 landscape }
+*/
+</style>
+
+</head>
+<body>
+
+<div class="presentation">
+
+<div class='slide '>
+
+<!-- _S9SLIDE_ -->
+<h1 id="section">Гемы, что они такое, как их выбирать и создавать</h1>
+
+<p><strong>Kottans-Ruby</strong>, осень 2016</p>
+
+<p>Лекция <strong>Четвёртая</strong> (не считая мастер-класса)</p>
+
+<p><strong>Виктор Шепелев</strong> (zverok)</p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-1">Что такое гем</h2>
+
+<ul>
+  <li>Полезный код</li>
+  <li>…инкапсулирующий что-то важное
+    <ul>
+      <li>сложные данные;</li>
+      <li>сервисы и хранилища;</li>
+      <li>специфические концепции и операции;</li>
+    </ul>
+  </li>
+  <li>…оттестированный, документированный и проверенный в бою;</li>
+  <li>…выложенный на rubygems.org<sup>не обязательно</sup>.</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-2">Как выглядит хороший гем</h2>
+
+<p><img src="./addressable.png" alt="" /></p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-3">Эй, а почему это важно?</h2>
+
+<ol>
+  <li><strong>Любой код хочет стать гемом</strong> (А вы хотите стать профессионалами)</li>
+  <li>Понимать, чем хороший гем отличается от плохого - важно.</li>
+</ol>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-4">Гем - это не просто кусок кода</h2>
+
+<p>Это ещё:</p>
+
+<ul>
+  <li>тесты;</li>
+  <li>документация;</li>
+  <li>примеры;</li>
+  <li>обобщения и конфигурабельность;</li>
+  <li>чёткое разделение ответственности.</li>
+</ul>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>Кстати, <em>обычному коду</em> это всё тоже не помешает!</p>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>Вот почему эта лекция важна</p>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="vs--vs-">Ответственность: библиотеки vs фреймворки vs утилиты</h2>
+
+<ul>
+  <li>Библиотека: подключаем и используем (например, addressable);</li>
+  <li>Фреймворк: подключаем и выстравиваем код определённым образом (например, rails);</li>
+  <li>Утилита: запускаем в командной строке (например, rubocop).</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="vs-">Ответственность: независимые гемы vs плагины</h2>
+
+<ul>
+  <li>Пример независимого гема: addressable;</li>
+  <li>Пример плагина: rspec-rails.</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-5">Чтобы просто код превратился в гем…</h2>
+
+<p>…нужно добавить - что?</p>
+
+<ul>
+  <li>сначала нужно <em>убрать</em>:
+    <ul>
+      <li>все лишние ожидания касательно среды, окружающих библиотек, версий и проч.;</li>
+      <li>любые следы кода, который делает вещи, не относящиеся к гему;</li>
+    </ul>
+  </li>
+  <li>сделать конфигурации и обобщения;
+    <ul>
+      <li>или явный выбор в пользу convention over configuration (<em>и гореть в аду</em>);</li>
+    </ul>
+  </li>
+  <li>примеры;</li>
+  <li>доки.</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-6">Доки</h2>
+
+<ul>
+  <li>README;</li>
+  <li>YARD/RDoc;</li>
+  <li>GitHub Wiki и другие туториалы.</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-7">Инструменты контроля качества</h2>
+
+<ul>
+  <li><strong>тесты</strong><sup>но их недостаточно</sup></li>
+  <li>качество кода: <code>rubocop</code> (<code>reek</code>, <code>flog</code> и другие);</li>
+  <li>качество кода: CodeClimate;</li>
+  <li>автоматизированная проверка: continuous integration - TravisCI;</li>
+  <li>….</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-8">Инструменты контроля качества: беджики</h2>
+
+<p><img src="./badges.png" alt="" /></p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-9">Последний шаг: публикация гема</h2>
+
+<ul>
+  <li><code>gem build &amp;&amp; gem push</code>;</li>
+  <li>rubyflow.com (кстати, его надо читать);</li>
+  <li>reddit.com/r/ruby (кстати, его надо читать).</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-10">Домашняя работа</h2>
+
+<p>README-driven development:</p>
+<ul>
+  <li>берём тестов несуществующего зверя, написанные в прошлом уроке;</li>
+  <li>пишем заготовку <em>хорошего</em> ридми гема, который содержит этого зверя и позволяет его использовать;</li>
+  <li>ориентируемся на популярные современные библиотеки.</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h2 id="section-11">Итого</h2>
+
+<ul>
+  <li>Гем - это профессиональная стадия жизни кода;</li>
+  <li>Пишите свой код так, как будто он станет популярным гемом, однажды;</li>
+  <li>Все инструменты и подходы разработчика гемов обычному разработчику тоже пригодятся!</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="hey-it-is-me">Hey, it is me!</h1>
+
+<p>Спасибо. С вами был <strong>Виктор Шепелев</strong>, обычно в интернетах известный как <strong>zverok</strong>.</p>
+
+<ul>
+  <li>Мой гитхаб: https://github.com/zverok (и организация https://github.com/molybdenum-99 для
+самых интересных штук);</li>
+  <li>Личный сайт (как разработчика): https://zverok.github.io;</li>
+  <li>Мой профайл (платного) Ruby-ментора: https://mkdev.me/mentors/zverok.</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="now-lets-talk">Now, let’s talk</h1>
+
+<p>Хорошие вопросы:</p>
+
+<ul>
+  <li>карьера и самообразование;</li>
+  <li>опыт и истории из жизни;</li>
+  <li>в чём проблемы Рельсов;</li>
+  <li>куда движется Руби;</li>
+  <li>опенсорс, как и зачем.</li>
+</ul>
+
+<p>Плохие вопросы:</p>
+
+<ul>
+  <li>доктор, а почему когда я делаю <em>так</em>, в коленке хрустит? (конкретные вопросы применения специфических библиотек);</li>
+  <li>политика, секс, диетология, йога.</li>
+</ul>
+</div>
+
+
+  </div> <!-- presentation -->
+</body>
+</html> 
+
