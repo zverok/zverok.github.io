@@ -83,8 +83,19 @@ p.tiny     { font-size: 82%; }
 .help td  { font-size: 88%; }
 
 
+/*
+.step { color: silver; }
+.stepcurrent { color: black; }
+*/
 .step { visibility: hidden; }
 .stepcurrent {  visibility: visible; }
+
+img:not(.smallimg) {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 /* styles for built-in coderay syntax highlighting theme */
 
