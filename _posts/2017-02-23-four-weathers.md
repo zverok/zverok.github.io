@@ -1,10 +1,27 @@
 ---
 layout: post
-title:  "The Story of Four Weathers, or You Don't Need an API Wrapper"
+title:  "You Don't Need an API Wrapper"
 date:   2017-02-23 10:30
 categories: ruby gems
 comments: true
 ---
+
+## Really short version
+
+For an "informational" HTTP APIs (like weather, geonames and similars, currencies, movies,
+transportations and so on) there are typically "wrapper" Ruby gems created. In most of the cases,
+they are mostly adding complexity and new concepts & abstractions, which are just blurring a task of
+access to data.
+
+What I propose is instead of creating and using thick and independently maintained "wrapper gems",
+we create a dedicated thin wrapper in each project. There is a new library, sarcastically named
+_The Last API Wrapper_ (or [tlaw](http://github.com/molybdenum-99/tlaw) for short) to help you define
+your own API wrappers in a concise, readable and declarative way.
+
+So, next time you'll need to integrate your Ruby/Rails project with some useful informational API,
+consider an option of creating your own small wrapper: with TLAW.
+
+## Longer version
 
 Once Rubyist see a new useful HTTP API, her/his first thought would be "does it have a Ruby wrapper?",
 and if not, the next would be "once, I should do a Ruby wrapper for this!"
@@ -13,6 +30,8 @@ Though, once it comes to practice, it turns out that find (or create) a decent A
 an easy task. The worst thing is, each API wrapper design challenge turns out to be some kind of
 "state of the art work" (while, in fact, it should be an easy routine). It could be easier when
 the wrapped API is described in some formal manner, but it is rare the case.
+
+## The story of four weathers
 
 To understand what I am talking about here, let's look at some examples of Ruby API wrappers for
 the same domain, and how different they are.
@@ -27,8 +46,6 @@ But first, some notes:
 3. The article is "a quest with answers" (e.g. I believe that I know "how to do it right");
   you can skip to an [answer](#long-story-short-the-last-api-wrapper) immediately or ignore it
   completely, I believe there are still some good points to think about.
-
-## Case study: Weather API gems
 
 Imagine you want to integrate some "weather informer" into your software. There are several open,
 free or cheap enough services, and probably you'd like to try some of them (or even integrate with
@@ -148,7 +165,7 @@ So, what I am trying to say:
 ### Long story short: The Last API Wrapper
 
 The result of case study for the above APIs and tens of others (from extremely branchy and tangled
-Worldbank's to one-endpoint unofficial Urbandictionary's) was a small gem, sarcastically named
+Worldbank's to one-endpoint unofficial Urbandictionary's) was this small gem, sarcastically named
 The Last API Wrapper (or [tlaw](http://github.com/molybdenum-99/tlaw) for short).
 
 The LARGE goals to achieve were:
