@@ -1,0 +1,8 @@
+* индексы
+  → Википедия как главный из них
+
+
+
+  * entity, observation, data source
+  * base data sources: wikipedia/wikidata
+* что дальше:

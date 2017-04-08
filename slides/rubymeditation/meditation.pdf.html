@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <title></title>
+   
+   
+
+<style>
+html, body { margin: 0; padding: 0; }
+
+body { font-family: Verdana, Geneva, Arial, Helvetica, sans-serif; }
+
+a:link, a:visited { color: black; }
+
+h1 { font-size: 30pt;  }
+h2 { font-size: 28pt;  }
+h3 { font-size: 25pt;  }
+p, li, dt, dd, td, th { font-size: 18pt; }
+
+pre { font-size: 14pt;  }
+pre.small { font-size: 11pt; }
+
+pre.code {
+        background-color: azure;
+        padding: 5px;
+      }
+     
+ul { list-style-type: square; }    
+   
+.center { text-align: center; }   
+     
+.slide { page-break-after: always;
+         min-height: 100mm;
+         padding: 40px;
+         
+         border: 1px dotted black;
+
+/*      
+  background: -moz-linear-gradient( top, maroon, red);
+*/
+       }
+
+
+
+/*
+for princexml (CSS3 paged media support)
+@page { size: A4 landscape }
+*/
+</style>
+
+</head>
+<body>
+
+<div class="presentation">
+
+<div class='slide '>
+
+<!-- _S9SLIDE_ -->
+<h1 id="when-the-whole-world-is-your-databaseЧто-делать-когда-база-данных--весь-мир">When the whole world is your database<br /><small style="color:gray;">Что делать, когда база данных — весь мир?</small></h1>
+
+<p style="text-align: center;">RubyMeditation #14, апрель 2017</p>
+
+<p style="text-align: center;"><b>Виктор Шепелев</b> (zverok)</p>
+
+<p><img src="./zverok.png" style="margin-right: 0;" /></p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Представьте-что-все-данные-мира-уже-доступны">Представьте, что все данные мира уже доступны</h1>
+
+<p>…из Ruby</p>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>Например, так:</p>
+
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Ukraine</span>.president.tweets.last
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#777"># =&gt; &quot;Рішення Європарламенту – це яскравий маркер, що Україна –</span>
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span><span style="color:#777">#     частина об’єднаної Європи, від Лісабона до Харкова&quot;</span>
+<span class="line-numbers"><a href="#n4" name="n4">4</a></span>
+<span class="line-numbers"><a href="#n5" name="n5">5</a></span><span style="color:#036;font-weight:bold">Lisbon</span>.distance_to(<span style="color:#036;font-weight:bold">Kharkiv</span>)
+<span class="line-numbers"><a href="#n6" name="n6">6</a></span><span style="color:#777"># =&gt; 3,757 km</span>
+</pre></div>
+</div>
+  </div>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>Или так:</p>
+
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Africa</span>.countries.sort_by(&amp;<span style="color:#A60">:population</span>).reverse.first(<span style="color:#00D">3</span>)
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#777"># =&gt; [#&lt;Nigeria&gt;, #&lt;Ethiopia&gt;, #&lt;Egypt&gt;]</span>
+</pre></div>
+</div>
+  </div>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1>…</h1>
+
+<p>…или так:</p>
+
+<div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.road_to(<span style="color:#036;font-weight:bold">Kyiv</span>).cities.map(&amp;<span style="color:#A60">:current_weather</span>)
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#777"># =&gt; [#&lt;+19°C, sunny&gt;, #&lt;+15°C, rain&gt;, #&lt;18°C, clouds&gt;, ....</span>
+</pre></div>
+</div>
+</div>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>или так:</p>
+
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Ukraine</span>.president.at(<span style="color:#00D">2012</span>).quotations(<span style="color:#A60">:uk</span>).grep(<span style="background-color:hsla(300,100%,50%,0.06)"><span style="color:#404">/</span><span style="color:#808">заздрить</span><span style="color:#404">/</span></span>)
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#777"># =&gt; &quot;Якщо мені хтось заздрить, я скажу — правильно робить, нехай спробують так жити.&quot;</span>
+</pre></div>
+</div>
+  </div>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Есть-ли-где-взять-эти-данные">Есть ли где взять эти данные?</h1>
+
+<p>Ага!</p>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Ukraine</span>.president.tweets.last
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#777">#   ^         ^         ^</span>
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span><span style="color:#777"># wiki   wikidata    twitter</span>
+</pre></div>
+</div>
+  </div>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Lisbon</span>.distance_to(<span style="color:#036;font-weight:bold">Kharkiv</span>)
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#777"># ^      ^           ^</span>
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span><span style="color:#777"># wiki  math       wiki</span>
+</pre></div>
+</div>
+  </div>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.road_to(<span style="color:#036;font-weight:bold">Kyiv</span>).cities.map(&amp;<span style="color:#A60">:current_weather</span>)
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#777">#  ^                 ^              ^</span>
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span><span style="color:#777"># wiki      openstreetmap      openweathermap</span>
+</pre></div>
+</div>
+  </div>
+  <p>…и так далее.</p>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="А-какая-польза">А какая польза?</h1>
+
+<p style="text-align: center; padding: 20px; border: 1px dotted #A8034D; margin: 50px;">
+  Когда <b>общие знания</b> под рукой, это помогает пользователю приложения сделать <b>осмысленный выбор</b>.
+</p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="То-есть-то-что-люди-могут-легко-найти">То есть, то что люди могут легко найти…</h1>
+
+<p>…но ленятся.</p>
+
+<p>А программы могли бы показывать — но не умеют.</p>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>Продажа авиабилетов: какая там погода, валюта, криминальная обстановка, бары? Что с визой?</li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>Сайт с кинорецензиями: что ещё снял этот режиссёр? Что ещё снимали в этом городе? Сколько
+лет актёрам (в сравнении с героями)? Сравнить бюджет фильма с классическими фильмами.</li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>Новость про безвиз: данные для инфографики «кому ещё дали, какая у них экономика, сколько от них
+лететь, что у них с политикой»?</li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p style="text-align: center; padding: 20px; border: 1px dotted #A8034D; margin: 50px;">
+  Всё по отдельности — несложно. Объединять сложнее.
+</p>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="И-ещё">И ещё…</h1>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p><strong>Учёба</strong>: стандартное «напиши калькулятор» против «сравни длительность марсианских миссий»</p>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p><strong>Эксперименты</strong>: заполнить таблицы, дать реалистичные данные для графиков, быстро проверить теорию.</p>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p><strong>Наука</strong>: мы опоздали на праздник, но когда-то Rails казались опоздавшими на праздник веб-разработки…</p>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="А-кроме-того">А кроме того…</h1>
+
+<p style="text-align: center; padding: 20px; border: 1px dotted #A8034D; margin: 50px;">
+  Просто интересная задача!
+</p>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>Решая её, можно найти подходы к:</p>
+  <ul>
+    <li>интеграции данных из разнородных API;</li>
+    <li>развитию базовых библиотек языка;</li>
+    <li>уточнению подходов к типизации сложных данных.</li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="ОК-а-в-чём-проблема">ОК, а в чём проблема?</h1>
+
+<p style="text-align: center; padding: 20px; border: 1px dotted #A8034D; margin: 50px;">
+  HERE BE DRAGONS
+</p>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>сложность протоколов запросов <em>(пример: запрос к Википедии)</em>
+      <pre><code>https://en.wikipedia.org/w/api.php?action=query&amp;titles=Argentina&amp;prop=revisions&amp;rvprop=content&amp;format=json
+</code></pre>
+    </li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>негомогенность ответов <em>(пример: извлечение текста из страницы Википедии)</em>
+      <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>response[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">query</span><span style="color:#710">'</span></span>][<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">revisions</span><span style="color:#710">'</span></span>].first[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">*</span><span style="color:#710">'</span></span>]
+</pre></div>
+</div>
+      </div>
+    </li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>отсутствие общего знаменателя <em>(пример: а теперь — язык запросов к OpenStreetMap)</em>
+      <pre><code>node["name"~"holtorf"](50.7,7.1,50.8,7.25);
+out body;
+</code></pre>
+    </li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="И-что-делать">И что делать?..</h1>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p><img src="./have-a-plan2.jpg" alt="" /></p>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Богатая-система-значений">Богатая система значений</h1>
+
+<div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.temperature <span style="color:#777"># =&gt; #&lt;Measure 11°C&gt;</span>
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.temperature &gt; <span style="color:#036;font-weight:bold">Kyiv</span>.temperature
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span><span style="color:#777"># =&gt; true</span>
+<span class="line-numbers"><a href="#n4" name="n4">4</a></span>
+<span class="line-numbers"><a href="#n5" name="n5">5</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.population <span style="color:#777"># =&gt; # =&gt; #&lt;Measure 1,439,733 person&gt;</span>
+<span class="line-numbers"><a href="#n6" name="n6">6</a></span><span style="color:#036;font-weight:bold">Kyiv</span>.population / <span style="color:#036;font-weight:bold">Kharkiv</span>.population
+<span class="line-numbers"><a href="#n7" name="n7">7</a></span><span style="color:#777"># =&gt; 2.02</span>
+</pre></div>
+</div>
+</div>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.coord <span style="color:#777"># =&gt; #&lt;Geo::Coord(50°0′0″N,36°13′45″E)&gt;</span>
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.coord.distance_to(<span style="color:#036;font-weight:bold">Kyiv</span>.coord) <span style="color:#777"># =&gt; #&lt;Measure 409 km&gt;</span>
+</pre></div>
+</div>
+  </div>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.tz_offset <span style="color:#777"># =&gt; #&lt;TZOffset UTC+02:00&gt;</span>
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.tz_offset.now <span style="color:#777"># =&gt; 2017-04-08 00:12:50 +0200</span>
+</pre></div>
+</div>
+  </div>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p style="color:gray;"><sup>*</sup>Тут бы ещё поговорить о dry-struct и других похожих гемах</p>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Плоская-система-типов">Плоская система типов</h1>
+
+<ul>
+  <li>Никакая типизация не спасёт в бесконечно-сложном мире;</li>
+</ul>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>Мы возвращаемся к обычным «словарям» (почти как в JavaScript!) <img src="troll.png" class="inline" width="28" height="28" />;</li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>Но даже вложенные словари нам не нужны:
+      <ul>
+        <li>каждый ключ нашей «сущности» (Entity) это либо «значение»,</li>
+        <li>…либо ссылка на другую Entity.</li>
+      </ul>
+    </li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Плоская-система-типов-пример">Плоская система типов: пример</h1>
+
+<div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.describe
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span style="color:#777"># =&gt; #&lt;Entity:Kharkiv&gt;</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span><span style="color:#777">#               area: #&lt;Measure 350 km²&gt;                  | &lt; базовые значения</span>
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span><span style="color:#777">#              coord: #&lt;Geo::Coord 50°0′0″N,36°13′45″E&gt;   |</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span><span style="color:#777">#            country: #&lt;Reality::Entity?(Ukraine)&gt;        | &lt; ссылка на связанный объект</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span><span style="color:#777"># head_of_government: #&lt;Reality::Entity?(Hennadiy Kernes)&gt;| &lt; ссылка на какого-то урода</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span><span style="color:#777">#         created_at: #&lt;Date: 1654-01-01&gt;                 | ...и т.д.</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span><span style="color:#777">#          elevation: #&lt;Measure 152 m&gt;</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span><span style="color:#777">#   official_website: &quot;http://www.city.kharkov.ua/&quot;</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span><span style="color:#777">#         population: #&lt;Measure 1,439,733 person&gt;</span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span><span style="color:#777">#          tz_offset: #&lt;TZOffset UTC+02:00&gt;</span>
+</pre></div>
+</div>
+</div>
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Квалификация-полей">Квалификация полей</h1>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>По времени</p>
+
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.temperature(<span style="color:#606">at</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">2016-01-03</span><span style="color:#710">'</span></span>)
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#777"># =&gt; #&lt;Measure -1°C&gt;</span>
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.temperature(<span style="color:#606">at</span>: <span style="color:#036;font-weight:bold">Date</span>.today + <span style="color:#00D">10</span>.days)
+<span class="line-numbers"><a href="#n4" name="n4">4</a></span><span style="color:#777"># =&gt; #&lt;Measure +20°C&gt;</span>
+<span class="line-numbers"><a href="#n5" name="n5">5</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.temperature
+<span class="line-numbers"><a href="#n6" name="n6">6</a></span><span style="color:#777"># =&gt; ...available from 2016 to today + 10 days, currently +12°C</span>
+</pre></div>
+</div>
+  </div>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>По источнику</p>
+
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.temperature(<span style="color:#606">from</span>: <span style="color:#A60">:forecast_io</span>) <span style="color:#777"># =&gt; #&lt;Measure +12°C&gt;</span>
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#036;font-weight:bold">Kharkiv</span>.temperature(<span style="color:#606">from</span>: <span style="color:#A60">:open_weather_map</span>) <span style="color:#777"># =&gt; #&lt;Measure +15°C&gt;</span>
+</pre></div>
+</div>
+  </div>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Выборки-фильтры-и-индексы">Выборки, фильтры и индексы</h1>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Выборки-фильтры-и-индексы-ВикипедияВикидата">Выборки, фильтры и индексы: Википедия/Викидата</h1>
+
+<ul>
+  <li>Главный индекс всего «общего знания»;</li>
+  <li>Слабо формализованный (но есть способы!);</li>
+  <li>Связано с (почти) всем остальным.</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Выборки-фильтры-и-индексы-другие-источники">Выборки, фильтры и индексы: другие источники</h1>
+
+<ul>
+  <li>Десятки и сотни глобальных источников;</li>
+  <li>Тысячи локальных источников;</li>
+  <li>У всего есть API;</li>
+  <li>…и все они разные!</li>
+</ul>
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_  -->
+
+<p><img src="./have-a-plan2.jpg" alt="" /></p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Что-у-нас-есть">Что у нас есть</h1>
+
+<pre><code>$ gem install reality
+1 gem installed
+</code></pre>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <pre><code>$ reality --interactive
+</code></pre>
+
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>&gt; <span style="color:#036;font-weight:bold">Reality</span>.search(<span style="color:#606">wikipedia</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">The Matrix</span><span style="color:#710">'</span></span>).quotations(<span style="color:#606">author</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Morpheus</span><span style="color:#710">'</span></span>).grep(<span style="background-color:hsla(300,100%,50%,0.06)"><span style="color:#404">/</span><span style="color:#808">Welcome</span><span style="color:#404">/</span></span>)
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#777"># =&gt; &quot;Welcome... to the desert of the real.&quot;</span>
+</pre></div>
+</div>
+  </div>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p style="color:gray;"><sup>*</sup>на самом деле нет</p>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p style="color:gray;"><sup>**</sup>но уже почти!</p>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Что-у-нас-есть-на-самом-деле">Что у нас есть (на самом деле)</h1>
+
+<ul>
+  <li><code>reality/master</code> — это демка, разработанная на грант Ruby Association зимой 2016/2017.</li>
+  <li>она прикольная! но не очень практичная</li>
+</ul>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>m = Entity(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">The Matrix</span><span style="color:#710">'</span></span>)
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span style="color:#777"># =&gt; #&lt;Reality::Entity(The Matrix)&gt;</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>m.describe
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span><span style="color:#777"># ------------------------------</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span><span style="color:#777"># #&lt;Reality::Entity(The Matrix)&gt;</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span><span style="color:#777"># ------------------------------</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span><span style="color:#777">#              actors: #&lt;Reality::List[Hugo Weaving?, Keanu Reeves?, Laurence Fishburne?, Carrie-Anne Moss?, Joe Pantoliano?, Gloria Foster?, Robert Taylor?, Marcus Chong?, Paul Goddard?, Matt Doran?, Ada Nicodemou?, Steve Dodd?, Anthony Ray Parker?, Paul Goddard?, Belinda McClory?, Julian Arahanga?, Jeremy Ball?, Rowan Witt?]&gt;</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span><span style="color:#777">#           directors: #&lt;Reality::List[The Wachowskis?, Lilly Wachowski?, Lana Wachowski?]&gt;</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span><span style="color:#777">#              genres: [&quot;cyberpunk&quot;, &quot;action film&quot;, &quot;science fiction film&quot;, &quot;post-apocalyptic film&quot;, &quot;thriller film&quot;, &quot;action thriller&quot;, &quot;dystopian film&quot;, &quot;science fiction action film&quot;]</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span><span style="color:#777">#         nominations: #&lt;Reality::List[Academy Award for Best Film Editing?, Academy Award for Best Visual Effects?, Academy Award for Best Sound Editing?, Academy Award for Best Sound Mixing?]&gt;</span>
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span><span style="color:#777">#        published_at: #&lt;Date: 1999-03-31&gt;</span>
+</pre></div>
+</div>
+  </div>
+
+</div>
+<!-- end step -->
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_  -->
+
+<div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>m.actors.first(<span style="color:#00D">3</span>).each{|a| puts <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">&quot;</span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span>a.name<span style="font-weight:bold;color:#666">}</span></span><span style="color:#D20">: </span><span style="background-color:hsla(0,0%,0%,0.07);color:black"><span style="font-weight:bold;color:#666">#{</span>a.age_at(m.published_at)<span style="font-weight:bold;color:#666">}</span></span><span style="color:#710">&quot;</span></span>}
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#777"># Hugo Weaving: 38</span>
+<span class="line-numbers"><a href="#n3" name="n3">3</a></span><span style="color:#777"># Keanu Reeves: 34</span>
+<span class="line-numbers"><a href="#n4" name="n4">4</a></span><span style="color:#777"># Laurence Fishburne: 37</span>
+</pre></div>
+</div>
+</div>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p><sup>*</sup>а вот это правда работает</p>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>И это тоже:</p>
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>Entity(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Kharkiv</span><span style="color:#710">'</span></span>).coord.distance_to(Entity(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Kyiv</span><span style="color:#710">'</span></span>).coord)
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#777"># =&gt; #&lt;Reality::Measure(409 km)&gt;</span>
+</pre></div>
+</div>
+  </div>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>И это:</p>
+  <div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span>Entity(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Ruby (programming language)</span><span style="color:#710">'</span></span>).developers.first.birth_place
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#777"># =&gt; #&lt;Reality::Entity?(Ōsaka Prefecture)&gt;</span>
+</pre></div>
+</div>
+  </div>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Что-мы-делаем-realitydevelop">Что мы делаем (reality/develop)</h1>
+
+<p><strong>Цель</strong>: сохранить прикольность, добавить практичности.</p>
+
+<pre><code>$ git clone git@github.com:molybdenum-99/reality.git
+$ cd reality
+$ git checkout develop
+</code></pre>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Что-мы-делаем-realitydevelop-1">Что мы делаем (reality/develop)</h1>
+
+<p><code>Observation</code> — наблюдение: именованные и квалифицированные значения:</p>
+
+<div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>o = <span style="color:#036;font-weight:bold">Observation</span>.new(<span style="color:#A60">:temperature</span>, <span style="color:#036;font-weight:bold">Measure</span>[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">°C</span><span style="color:#710">'</span></span>].new(<span style="color:#00D">10</span>))
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span style="color:#777">#&lt;Observation temperature=10°C&gt;</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>o = <span style="color:#036;font-weight:bold">Observation</span>.new(<span style="color:#A60">:temperature</span>, <span style="color:#036;font-weight:bold">Measure</span>[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">°C</span><span style="color:#710">'</span></span>].new(<span style="color:#00D">10</span>), <span style="color:#606">at</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">2017-04-08 22:30</span><span style="color:#710">'</span></span>)
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span><span style="color:#777">#&lt;Observation temperature=10°C at 2017-04-08 22:30&gt;</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span>o = <span style="color:#036;font-weight:bold">Observation</span>.new(<span style="color:#A60">:temperature</span>, <span style="color:#036;font-weight:bold">Measure</span>[<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">°C</span><span style="color:#710">'</span></span>].new(<span style="color:#00D">10</span>), <span style="color:#606">at</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">2017-04-08 22:30</span><span style="color:#710">'</span></span>, <span style="color:#606">source</span>: yahooweather)
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span><span style="color:#777">#&lt;Observation temperature=10°C at 2017-04-08 22:30 (yahooweather)&gt;</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span>os = <span style="color:#036;font-weight:bold">Observations</span>.new(....list of observations....)
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>os.at(timestamp) <span style="color:#777"># =&gt; like &quot;president of USA in 2012&quot;</span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>os.from(<span style="color:#A60">:worldbank</span>) <span style="color:#777"># =&gt; like &quot;population of Guatemala according to Worldbank&quot;</span>
+</pre></div>
+</div>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Что-мы-делаем-realitydevelop-2">Что мы делаем (reality/develop)</h1>
+
+<p><code>Entity</code> — список “наблюдений”, связанных с одним объектом, из одного или многих источников:</p>
+
+<div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"> <a href="#n1" name="n1">1</a></span>kh = <span style="color:#036;font-weight:bold">Reality</span>.get(<span style="color:#606">wikipedia</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Kharkiv</span><span style="color:#710">'</span></span>)
+<span class="line-numbers"> <a href="#n2" name="n2">2</a></span><span style="color:#777"># =&gt; #&lt;Entity wikipedia:Kharkiv, wikidata:Q42308?&gt;</span>
+<span class="line-numbers"> <a href="#n3" name="n3">3</a></span>kh.describe
+<span class="line-numbers"> <a href="#n4" name="n4">4</a></span><span style="color:#777">#    country: #&lt;Link Ukraine&gt;</span>
+<span class="line-numbers"> <a href="#n5" name="n5">5</a></span><span style="color:#777"># population: #&lt;Measure 1,439,733 person&gt;</span>
+<span class="line-numbers"> <a href="#n6" name="n6">6</a></span><span style="color:#777"># ....</span>
+<span class="line-numbers"> <a href="#n7" name="n7">7</a></span><span style="color:#777">#</span>
+<span class="line-numbers"> <a href="#n8" name="n8">8</a></span><span style="color:#777"># other sources: wikidata, openweathermap</span>
+<span class="line-numbers"> <a href="#n9" name="n9">9</a></span>
+<span class="line-numbers"><strong><a href="#n10" name="n10">10</a></strong></span>kh2 = kh.load(<span style="color:#A60">:wikidata</span>)
+<span class="line-numbers"><a href="#n11" name="n11">11</a></span><span style="color:#777"># =&gt; #&lt;Entity wikipedia:Kharkiv, wikidata:Q42308, openstreetmap:3154746?&gt;</span>
+</pre></div>
+</div>
+</div>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Что-мы-делаем-realitydevelop-3">Что мы делаем (reality/develop)</h1>
+
+<p><code>DataSource</code>: источник данных. Нечто, умеющее делать так:</p>
+
+<div class="language-ruby highlighter-coderay"><div class="CodeRay">
+  <div class="code"><pre><span class="line-numbers"><a href="#n1" name="n1">1</a></span><span style="color:#036;font-weight:bold">Reality</span>.wikipedia.get(<span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#710">'</span><span style="color:#D20">Einstein</span><span style="color:#710">'</span></span>) <span style="color:#777"># =&gt; list of observations</span>
+<span class="line-numbers"><a href="#n2" name="n2">2</a></span><span style="color:#036;font-weight:bold">Reality</span>.wikipedia.search(<span style="background-color:hsla(300,100%,50%,0.06)"><span style="color:#404">/</span><span style="color:#808">Guardians</span><span style="color:#404">/</span></span>) <span style="color:#777"># =&gt; list of lists</span>
+</pre></div>
+</div>
+</div>
+
+<p>…и становящееся источником entities!</p>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Что-мы-делаем-realitydevelop-4">Что мы делаем (reality/develop)</h1>
+
+<p>Источники, которые работают или близки к тому:</p>
+
+<ul>
+  <li>Wikipedia/Wikidata (даже в первой демо-версии) — то, с чего всё начиналось! формализованные данные
+из википедии;</li>
+  <li>OpenWeatherMap — погода;</li>
+  <li>Worldbank — социоэкономическая статистика по странам.</li>
+</ul>
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="Не-такое-далёкое-Будущее">(Не такое далёкое) Будущее</h1>
+
+<p>Ближайшие планы:</p>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>Собрать всё вместе и сделать новый большой релиз;</li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>Добавить OpenStreetMap, Wikivoyage, Wikiquote и множество способов поиска данных;</li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <ul>
+    <li>…и пойти дальше.</li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+
+</div>
+<div class='slide '>
+<!-- _S9SLIDE_ -->
+<h1 id="join-the-reality">Join the reality!</h1>
+
+<p>Ссылки:</p>
+<ul>
+  <li>github.com/molybdenum-99/reality — главный репозиторий;</li>
+  <li>reality-show.molybdenum.io — онлайн-демка (немного устарела, но смешная!);</li>
+</ul>
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>Я:</p>
+  <ul>
+    <li><em>Віктор Шепелєв, 34 роки, Харків, Україна</em>;</li>
+    <li>15+ лет разработки, 10+ — на Руби; Toptal, mkdev.me, SciRuby;</li>
+    <li>zverok.github.io, zverok.offline@gmail.com, zver_ok@Skype, gitter.im/zverok;</li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+<!-- begin step {} -->
+<div class="step">
+
+  <p>Благодарности:</p>
+  <ul>
+    <li><em>Сергій Мостовий</em>, двигатель разработки первой версии;</li>
+    <li>The Ruby Association, которая дала на неё грант;</li>
+    <li>RubyMeditation за приглашение прочитать это доклад!</li>
+  </ul>
+
+</div>
+<!-- end step -->
+
+</div>
+
+
+  </div> <!-- presentation -->
+</body>
+</html> 
+
