@@ -79,7 +79,7 @@ set_options(foo: 'bar')
 set_options(1)
 # can't be called this way, raises helpful ArgumentError
 
-set_options(rex)
+set_options(dog)
 # ooops, treats our dog as an options hash
 # and prints {species: 'Dog', name: name, age: age}
 
