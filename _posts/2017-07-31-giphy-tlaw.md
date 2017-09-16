@@ -150,7 +150,7 @@ We can immediately investigate our object in IRB/Pry:
 ...and really use it:
 ```ruby
 giphy = Giphy.new(api_key: '<YOUR API KEY>')
-# => #<Giphy.new(api_key: "856a5bc1a2304900bf4d60bc7e4dfea6", lang: nil) namespaces: gifs; docs: .describe>
+# => #<Giphy.new(api_key: "<YOUR API KEY>", lang: nil) namespaces: gifs; docs: .describe>
 
 giphy.gifs.search(q: 'tardis')
 # => hooray! search results!
