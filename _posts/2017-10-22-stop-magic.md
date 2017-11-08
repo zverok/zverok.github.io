@@ -6,6 +6,8 @@ categories: ruby rants
 comments: true
 ---
 
+> **[Japanese translation](https://techracho.bpsinc.jp/hachi8833/2017_11_08/47766) of this post is available!**
+
 Recently I've read (informative and well-written) article called
 [_7 Gems Which Will Make Your Rails Code Look Awesome_](https://blog.rubyroidlabs.com/2017/10/7-gems-rails-code/),
 and my eye was caught with this phrase in the description of [decent_exposure](https://github.com/hashrocket/decent_exposure)
