@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  yield_stelf is more awesome than you could think
+title:  yield_self is more awesome than you could think
 date:   2018-01-24 12:40:00
 categories: ruby rants
 comments: true
