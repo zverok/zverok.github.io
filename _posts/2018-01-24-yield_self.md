@@ -31,7 +31,8 @@ return "server:" +
 construct_url
   .yield_self { |url| Faraday.get(url) }
   .yield_self { |response| JSON.parse(response) }
-  .dig('object', 'id').yield_self { |id| id || '<undefined>' }
+  .body.dig('object', 'id')
+  .yield_self { |id| id || '<undefined>' }
   .yield_self { |id| "server:#{id}" }
 
 # with method()
@@ -108,7 +109,7 @@ Another one, using `Enumerator::Lazy` for postponed computation:
 ```ruby
 require 'open-uri'
 postponed = 'http://ruby-lang.org'
-  .yield_self.lazy.map((&method(:open)).map(&method(:read)).map(&:length))
+  .yield_self.lazy.map(&method(:open)).map(&method(:read)).map(&:length)
 # => #<Enumerator::Lazy: #<Enumerator::Lazy: #<Enumerator::Lazy: #<Enumerator::Lazy: #<Enumerator: "http://ruby-lang.org":yield_self>>:map>:map>:map>
 # Nothing is performed still!
 
