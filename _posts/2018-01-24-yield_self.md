@@ -29,16 +29,15 @@ return "server:" +
 
 # after:
 construct_url
-  .yield_self { |url| Faraday.get(url) }
+  .yield_self { |url| Faraday.get(url) }.body
   .yield_self { |response| JSON.parse(response) }
-  .body.dig('object', 'id')
+  .dig('object', 'id')
   .yield_self { |id| id || '<undefined>' }
   .yield_self { |id| "server:#{id}" }
 
 # with method()
 construct_url
-  .yield_self(&Faraday.method(:get))
-  .body
+  .yield_self(&Faraday.method(:get)).body
   .yield_self(&JSON.method(:parse))
   .dig('object', 'id').yield_self { |id| id || '<undefined>' }
   .yield_self { |id| "server:#{id}" }
