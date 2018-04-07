@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  The Missing Ruby Reference
-date:   2018-04-07
+date:   2018-04-06
 categories: ruby rants
 comments: true
 ---
