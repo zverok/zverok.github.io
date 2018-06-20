@@ -46,6 +46,8 @@ layout: default
 * [Good Value Object Conventions](https://github.com/zverok/good-value-object) is an RFC-alike document for Ruby Value Objects;
 * [Participant](https://bugs.ruby-lang.org/users/710) of Ruby language development discussions (I'm that guy who invented `Kernel#then`, so sue me), and committer of documentation improvements to Ruby and its standard library.
 
+Appearances in [Ruby Weekly](https://rubyweekly.com/): [#250](https://rubyweekly.com/issues/250) (xkcdize), [#287](https://rubyweekly.com/issues/287) (reality), [#300](https://rubyweekly.com/issues/300) (time_math2), [#301](https://rubyweekly.com/issues/301) (Geo::Coord), [#319](https://rubyweekly.com/issues/319) (blog post), [#322](https://rubyweekly.com/issues/322) (tz_offset), [#364](https://rubyweekly.com/issues/364) (yard-junk), [#366](https://rubyweekly.com/issues/366) (did_you), [#372](https://rubyweekly.com/issues/372) (blog post), [#375](https://rubyweekly.com/issues/375) (blog post), [#383](https://rubyweekly.com/issues/383) (any_good), [#384](https://rubyweekly.com/issues/384) (blog post), [#385](https://rubyweekly.com/issues/385) (blog post), [#387](https://rubyweekly.com/issues/387) (hm), [#393](https://rubyweekly.com/issues/393) (blog post), [#396](https://rubyweekly.com/issues/396) (Ruby core discussion), [#403](https://rubyweekly.com/issues/403) (sho).
+
 ## Talks and conferences
 
 * **When the whole world is your database**: about [reality](https://github.com/molybdenum-99/reality), its reasons and implementation challenges;
@@ -58,3 +60,4 @@ layout: default
   * Meetups: RubyMeditation
 * **The tale of query languages**: about requirements to query languages in data-rich world, and whether GraphQL suits all of those requirements:
   * RubyC (Ukraine) 2018: ([slides](https://docs.google.com/presentation/d/1u9K-GiLNQyQm5JwDQfcUE-JM43u_a_ATmEDk1ZlHwEM/edit?usp=sharing), video TBD)
+* **Ruby Rogues Podcast**: [Ruby Core Language Evolution: Moving towards functional with Victor Shepelev](https://devchat.tv/ruby-rogues/rr-367-ruby-core-language-evolution-moving-towards-functional-with-victor-shepelev)
