@@ -208,7 +208,7 @@ Remember it is just a _way to try_ new syntax ideas.
 Discussions (hopefully) will be here:
 
 * [Twitter](https://twitter.com/zverok/status/1011704387096465410)
-* [Reddit](https://reddit.com/r/ruby)
+* [Reddit](https://www.reddit.com/r/ruby/comments/8u3azf/quest_for_ruby_pattern_matching/)
 * (just here in comments, I read them too, but maybe less visible to the community)
 
 Let me know what do you think of it!
