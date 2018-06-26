@@ -207,7 +207,7 @@ Remember it is just a _way to try_ new syntax ideas.
 
 Discussions (hopefully) will be here:
 
-* [Twitter](https://twitter.com/zverok)
+* [Twitter](https://twitter.com/zverok/status/1011704387096465410)
 * [Reddit](https://reddit.com/r/ruby)
 * (just here in comments, I read them too, but maybe less visible to the community)
 
