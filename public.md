@@ -59,5 +59,5 @@ Appearances in [Ruby Weekly](https://rubyweekly.com/): [#250](https://rubyweekly
   * RubyConf Kenya 2017
   * Meetups: RubyMeditation
 * **The tale of query languages**: about requirements to query languages in data-rich world, and whether GraphQL suits all of those requirements:
-  * RubyC (Ukraine) 2018: ([slides](https://docs.google.com/presentation/d/1u9K-GiLNQyQm5JwDQfcUE-JM43u_a_ATmEDk1ZlHwEM/edit?usp=sharing), video TBD)
+  * RubyC (Ukraine) 2018: ([video](https://www.youtube.com/watch?v=vLbcqtrh6Ys), [slides](https://docs.google.com/presentation/d/1u9K-GiLNQyQm5JwDQfcUE-JM43u_a_ATmEDk1ZlHwEM/edit?usp=sharing))
 * **Ruby Rogues Podcast**: [Ruby Core Language Evolution: Moving towards functional with Victor Shepelev](https://devchat.tv/ruby-rogues/rr-367-ruby-core-language-evolution-moving-towards-functional-with-victor-shepelev)
