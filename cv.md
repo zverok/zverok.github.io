@@ -4,7 +4,7 @@ layout: default
 
 # Something not completely unlike CV
 
-See also my [public appearances and contributions] page.
+See also my [public appearances and contributions](/public.html) page.
 
 ## Developed Software at
 
