@@ -31,7 +31,7 @@ There are several attempts to implement pattern matching as a library, some of t
 
 ## Options and ideas for implementation
 
-There is three options to introduce/enchance pattern-matching capabilities in Ruby:
+There are three options to introduce/enchance pattern-matching capabilities in Ruby:
 
 1. New syntax for method definition, polymorphic methods:
 ```ruby
