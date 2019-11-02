@@ -5,7 +5,7 @@ layout: default
 # Public activity
 
 * [Ruby Reference](https://rubyreferences.github.io/rubyref/) is an _always actual_ current Ruby version reference, compiled from official docs and other stuff in a readable e-book format;
-* [Ruby Changes](https://rubyreferences.github.io/rubychanges/) is full changelog of recent Ruby (2.6 and 2.5 at the moment), with full context and example for each and every change.
+* [Ruby Changes](https://rubyreferences.github.io/rubychanges/) is full changelog of recent Ruby (2.6, 2.5, and 2.4 at the moment), with full context and example for each and every change.
 
 ## Code
 
@@ -51,7 +51,7 @@ layout: default
 * [Good Value Object Conventions](https://github.com/zverok/good-value-object) is an RFC-alike document for Ruby Value Objects;
 * [Participant](https://bugs.ruby-lang.org/users/710) of Ruby language development discussions (I'm that guy who invented `Kernel#then`, so sue me), and committer of documentation improvements to Ruby and its standard library.
 
-Appearances in [Ruby Weekly](https://rubyweekly.com/): [#250](https://rubyweekly.com/issues/250) (xkcdize), [#287](https://rubyweekly.com/issues/287) (reality), [#300](https://rubyweekly.com/issues/300) (time_math2), [#301](https://rubyweekly.com/issues/301) (Geo::Coord), [#319](https://rubyweekly.com/issues/319) (blog post), [#322](https://rubyweekly.com/issues/322) (tz_offset), [#364](https://rubyweekly.com/issues/364) (yard-junk), [#366](https://rubyweekly.com/issues/366) (did_you), [#372](https://rubyweekly.com/issues/372) (blog post), [#375](https://rubyweekly.com/issues/375) (blog post), [#383](https://rubyweekly.com/issues/383) (any_good), [#384](https://rubyweekly.com/issues/384) (blog post), [#385](https://rubyweekly.com/issues/385) (blog post), [#387](https://rubyweekly.com/issues/387) (hm), [#393](https://rubyweekly.com/issues/393) (blog post), [#396](https://rubyweekly.com/issues/396) (Ruby core discussion), [#403](https://rubyweekly.com/issues/403) (sho), [#431](https://rubyweekly.com/issues/431) (Ruby Changes), [#432](https://rubyweekly.com/issues/432) (Ruby Reference), [#458](https://rubyweekly.com/issues/458) (time_calc).
+Appearances in [Ruby Weekly](https://rubyweekly.com/): [#250](https://rubyweekly.com/issues/250) (xkcdize), [#287](https://rubyweekly.com/issues/287) (reality), [#300](https://rubyweekly.com/issues/300) (time_math2), [#301](https://rubyweekly.com/issues/301) (Geo::Coord), [#319](https://rubyweekly.com/issues/319) (blog post), [#322](https://rubyweekly.com/issues/322) (tz_offset), [#364](https://rubyweekly.com/issues/364) (yard-junk), [#366](https://rubyweekly.com/issues/366) (did_you), [#372](https://rubyweekly.com/issues/372) (blog post), [#375](https://rubyweekly.com/issues/375) (blog post), [#383](https://rubyweekly.com/issues/383) (any_good), [#384](https://rubyweekly.com/issues/384) (blog post), [#385](https://rubyweekly.com/issues/385) (blog post), [#387](https://rubyweekly.com/issues/387) (hm), [#393](https://rubyweekly.com/issues/393) (blog post), [#396](https://rubyweekly.com/issues/396) (Ruby core discussion), [#403](https://rubyweekly.com/issues/403) (sho), [#431](https://rubyweekly.com/issues/431) (Ruby Changes), [#432](https://rubyweekly.com/issues/432) (Ruby Reference), [#458](https://rubyweekly.com/issues/458) (time_calc), [#472](https://rubyweekly.com/issues/472) Ruby Changes, [#473](https://rubyweekly.com/issues/473) (blog post).
 
 ## Talks and conferences
 
