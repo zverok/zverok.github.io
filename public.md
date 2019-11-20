@@ -55,6 +55,8 @@ Appearances in [Ruby Weekly](https://rubyweekly.com/): [#250](https://rubyweekly
 
 ## Talks and conferences
 
+* **Language as a tool of thought**: about thinking in Ruby, and Ruby evolution
+  * RubyConf Nashville'19 ([slides](http://bit.ly/rc19zverok))
 * **Towards the post-framework future**: about approaches to develop web applications without
   * WrocLove.rb 2019 ([video](https://www.youtube.com/watch?v=5UiBQtfRDUI&list=PLoGBNJiQoqRDJvwOYLuu7jnprRKhuc7Cp&index=10&t=1165s), [slides](https://docs.google.com/presentation/d/1ve4At8Vwww9ww3iM7BrQTTkBN9bWkOXmuSK2mmugSOQ/edit?usp=sharing))
   * Grill.rb (Wroclaw) 2018 ([slides](https://docs.google.com/presentation/d/1fg4DP5p4yDkFjNH-CDt6CAe5heO_BHy6tB52OgaEWkg/edit?usp=sharing))
