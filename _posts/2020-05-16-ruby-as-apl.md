@@ -8,9 +8,9 @@ comments: true
 
 Well, the title says it all!
 
-But let me explain. Last week, I stumbled upon a new [APL apology](https://www.sacrideo.us/is-apl-dead/) post. It striked some deep chort in me, and gave me an impulse to make another attempt to understand this beautifully [weird language](https://en.wikipedia.org/wiki/APL_(programming_language)#Examples).
+But let me explain. Last week, I stumbled upon a new [APL apology](https://www.sacrideo.us/is-apl-dead/) post. It struck some deep chord in me and gave me an impulse to make another attempt to understand this beautifully [weird language](https://en.wikipedia.org/wiki/APL_(programming_language)#Examples).
 
-What I (somewhat unexpectedly) find out, is that besides use of extensive character set and extreme terseness, APL has two main features that are not at all alien to Ruby: calculations through operation chaining, and extensive library of array operations, suitable for said chaining (in Ruby, they are reprsented by [Enumerable](https://ruby-doc.org/core-2.7.1/Enumerable.html) module).
+What I (somewhat unexpectedly) find out, is that besides the use of extensive character set and extreme terseness, APL has two main features that are not at all alien to Ruby: calculations through operation chaining, and an extensive library of array operations, suitable for said chaining (in Ruby, they are represented by [Enumerable](https://ruby-doc.org/core-2.7.1/Enumerable.html) module).
 
 At this point, I felt that _probably_ some of APL approaches and examples could be translated to Ruby pretty straightforwardly, and that would be an _idiomatic_ Ruby. To challenge this feeling, I experimented with translating the (in)famous [APL's one-line](https://aplwiki.com/wiki/John_Scholes%27_Conway%27s_Game_of_Life) [Conway's Game of Life](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life) implementation—**and succeeded** to implement GoL in exactly one Ruby statement.
 
@@ -22,14 +22,14 @@ To look immediately at the final implementation you may jump [straight to the re
 
 Before we start, some basic information about APL-style Arrays:
 
-* In APL, **array** is a mathematical array: it is a _rectangular multidemensional matrix of scalars_. It is represented by `APL::Ary` in Ruby code, and shortened to `AA` in explanations below.
+* In APL, **array** is a mathematical array: it is a _rectangular multidimensional matrix of scalars_. It is represented by `APL::Ary` in Ruby code, and shortened to `AA` in explanations below.
 
 ```ruby
 require 'apl'
 AA = APL::Ary
 ```
 
-* **Scalar** is number, or character, or another array. This means one should not confuse _multidimensional_ arrays (matrices, with equal number of elements alongside some dimension), and _nested arrays_. Example:
+* **Scalar** is number, or character, or another array. This means one should not confuse _multidimensional_ arrays (matrices, with an equal number of elements alongside some dimension), and _nested arrays_. Example:
 
 ```ruby
 puts AA[1, 2, 3, 4].reshape(2, 2)
@@ -58,7 +58,7 @@ puts a.wrap.unwrap
 # 1 2
 ```
 
-* As usual for mathematical arrays, mathematical operations could be performed with scalar (like "add 2 to every element") or another array of the same shape (like "add item of array A to item in similar position of array B")
+* As usual for mathematical arrays, mathematical operations could be performed with scalar (like "add 2 to every element") or another array of the same shape (like "add item of array A to item in a similar position of array B")
 
 That being said, let's begin with some first generation of our Game of Life:
 ```ruby
@@ -109,7 +109,7 @@ Let's start with `#product`: It is like Ruby's `Array#product` (make all possibl
 [1, 2].product([3, 4]) { |a, b| "#{a}+#{b}"}
 ```
 
-`#wrap` here is necessary so we will product just one entire array (as a scalar) per `-1`, `0` and `1`, not each-row-per-each-number.
+`#wrap` here is necessary so we will product just one entire array (as a scalar) per `-1`, `0`, and `1`, not each-row-per-each-number.
 
 With that in hands, let's produce some more rotations, shifting all numbers by -1, 0, and 1 _vertically_:
 
@@ -156,13 +156,13 @@ puts current_gen.wrap
 # └─────────┘
 ```
 
-`#reduce` here is the same `Enumerable#reduce`. The important feature is that APL-style arrays are summing up element-wise, so now we have a sum of all 9 matrices, representing _how many alie neighbours_ (including itself) every cell had.
+`#reduce` here is the same `Enumerable#reduce`. The important feature is that APL-style arrays are summing up element-wise, so now we have a sum of all 9 matrices, representing _how many alive neighbors_ (including itself) every cell had.
 
 Now, it should be noticed, that only cells with 3 or 4 should be alive in the next generation:
-* cell with 3 means "alive + 2 neighbours" (condition to live) or "empty with 3 neighbours" (condition to become alive)
+* cell with 3 means "alive + 2 neighbors" (condition to live) or "empty with 3 neighbors" (condition to become alive)
 * cell with 4 means "alive + 3 neighbours" (condition to live) or "empty with 4 neighbours" (**not** a condition to become alive)
 
-To check "whether it is equal to something", we have `.eq` operator implemented. That's, probably, most "non-Rubyish" part of the solution: instead of producing `true`/`false`, it gives `1`/`0`. Unfortunately, it is important to algorithm to always stay as numbers.
+To check "whether it is equal to something", we have `.eq` operator implemented. That's, probably, most "non-Rubyish" part of the solution: instead of producing `true`/`false`, it gives `1`/`0`. Unfortunately, it is important to the algorithm to always stay as numbers.
 
 So, comparing with each number separately will give us...
 
@@ -303,14 +303,14 @@ def life(current_gen)                 # Life←{    -- function declaration
     .unwrap                           # ↑         -- unwrap
 end                                   # }
 ```
-> ¹I made two simplifications: abstained for implementing "reduce by 2 levels at once" (two reduces is short enough), and from quite complicated APL's "inner product" operator (which takes two functions and mades them into something that I represented in regular Ruby with zip+reduce).
+> ¹I made two simplifications: abstained for implementing "reduce by 2 levels at once" (two reduces is short enough), and from quite complicated APL's "inner product" operator (which takes two functions and makes them into something that I represented in regular Ruby with zip+reduce).
 
 That's it!
 Now, for the fun example of usage
 
 ## Glider on the grid.
 
-[Original APL's article](https://aplwiki.com/wiki/John_Scholes%27_Conway%27s_Game_of_Life) demonstrates the usage by moving Glider through 10×10 grid. Let's try this. But first, we want method to display those 0s and 1s a bit prettier. Again, borrowed from APL:
+[Original APL's article](https://aplwiki.com/wiki/John_Scholes%27_Conway%27s_Game_of_Life) demonstrates the usage by moving Glider through 10×10 grid. Let's try this. But first, we want a method to display those 0s and 1s a bit prettier. Again, borrowed from APL:
 
 ```ruby
 def show(grid)
