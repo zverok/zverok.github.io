@@ -20,8 +20,6 @@ To look immediately at the final implementation you may jump [straight to the re
 
 ---
 
-> Note that the pseudographics used in output below looks off with Android monospace fonts :(
-
 Before we start, some basic information about APL-style Arrays:
 
 * In APL, **array** is a mathematical array: it is a _rectangular multidimensional matrix of scalars_. It is represented by `APL::Ary` in Ruby code, and shortened to `AA` in explanations below.
