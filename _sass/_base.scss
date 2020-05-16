@@ -139,12 +139,18 @@ p code, blockquote code, li code, td code, h3 code {
     background-color: #eef;
 }
 
+@font-face{
+    font-family:"codefont";
+    src:local("DejaVu Sans Mono"),url(/img/DejaVuSansMono.ttf) format('truetype')
+}
+
 pre {
     border: 1px solid $grey-color-light;
     border-radius: 3px;
     background-color: #eef;
     padding: 8px 12px;
     overflow-x: scroll;
+    font-family: codefont, monospace;
 
     > code {
         border: 0;
