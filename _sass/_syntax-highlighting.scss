@@ -13,7 +13,7 @@ pre.highlight {
     .o     { font-weight: bold } // Operator
     .cm    { color: #998; } // Comment.Multiline
     .cp    { color: #999; font-weight: bold } // Comment.Preproc
-    .c1    { color: #998; } // Comment.Single
+    .c1    { color: #998; font-family: Consolas, "Droid Sans Mono", monospace;} // Comment.Single
     .cs    { color: #999; font-weight: bold; font-style: italic } // Comment.Special
     .gd    { color: #000; background-color: #fdd } // Generic.Deleted
     .gd .x { color: #000; background-color: #faa } // Generic.Deleted.Specific
