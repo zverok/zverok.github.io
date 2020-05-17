@@ -146,7 +146,7 @@ Now, let's sum them all up:
 puts current_gen.wrap
   .product(AA[-1, 0, 1], &:hrotate)
   .product(AA[-1, 0, 1], &:vrotate)
-  .reduce(&:+).reduce(&:+)
+  .flatten(1).reduce(&:+)
 # ┌─────────┐
 # │0 1 2 2 1│
 # │1 3 4 3 1│
@@ -156,7 +156,7 @@ puts current_gen.wrap
 # └─────────┘
 ```
 
-`#reduce` here is the same `Enumerable#reduce`. The important feature is that APL-style arrays are summing up element-wise, so now we have a sum of all 9 matrices, representing _how many alive neighbors_ (including itself) every cell had.
+`#reduce` here is the same `Enumerable#reduce`, and `#flatten(1)` also behaves the usual way, making 2-dimensional array into 1-dimensional. The important feature is that APL-style arrays are summing up element-wise, so now we have a sum of all 9 matrices, representing _how many alive neighbors_ (including itself) every cell had.
 
 Now, it should be noticed, that only cells with 3 or 4 should be alive in the next generation:
 * cell with 3 means "alive + 2 neighbors" (condition to live) or "empty with 3 neighbors" (condition to become alive)
@@ -183,7 +183,7 @@ puts current_gen.wrap
 puts current_gen.wrap
   .product(AA[-1, 0, 1], &:hrotate)
   .product(AA[-1, 0, 1], &:vrotate)
-  .reduce(&:+).reduce(&:+)
+  .flatten(1).reduce(&:+)
   .eq(4)
 # ┌─────────┐
 # │0 0 0 0 0│
@@ -200,7 +200,7 @@ But we also may apply both operations at once, producing array of two elements (
 puts current_gen.wrap
   .product(AA[-1, 0, 1], &:hrotate)
   .product(AA[-1, 0, 1], &:vrotate)
-  .reduce(&:+).reduce(&:+)
+  .flatten(1).reduce(&:+)
   .eq(AA[3, 4])
 # ┌─────────┐ ┌─────────┐
 # │0 0 0 0 0│ │0 0 0 0 0│
@@ -217,7 +217,7 @@ Now, we need to add a condition of "whether it was alive" to the _second_ array.
 puts current_gen.wrap
   .product(AA[-1, 0, 1], &:hrotate)
   .product(AA[-1, 0, 1], &:vrotate)
-  .reduce(&:+).reduce(&:+)
+  .flatten(1).reduce(&:+)
   .eq(AA[3, 4])
   .zip(AA[1, current_gen], &:&)
 # ┌─────────┐ ┌─────────┐
@@ -235,7 +235,7 @@ puts current_gen.wrap
 puts current_gen.wrap
   .product(AA[-1, 0, 1], &:hrotate)
   .product(AA[-1, 0, 1], &:vrotate)
-  .reduce(&:+).reduce(&:+)
+  .flatten(1).reduce(&:+)
   .eq(AA[3, 4])
   .zip(AA[1, current_gen], &:&)
   .reduce(&:|)
@@ -252,7 +252,7 @@ puts current_gen.wrap
 puts current_gen.wrap
   .product(AA[-1, 0, 1], &:hrotate)
   .product(AA[-1, 0, 1], &:vrotate)
-  .reduce(&:+).reduce(&:+)
+  .flatten(1).reduce(&:+)
   .eq(AA[3, 4])
   .zip(AA[1, current_gen], &:&)
   .reduce(&:|)
@@ -270,7 +270,7 @@ def life(current_gen)
   current_gen.wrap
     .product(AA[-1, 0, 1], &:hrotate)
     .product(AA[-1, 0, 1], &:vrotate)
-    .reduce(&:+).reduce(&:+)
+    .flatten(1).reduce(&:+)
     .eq(AA[3, 4])
     .zip(AA[1, current_gen], &:&)
     .reduce(&:|)
@@ -283,7 +283,7 @@ Here is APL's version:
 Life←{↑1 ⍵∨.∧3 4=+/,¯1 0 1∘.⊖¯1 0 1∘.⌽⊂⍵}
 ```
 
-For those interested, here is statement-by-statement equivalent¹
+For those interested, here is statement-by-statement equivalent¹ (note that APL statement performed right-to-left):
 ```ruby
 def life(current_gen)                 # Life←{    -- function declaration
   current_gen                         # ⍵         -- function argument
@@ -294,7 +294,8 @@ def life(current_gen)                 # Life←{    -- function declaration
     .product(                         # ∘.        -- product
       AA[-1, 0, 1],                   # ¯1 0 1
       &:vrotate)                      # ⊖         -- vrotate
-    .reduce(&:+).reduce(&:+)          # +/,       -- reduce twice¹
+    .flatten(1)                       #           -- flatten
+    .reduce(&:+)                      # +/        -- reduce to sum
     .eq(                              # =
       AA[3, 4])                       # 3 4
     .zip(                             #           -- see below¹ about those 3 lines
@@ -303,7 +304,7 @@ def life(current_gen)                 # Life←{    -- function declaration
     .unwrap                           # ↑         -- unwrap
 end                                   # }
 ```
-> ¹I made two simplifications: abstained for implementing "reduce by 2 levels at once" (two reduces is short enough), and from quite complicated APL's "inner product" operator (which takes two functions and makes them into something that I represented in regular Ruby with zip+reduce).
+> ¹I made one simplification: abstained from implementing quite complicated APL's "inner product" operator (which takes two functions and makes them into something that I represented in regular Ruby with zip+reduce).
 
 That's it!
 Now, for the fun example of usage
