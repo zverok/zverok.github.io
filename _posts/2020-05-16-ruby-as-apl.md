@@ -96,7 +96,7 @@ current_gen.wrap.product(AA[-1, 0, 1], &:hrotate)
 # │0 0 0 0 0│ │0 0 0 0 0│ │0 0 0 0 0│
 # └─────────┘ └─────────┘ └─────────┘
 ```
-It becames more peculiar at this point.
+It becomes more peculiar at this point.
 
 Let's start with `#product`: It is like Ruby's `Array#product` (make all possible combinations of two arrays), with one important difference: APL's "product", instead of just producing combinations, accepts also operation to immediately apply to them. So, in vanilla Ruby:
 
