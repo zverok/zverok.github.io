@@ -368,3 +368,8 @@ show AA[*generations]
 That's all!
 
 **[GitHub repo](https://github.com/zverok/ruby_as_apl)**
+
+**UPD 2020-05-21:** Some additions brought by Twitter:
+
+* [Here is a blog post](https://sumim.hatenablog.com/entry/20090216/p2) which achieves the same task by cleverly adding just a several methods to Ruby stdlib's Matrix class. It is from 2009 and in Japanese, but at the end you can see recently added Ruby 2.7 version of the code.
+* [Here is a transcript](https://www.atmarkit.co.jp/news/200902/13/matz.html) ([Google Translate](https://translate.google.com/translate?sl=auto&tl=en&u=https%3A%2F%2Fwww.atmarkit.co.jp%2Fnews%2F200902%2F13%2Fmatz.html)) of—again, from 2009, again, in Japanese—Matz's lecture, where he suggests (if you believe Google Translate) that " the characteristics of APL may affect programming languages ​​in the future".
