@@ -1,0 +1,1151 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&lt;no title&gt; &#8212; Spyll  documentation</title>
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="static/documentation_options.js"></script>
+    <script src="static/jquery.js"></script>
+    <script src="static/underscore.js"></script>
+    <script src="static/doctools.js"></script>
+    <script src="static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+
+  <link rel="stylesheet" href="static/custom.css" type="text/css" />
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+          <div class="body" role="main">
+
+  <table class="docutils align-default" style="width:1000px !important;">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 70%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Explanations</p></th>
+<th class="head"><p>Code</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">dataclasses</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+
+<span class="kn">from</span> <span class="nn">spyll.hunspell</span> <span class="kn">import</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">spyll.hunspell.data.aff</span> <span class="kn">import</span> <span class="n">Flag</span>
+<span class="kn">from</span> <span class="nn">spyll.hunspell.algo.capitalization</span> <span class="kn">import</span> <span class="n">Type</span> <span class="k">as</span> <span class="n">CapType</span>
+<span class="kn">import</span> <span class="nn">spyll.hunspell.algo.permutations</span> <span class="k">as</span> <span class="nn">pmt</span>
+
+<span class="n">NUMBER_REGEXP</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\d+(\.\d+)?$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>AffixForm is a hypothesis of how some word might be split into stem, suffixes and prefixes.
+It always has full text and stem, and may have up to two suffixes, and up to two prefixes.
+(Affix form without any affix is also valid.)</p>
+<p>The following is always true (if we consider absent affixes just empty string):</p>
+<p>prefix + prefix2 + stem + suffix2 + suffix = text</p>
+<p>prefix2/suffix2 are “secondary”, so if the word has only one suffix, it is stored in <code class="docutils literal notranslate"><span class="pre">suffix</span></code> and
+<code class="docutils literal notranslate"><span class="pre">suffix2</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<p>If the word form’s stem is found is dictionary <code class="docutils literal notranslate"><span class="pre">in_dictionary</span></code> attribute is present (though it
+does not implies that dictionary word is compatible with suffixes and prefixes).</p>
+</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">AffixForm</span><span class="p">:</span>
+    <span class="n">text</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="n">stem</span><span class="p">:</span> <span class="nb">str</span>
+
+    <span class="n">prefix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">Prefix</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">suffix</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">Suffix</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">prefix2</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">Prefix</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">suffix2</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">Suffix</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">in_dictionary</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">dic</span><span class="o">.</span><span class="n">Word</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">changes</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">dataclasses</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">changes</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">has_affixes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span>
+
+    <span class="k">def</span> <span class="nf">is_base</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_affixes</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">flags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">flags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_dictionary</span><span class="o">.</span><span class="n">flags</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_dictionary</span> <span class="k">else</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">:</span>
+            <span class="n">flags</span> <span class="o">=</span> <span class="n">flags</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="o">.</span><span class="n">flags</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="p">:</span>
+            <span class="n">flags</span> <span class="o">=</span> <span class="n">flags</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">flags</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">flags</span>
+
+    <span class="k">def</span> <span class="nf">all_affixes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="o">*</span><span class="nb">filter</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix2</span><span class="p">])]</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;AffixForm(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s1"> = &#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="si">!r}</span><span class="s1"> + &#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix2</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix2</span><span class="si">!r}</span><span class="s1"> + &#39;</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stem</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix2</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39; + </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">suffix2</span><span class="si">!r}</span><span class="s1">&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39; + </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">suffix</span><span class="si">!r}</span><span class="s1">&#39;</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="s1">&#39;)&#39;</span>
+        <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CompoundForm is a hypothesis of how some word could be split into several AffixForms (word parts
+with their own stems, and possible affixes).
+Typically, only first part of compound is allowed to have prefix, and only last part is allowed
+to have suffix, but there are languages where middle parts can have affixes too, which is
+specified by special flags.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">CompoundForm</span> <span class="o">=</span> <span class="n">List</span><span class="p">[</span><span class="n">AffixForm</span><span class="p">]</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Used when checking “whether this word could be part of the compound… specifically its begin/middl/end”</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">CompoundPos</span> <span class="o">=</span> <span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;CompoundPos&#39;</span><span class="p">,</span> <span class="s1">&#39;BEGIN MIDDLE END&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Every word form (hypothesis about “this string may correspond to known affixes/dictionary this way”)
+is either affix form, or compound one.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">WordForm</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">AffixForm</span><span class="p">,</span> <span class="n">CompoundForm</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">Lookup</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">aff</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">Aff</span><span class="p">,</span> <span class="n">dic</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">dic</span><span class="o">.</span><span class="n">Dic</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aff</span> <span class="o">=</span> <span class="n">aff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dic</span> <span class="o">=</span> <span class="n">dic</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>The outermost word correctness check.</p>
+<p>Basically, prepares word for check (converting/removing chars), and then checks whether
+the word is properly spelled. If it is not, also tries to break word by break-points (like
+dashes), and check each part separately.</p>
+<p>Boolean flags are used when the Lookup is called from Suggest, meaning:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">capitalization</span></code> – if <code class="docutils literal notranslate"><span class="pre">False</span></code>, check ONLY exactly this capitalization</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">allow_nosuggest</span></code> – if <code class="docutils literal notranslate"><span class="pre">False</span></code>, don’t consider correct words with NOSUGGEST flag</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">allow_break</span></code> – if <code class="docutils literal notranslate"><span class="pre">False</span></code>, don’t try to break word by dashes and check separately</p></li>
+</ul>
+</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+                 <span class="n">capitalization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">allow_nosuggest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">allow_break</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>The word is considered correct, if it can be deconstructed into a “good form” (the form
+that is possible to produce from current dictionary: either it is stem with some affixes,
+or compound word: list of stem+affixes groups.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">def</span> <span class="nf">is_correct</span><span class="p">(</span><span class="n">w</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">good_forms</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">capitalization</span><span class="o">=</span><span class="n">capitalization</span><span class="p">,</span> <span class="n">allow_nosuggest</span><span class="o">=</span><span class="n">allow_nosuggest</span><span class="p">))</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>If there are entries in the dictionary matching the entire word, and all of those entries
+are marked with “forbidden” flag, this word can’t be considered correct.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">FORBIDDENWORD</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">dic</span><span class="o">.</span><span class="n">has_flag</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">FORBIDDENWORD</span><span class="p">,</span> <span class="n">for_all</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Convert word before lookup with ICONV table: usually, it is normalization of apostrophes,
+UTF chars with diacritics (which might have several different forms), and such.
+See <code class="docutils literal notranslate"><span class="pre">aff.ConvTable</span></code> for the full algorithm (it is more complex than just replace one
+substring with another).</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">ICONV</span><span class="p">:</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">ICONV</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Remove characters that should be ignored (for example, in Arabic and Hebrew, vowels should
+be removed before spellchecking)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">IGNORE</span><span class="p">:</span>
+            <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">IGNORE</span><span class="o">.</span><span class="n">tr</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Numbers are allowed and considered “good word” always</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="c1"># TODO: check in hunspell&#39;s code, if there are some exceptions?..</span>
+        <span class="k">if</span> <span class="n">NUMBER_REGEXP</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>If the whole word is correct</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="n">is_correct</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">allow_break=False</span></code> might’ve been passed from <code class="docutils literal notranslate"><span class="pre">Suggest</span></code> and mean we shouldn’t try to
+break word.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_break</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">try_break</span></code> recursively produces all possible lists of word breaking by break patterns
+(like dashes). For example, if we are checking the word “pre-processed-meat”, we’ll
+have [“pre”, “processed-meat”], [“pre”, “processed”, “meat”] and [“pre-processed”, “meat”].
+This is necessary (instead of just breaking the word by all breakpoints, and checking
+[“pre”, “processed”, “meat”]), because the dictionary might contain word “pre-processed”
+as a separate entity, so [“pre-processed”, “meat”] would be considered correct, and the
+other two would not, if there is no separate entry on “pre”.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">for</span> <span class="n">parts</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">try_break</span><span class="p">(</span><span class="n">word</span><span class="p">):</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>If all parts in this variant of the breaking is correct, the whole word considered correct.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">is_correct</span><span class="p">(</span><span class="n">part</span><span class="p">)</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">parts</span> <span class="k">if</span> <span class="n">part</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">try_break</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">yield</span> <span class="p">[</span><span class="n">text</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">pat</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">BREAK</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">pat</span><span class="o">.</span><span class="n">regexp</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+                <span class="n">start</span> <span class="o">=</span> <span class="n">text</span><span class="p">[:</span><span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span>
+                <span class="n">rest</span> <span class="o">=</span> <span class="n">text</span><span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">end</span><span class="p">(</span><span class="mi">1</span><span class="p">):]</span>
+                <span class="k">for</span> <span class="n">breaking</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">try_break</span><span class="p">(</span><span class="n">rest</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="o">*</span><span class="n">breaking</span><span class="p">]</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>The main producer of correct word forms (e.g. ways the proposed string might correspond to our
+dictionary/affixes). If there is at least one, the word is correctly spelled. There could be
+many correct forms for one spelling (e.g. word “building” might be a noun “building”, or infinitive
+“build + ing”).</p>
+<p>The method returns generator (forms are produced lazy), so it doesn’t have performance
+overhead when just needs to check “any correct form exists”.</p>
+<p>Might be also used for investigative/debugging purpose this way:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dic</span> <span class="o">=</span> <span class="n">Dictionary</span><span class="o">.</span><span class="n">from_files</span><span class="p">(</span><span class="s1">&#39;dictionaries/en_US&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">dic</span><span class="o">.</span><span class="n">lookuper</span><span class="o">.</span><span class="n">good_forms</span><span class="p">(</span><span class="s1">&#39;spells&#39;</span><span class="p">))</span>
+<span class="c1"># AffixForm(spells = spells) -- option 1: &quot;spells&quot; is the whole word, present in dictionary</span>
+<span class="c1"># AffixForm(spells = spell + Suffix(s: S×, on [[^sxzhy]]$)) -- option 2: word &quot;spell&quot; + suffix &quot;s&quot;</span>
+</pre></div>
+</div>
+</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">good_forms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+                   <span class="n">capitalization</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                   <span class="n">allow_nosuggest</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">WordForm</span><span class="p">]:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>“capitalization” might be <code class="docutils literal notranslate"><span class="pre">False</span></code> if it is passed from <code class="docutils literal notranslate"><span class="pre">Suggest</span></code>, meaning “check only
+this exact case”</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="n">capitalization</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Collaction calculates
+* word’s capitalization (none – all letters are small, init – first
+letter is capitalized, all – all leters are capital, HUH – some letters are small,
+some capitalized, first is small; HUHINIT – same, but the first is capital)
+* how it might’ve looked in the dictionary, if we assume the current form is correct</p>
+<p>For example, if we pass “Cat”, the captype would be INIT, and variants [“Cat”, “cat”],
+the latter would be found in dictionary. If we pass “Paris”, captype is INIT, variants
+are [“Paris”, “paris”], and the _first_ one is found in the dictionary; that’s why
+we need to check all variants.</p>
+<p>See <code class="docutils literal notranslate"><span class="pre">capitalization.Collation</span></code> for capitalization quirks.</p>
+</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="n">captype</span><span class="p">,</span> <span class="n">variants</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">collation</span><span class="o">.</span><span class="n">variants</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">else</span><span class="p">:</span>
+            <span class="n">captype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">collation</span><span class="o">.</span><span class="n">guess</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+            <span class="n">variants</span> <span class="o">=</span> <span class="p">[</span><span class="n">word</span><span class="p">]</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Now, for each of capitalization variants possible</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">for</span> <span class="n">variant</span> <span class="ow">in</span> <span class="n">variants</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>…we yield all possible affix forms</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">affix_forms</span><span class="p">(</span><span class="n">variant</span><span class="p">,</span> <span class="n">captype</span><span class="o">=</span><span class="n">captype</span><span class="p">,</span> <span class="n">allow_nosuggest</span><span class="o">=</span><span class="n">allow_nosuggest</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>…and then all possible compound forms</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">compound_forms</span><span class="p">(</span><span class="n">variant</span><span class="p">,</span> <span class="n">captype</span><span class="o">=</span><span class="n">captype</span><span class="p">,</span> <span class="n">allow_nosuggest</span><span class="o">=</span><span class="n">allow_nosuggest</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Produces correct affix forms of the given words, e.g. all ways in which it can be split into
+stem+affixes, such that the stem would be present in the dictionary, and stem and all affixes
+would be compatible with each other.</p>
+<p><code class="docutils literal notranslate"><span class="pre">prefix_flags</span></code>, <code class="docutils literal notranslate"><span class="pre">suffix_flags</span></code>, <code class="docutils literal notranslate"><span class="pre">forbidden_flags</span></code> and <code class="docutils literal notranslate"><span class="pre">compoundpos</span></code> are passed when
+the method is called from <code class="docutils literal notranslate"><span class="pre">compound_xxx</span></code> family of methods.</p>
+<p><code class="docutils literal notranslate"><span class="pre">with_forbidden</span></code> passed when producing forms <em>including those specifically marked as forbidden</em>,
+to stop compounding immediately if the forbidden one exists.</p>
+</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">affix_forms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                    <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                    <span class="n">captype</span><span class="p">:</span> <span class="n">CapType</span><span class="p">,</span>
+                    <span class="n">allow_nosuggest</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">prefix_flags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Flag</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+                    <span class="n">suffix_flags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Flag</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+                    <span class="n">forbidden_flags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Flag</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+                    <span class="n">compoundpos</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CompoundPos</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">with_forbidden</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">AffixForm</span><span class="p">]:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Just a shortcut to call (quite complicated) form validity method with all relevant params.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">def</span> <span class="nf">is_good_form</span><span class="p">(</span><span class="n">form</span><span class="p">,</span> <span class="o">**</span><span class="n">kwarg</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_good_form</span><span class="p">(</span><span class="n">form</span><span class="p">,</span> <span class="n">compoundpos</span><span class="o">=</span><span class="n">compoundpos</span><span class="p">,</span>
+                                     <span class="n">captype</span><span class="o">=</span><span class="n">captype</span><span class="p">,</span>
+                                     <span class="n">allow_nosuggest</span><span class="o">=</span><span class="n">allow_nosuggest</span><span class="p">,</span>
+                                     <span class="o">**</span><span class="n">kwarg</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">produce_affix_forms</span></code> produces ALL possible forms (split of the word into prefixes +
+stem + suffixes) with the help of known prefixes and affixes. Now we need to choose only
+correct ones.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">for</span> <span class="n">form</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">produce_affix_forms</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">compoundpos</span><span class="o">=</span><span class="n">compoundpos</span><span class="p">,</span>
+                                             <span class="n">prefix_flags</span><span class="o">=</span><span class="n">prefix_flags</span><span class="p">,</span> <span class="n">suffix_flags</span><span class="o">=</span><span class="n">suffix_flags</span><span class="p">,</span>
+                                             <span class="n">forbidden_flags</span><span class="o">=</span><span class="n">forbidden_flags</span><span class="p">):</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>There might be several entries for the stem in the dictionary, all with different
+flags (for example, “spell” as a noun, and “spell” as a verb)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="n">homonyms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dic</span><span class="o">.</span><span class="n">homonyms</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">stem</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>If one of the many homonyms has FORBIDDENWORD flag (and others do not),
+then the word with this stem <em>can’t</em> be part of the compound word, and can’t have
+affixes, but still is allowed to exist without them.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">with_forbidden</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">FORBIDDENWORD</span> <span class="ow">and</span>
+                    <span class="p">(</span><span class="n">compoundpos</span> <span class="ow">or</span> <span class="n">form</span><span class="o">.</span><span class="n">has_affixes</span><span class="p">())</span> <span class="ow">and</span>
+                    <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">FORBIDDENWORD</span> <span class="ow">in</span> <span class="n">homonym</span><span class="o">.</span><span class="n">flags</span> <span class="k">for</span> <span class="n">homonym</span> <span class="ow">in</span> <span class="n">homonyms</span><span class="p">)):</span>
+                <span class="k">return</span>
+
+            <span class="k">for</span> <span class="n">homonym</span> <span class="ow">in</span> <span class="n">homonyms</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Now, for each possible homonym of word’s stem, we check it at is a “good form”
+(basically, stem’s flags &amp; suffixes flags allow to be combined to each other, and
+also allow to be in compound word, if that’s the case).</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="n">candidate</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">in_dictionary</span><span class="o">=</span><span class="n">homonym</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">is_good_form</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
+                    <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">yield</span> <span class="n">candidate</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>If it then might be required by compound end to be capitalized, we should find it EVEN
+if the check is “without checking different capitalizations”</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="n">compoundpos</span> <span class="o">==</span> <span class="n">CompoundPos</span><span class="o">.</span><span class="n">BEGIN</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">FORCEUCASE</span> <span class="ow">and</span> <span class="n">captype</span> <span class="o">==</span> <span class="n">CapType</span><span class="o">.</span><span class="n">INIT</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">homonym</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dic</span><span class="o">.</span><span class="n">homonyms</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">lower</span><span class="p">()):</span>
+                    <span class="n">candidate</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">in_dictionary</span><span class="o">=</span><span class="n">homonym</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">is_good_form</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
+                        <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="k">yield</span> <span class="n">candidate</span>
+
+            <span class="k">if</span> <span class="n">found</span> <span class="ow">or</span> <span class="n">compoundpos</span> <span class="ow">or</span> <span class="n">captype</span> <span class="o">!=</span> <span class="n">CapType</span><span class="o">.</span><span class="n">ALL</span><span class="p">:</span>
+                <span class="k">continue</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>One final check should be done by scanning through dictionary in case-insensitive manner
+if the source word was ALL CAPS: In this case, we might miss cases like
+“OPENOFFICE.ORG” (in dictionary it is OpenOffice.org, so no forms guessed by collation would match it)</p>
+<p>dic.homonyms(…, ignorecase=True) checks the word against _lowercased_ stems, so we
+need to check only for it.</p>
+</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="c1"># FIXME: If Collation.variants would return pairs (&quot;word&quot;, captype) for all variants,</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>we wouldn’t need to re-guess here:</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">collation</span><span class="o">.</span><span class="n">guess</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">==</span> <span class="n">CapType</span><span class="o">.</span><span class="n">NO</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">homonym</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dic</span><span class="o">.</span><span class="n">homonyms</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">ignorecase</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                    <span class="n">candidate</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">in_dictionary</span><span class="o">=</span><span class="n">homonym</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">is_good_form</span><span class="p">(</span><span class="n">candidate</span><span class="p">):</span>
+                        <span class="k">yield</span> <span class="n">candidate</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Produces all correct compound forms.
+Delegates all real work to two different compounding algorithms, and then just check if their
+results pass various correctness checks.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">compound_forms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">captype</span><span class="p">:</span> <span class="n">CapType</span><span class="p">,</span> <span class="n">allow_nosuggest</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">CompoundForm</span><span class="p">]:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>if we try to decompound “forbiddenword’s”, AND “forbiddenword” with suffix “‘s” is forbidden,
+we shouldn’t even try.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">FORBIDDENWORD</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">FORBIDDENWORD</span> <span class="ow">in</span> <span class="n">candidate</span><span class="o">.</span><span class="n">flags</span><span class="p">()</span>
+                                          <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">affix_forms</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">captype</span><span class="o">=</span><span class="n">captype</span><span class="p">,</span> <span class="n">with_forbidden</span><span class="o">=</span><span class="kc">True</span><span class="p">)):</span>
+            <span class="k">return</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>The first algorithm is: split the word into several, in all possible ways, and check if
+some combination of them are dictionary words having flags allowing them to be in compound
+words. This algorithm should only be used if the relevant flags are present (otherwise,
+there is nothing to mark words with).</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDBEGIN</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDFLAG</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">compound</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">compounds_by_flags</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">captype</span><span class="o">=</span><span class="n">captype</span><span class="p">,</span> <span class="n">allow_nosuggest</span><span class="o">=</span><span class="n">allow_nosuggest</span><span class="p">):</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>When we already produced a compounding hypothesis (meaning every part is present
+in the dictionary, and allowed to be in this place in a compound), there are still
+a lot of possible conditions why this form is _incorrect_ all in all, and we need
+to check them.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bad_compound</span><span class="p">(</span><span class="n">compound</span><span class="p">,</span> <span class="n">captype</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="n">compound</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Another algorithm is: split the word into several, and check if their flag combination is
+declared as a “compound rule”. Obviosly, needs checking only if some compound rules ARE
+declared.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDRULE</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">compound</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">compounds_by_rules</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">allow_nosuggest</span><span class="o">=</span><span class="n">allow_nosuggest</span><span class="p">):</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Same as above</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_bad_compound</span><span class="p">(</span><span class="n">compound</span><span class="p">,</span> <span class="n">captype</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="n">compound</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Produces all possible affix forms: e.g. for all known suffixes &amp; prefixes, if it looks like
+they are in this word, produce forms (prefix + stem + suffix).</p>
+<p>flags are used when called from compounding, in this case <code class="docutils literal notranslate"><span class="pre">prefix_flags</span></code> and <code class="docutils literal notranslate"><span class="pre">suffix_flags</span></code>
+are listing the flags that affixes should definitely have (e.g. for word in the middle of compound,
+it can only have prefix explicitly marked with COMPOUNDPERMITFLAG), and <code class="docutils literal notranslate"><span class="pre">forbidden_flags</span></code> are
+listing flags that they are forbidden to have (COMPOUNDFORBIDFLAG)</p>
+</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">produce_affix_forms</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                            <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                            <span class="n">prefix_flags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Flag</span><span class="p">],</span>
+                            <span class="n">suffix_flags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Flag</span><span class="p">],</span>
+                            <span class="n">forbidden_flags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Flag</span><span class="p">],</span>
+                            <span class="n">compoundpos</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CompoundPos</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">AffixForm</span><span class="p">]:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>“Whole word” is always existing option. Note that it might later be rejected in is_good_form
+if this stem has flag NEEDS_AFFIXES.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">yield</span> <span class="n">AffixForm</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">word</span><span class="p">,</span> <span class="n">stem</span><span class="o">=</span><span class="n">word</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>It makes sense to check the suffixes only if the word is not in compound, or in compoundend,
+or there are special “flags that might allow suffix”</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="n">suffix_allowed</span> <span class="o">=</span> <span class="n">compoundpos</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">CompoundPos</span><span class="o">.</span><span class="n">END</span><span class="p">]</span> <span class="ow">or</span> <span class="n">suffix_flags</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>…and same for prefixes</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="n">prefix_allowed</span> <span class="o">=</span> <span class="n">compoundpos</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">CompoundPos</span><span class="o">.</span><span class="n">BEGIN</span><span class="p">]</span> <span class="ow">or</span> <span class="n">prefix_flags</span>
+
+        <span class="k">if</span> <span class="n">suffix_allowed</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Now yield all forms with suffix split out…</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">desuffix</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">required_flags</span><span class="o">=</span><span class="n">suffix_flags</span><span class="p">,</span> <span class="n">forbidden_flags</span><span class="o">=</span><span class="n">forbidden_flags</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="n">prefix_allowed</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>…and all forms with prefix split out…</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">for</span> <span class="n">form</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">deprefix</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">required_flags</span><span class="o">=</span><span class="n">prefix_flags</span><span class="p">,</span> <span class="n">forbidden_flags</span><span class="o">=</span><span class="n">forbidden_flags</span><span class="p">):</span>
+                <span class="k">yield</span> <span class="n">form</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>…and, IF this prefix allowed to be combined with suffixes, also with prefix
+AND suffix split out</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="k">if</span> <span class="n">suffix_allowed</span> <span class="ow">and</span> <span class="n">form</span><span class="o">.</span><span class="n">prefix</span> <span class="ow">and</span> <span class="n">form</span><span class="o">.</span><span class="n">prefix</span><span class="o">.</span><span class="n">crossproduct</span><span class="p">:</span>
+                    <span class="k">yield from</span> <span class="p">(</span>
+                        <span class="n">form2</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">form</span><span class="o">.</span><span class="n">prefix</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">form2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">desuffix</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span>
+                                                   <span class="n">required_flags</span><span class="o">=</span><span class="n">suffix_flags</span><span class="p">,</span>
+                                                   <span class="n">forbidden_flags</span><span class="o">=</span><span class="n">forbidden_flags</span><span class="p">,</span>
+                                                   <span class="n">crossproduct</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>For given word, produces AffixForm with suffix(es) split of the stem.</p>
+<p><code class="docutils literal notranslate"><span class="pre">forbidden_flags</span></code> and <code class="docutils literal notranslate"><span class="pre">required_flags</span></code> needed on compounding, and list flags that suffix
+should, or should not have.
+<code class="docutils literal notranslate"><span class="pre">crossproduct</span></code> is used when trying to chop the suffix of already deprefixed form, in this
+case the suffix should have “cross-production allowed” mark.
+<code class="docutils literal notranslate"><span class="pre">nested</span></code> is used when the function is called recursively: currently, hunspell (and spyll)
+allow chopping up to two suffixes (in the future it might become an integer <code class="docutils literal notranslate"><span class="pre">depth</span></code> parameter
+for more than two suffixes analysis).</p>
+</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">desuffix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">required_flags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Flag</span><span class="p">],</span>
+                 <span class="n">forbidden_flags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Flag</span><span class="p">],</span>
+                 <span class="n">nested</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">crossproduct</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">AffixForm</span><span class="p">]:</span>
+
+        <span class="k">def</span> <span class="nf">good_suffix</span><span class="p">(</span><span class="n">suffix</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">(</span>
+                <span class="p">(</span><span class="ow">not</span> <span class="n">crossproduct</span> <span class="ow">or</span> <span class="n">suffix</span><span class="o">.</span><span class="n">crossproduct</span><span class="p">)</span> <span class="ow">and</span>
+                <span class="nb">all</span><span class="p">(</span><span class="n">f</span> <span class="ow">in</span> <span class="n">suffix</span><span class="o">.</span><span class="n">flags</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">required_flags</span><span class="p">)</span> <span class="ow">and</span>
+                <span class="nb">all</span><span class="p">(</span><span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">suffix</span><span class="o">.</span><span class="n">flags</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">forbidden_flags</span><span class="p">)</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>We selecting suffixes that have flags and settings, and their regexp pattern match
+the provided word.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="n">possible_suffixes</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">suffix</span>
+            <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">suffixes_index</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">word</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">good_suffix</span><span class="p">(</span><span class="n">suffix</span><span class="p">)</span> <span class="ow">and</span> <span class="n">suffix</span><span class="o">.</span><span class="n">lookup_regexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>With all of those suffixes, we are producing AffixForms of the word passed</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">for</span> <span class="n">suffix</span> <span class="ow">in</span> <span class="n">possible_suffixes</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>stem is produced by removing the suffix, and, optionally, adding the part of the
+stem (named strip). For example, suffix might be declared as (strip=y, add=ier),
+then to restore the original stem from word “prettier” we must remove “ier” and add back “y”</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="n">stem</span> <span class="o">=</span> <span class="n">suffix</span><span class="o">.</span><span class="n">replace_regexp</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">suffix</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
+
+            <span class="k">yield</span> <span class="n">AffixForm</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Try to remove one more suffix, only one level depth</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="ow">not</span> <span class="n">nested</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">form2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">desuffix</span><span class="p">(</span><span class="n">stem</span><span class="p">,</span>
+                                           <span class="n">required_flags</span><span class="o">=</span><span class="p">[</span><span class="n">suffix</span><span class="o">.</span><span class="n">flag</span><span class="p">,</span> <span class="o">*</span><span class="n">required_flags</span><span class="p">],</span>
+                                           <span class="n">forbidden_flags</span><span class="o">=</span><span class="n">forbidden_flags</span><span class="p">,</span>
+                                           <span class="n">nested</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                           <span class="n">crossproduct</span><span class="o">=</span><span class="n">crossproduct</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="n">form2</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">suffix2</span><span class="o">=</span><span class="n">suffix</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">word</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Everything is the same as for desuffix.
+The method doesn’t need crossproduct: bool setting because in produce_affix_forms we first
+analyse prefixes, and then if they allow cross-production, call desuffix with crossproduct=True</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">deprefix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">required_flags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Flag</span><span class="p">],</span>
+                 <span class="n">forbidden_flags</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Flag</span><span class="p">],</span>
+                 <span class="n">nested</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">AffixForm</span><span class="p">]:</span>
+
+        <span class="k">def</span> <span class="nf">good_prefix</span><span class="p">(</span><span class="n">prefix</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">f</span> <span class="ow">in</span> <span class="n">prefix</span><span class="o">.</span><span class="n">flags</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">required_flags</span><span class="p">)</span> <span class="ow">and</span> \
+                   <span class="nb">all</span><span class="p">(</span><span class="n">f</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">prefix</span><span class="o">.</span><span class="n">flags</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">forbidden_flags</span><span class="p">)</span>
+
+        <span class="n">possible_prefixes</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">prefix</span>
+            <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">prefixes_index</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">good_prefix</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="ow">and</span> <span class="n">prefix</span><span class="o">.</span><span class="n">lookup_regexp</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">possible_prefixes</span><span class="p">:</span>
+            <span class="n">stem</span> <span class="o">=</span> <span class="n">prefix</span><span class="o">.</span><span class="n">replace_regexp</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">prefix</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
+
+            <span class="k">yield</span> <span class="n">AffixForm</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">stem</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">)</span>
+
+            <span class="c1"># TODO: Only if compoundprefixes are allowed in *.aff</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Hunspell doesn’t have a test for this (and no wrong lookups should be produced by
+additional attempt to deprefix), but this might be a slowdown</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="ow">not</span> <span class="n">nested</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">form2</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">deprefix</span><span class="p">(</span><span class="n">stem</span><span class="p">,</span>
+                                           <span class="n">required_flags</span><span class="o">=</span><span class="p">[</span><span class="n">prefix</span><span class="o">.</span><span class="n">flag</span><span class="p">,</span> <span class="o">*</span><span class="n">required_flags</span><span class="p">],</span>
+                                           <span class="n">forbidden_flags</span><span class="o">=</span><span class="n">forbidden_flags</span><span class="p">,</span>
+                                           <span class="n">nested</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="n">form2</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">prefix2</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">word</span><span class="p">)</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">is_good_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                     <span class="n">form</span><span class="p">:</span> <span class="n">AffixForm</span><span class="p">,</span>
+                     <span class="n">compoundpos</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">CompoundPos</span><span class="p">],</span>
+                     <span class="n">captype</span><span class="p">:</span> <span class="n">CapType</span><span class="p">,</span>
+                     <span class="n">allow_nosuggest</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Just to make the code a bit simpler, it asks aff. for tons of different stuff</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="n">aff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Shouldn’t happen, just to make mypy happy (to not complain “if root is None, you can’t take its flags” below)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="ow">not</span> <span class="n">form</span><span class="o">.</span><span class="n">in_dictionary</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">root_flags</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">in_dictionary</span><span class="o">.</span><span class="n">flags</span>
+        <span class="n">all_flags</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">flags</span><span class="p">()</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p># TODO: Should be guessed on dictionary loading
+root_capitalization = aff.collation.guess(form.in_dictionary.stem)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>If the stem has NOSUGGEST flag, it shouldn’t be considered an existing word when called
+from <code class="docutils literal notranslate"><span class="pre">Suggest</span></code> (in other cases allow_nosuggest is True). This allows, for example, to
+consider swearing words “correct” on spellchecking, but avoid suddenly suggesting them
+for other misspelled word.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="ow">not</span> <span class="n">allow_nosuggest</span> <span class="ow">and</span> <span class="n">aff</span><span class="o">.</span><span class="n">NOSUGGEST</span> <span class="ow">in</span> <span class="n">root_flags</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>If word is marked with KEEPCASE, it is considered correct ONLY when spelled exactly that
+way.
+…unless the affix has additional CHECKSHARPS setting, because then the flag is reused
+to prohibit sharp-s in capitalized word. (FIXME: but for words without sharp-s works
+as previously?.. CHECK!)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="n">captype</span> <span class="o">!=</span> <span class="n">form</span><span class="o">.</span><span class="n">in_dictionary</span><span class="o">.</span><span class="n">captype</span> <span class="ow">and</span> <span class="n">aff</span><span class="o">.</span><span class="n">KEEPCASE</span> <span class="ow">in</span> <span class="n">root_flags</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">aff</span><span class="o">.</span><span class="n">CHECKSHARPS</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p><strong>Check affix flags</strong></p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>The NEEDAFFIX flag must mark two cases:</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">NEEDAFFIX</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>“This stem is incorrect without affixes” (and no affixes provided)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">NEEDAFFIX</span> <span class="ow">in</span> <span class="n">root_flags</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">form</span><span class="o">.</span><span class="n">has_affixes</span><span class="p">():</span>
+                <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>“All affixes require additional affixes” (usually, it is one suffix, which is “infix” –
+should have another suffix after it).</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">has_affixes</span><span class="p">()</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">aff</span><span class="o">.</span><span class="n">NEEDAFFIX</span> <span class="ow">in</span> <span class="n">a</span><span class="o">.</span><span class="n">flags</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">form</span><span class="o">.</span><span class="n">all_affixes</span><span class="p">()):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Prefix might be allowed by: a) stem having this flag or b) suffix having this flag
+(all flags are made from suffix+prefix+stem flags)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">prefix</span> <span class="ow">and</span> <span class="n">form</span><span class="o">.</span><span class="n">prefix</span><span class="o">.</span><span class="n">flag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_flags</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Suffix might be allowed by: a) stem having this flag or b) prefix having this flag
+(all flags are made from suffix+prefix+stem flags)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="n">form</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">and</span> <span class="n">form</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">flag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_flags</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>CIRCUMFIX flag, if present, used to mark suffix and prefix that should go together: if
+one of them present and has it, another one should too.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">CIRCUMFIX</span><span class="p">:</span>
+            <span class="n">suffix_has</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">and</span> <span class="n">aff</span><span class="o">.</span><span class="n">CIRCUMFIX</span> <span class="ow">in</span> <span class="n">form</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">flags</span>
+            <span class="n">prefix_has</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">prefix</span> <span class="ow">and</span> <span class="n">aff</span><span class="o">.</span><span class="n">CIRCUMFIX</span> <span class="ow">in</span> <span class="n">form</span><span class="o">.</span><span class="n">prefix</span><span class="o">.</span><span class="n">flags</span>
+            <span class="k">if</span> <span class="nb">bool</span><span class="p">(</span><span class="n">prefix_has</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">suffix_has</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p><strong>Check compound flags</strong></p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>If it is not a part of the compound word…</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="ow">not</span> <span class="n">compoundpos</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>…it shouldn’t have the flag “only allowed inside compounds”</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">return</span> <span class="n">aff</span><span class="o">.</span><span class="n">ONLYINCOMPOUND</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_flags</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>But if it is a part of the compound word
+it should either has a flag allowing it to be in compound on ANY positioin</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDFLAG</span> <span class="ow">in</span> <span class="n">all_flags</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>..or the flag allowing it to be at that precise position.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="n">compoundpos</span> <span class="o">==</span> <span class="n">CompoundPos</span><span class="o">.</span><span class="n">BEGIN</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDBEGIN</span> <span class="ow">in</span> <span class="n">all_flags</span>
+        <span class="k">if</span> <span class="n">compoundpos</span> <span class="o">==</span> <span class="n">CompoundPos</span><span class="o">.</span><span class="n">END</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDEND</span> <span class="ow">in</span> <span class="n">all_flags</span>
+        <span class="k">if</span> <span class="n">compoundpos</span> <span class="o">==</span> <span class="n">CompoundPos</span><span class="o">.</span><span class="n">MIDDLE</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDMIDDLE</span> <span class="ow">in</span> <span class="n">all_flags</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>shoulnd’t happen</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Produces all possible compound forms such that every part is a valid affixed form, and all of
+those parts are allowed to be together by flags (e.g. first part either has generic flag
+“allowed in compound”, or flag “allowed as a compound beginning”, middle part has flag “allowed
+in compound”, or “allowed as compound middle” and so on).</p>
+<p>Works recursively by first trying to find the allowed beginning of compound, and if it is
+found, calling itself with the rest of the word, and so on.</p>
+</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">compounds_by_flags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                           <span class="n">word_rest</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                           <span class="o">*</span><span class="p">,</span>
+                           <span class="n">captype</span><span class="p">:</span> <span class="n">CapType</span><span class="p">,</span>
+                           <span class="n">depth</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                           <span class="n">allow_nosuggest</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">CompoundForm</span><span class="p">]:</span>
+
+        <span class="n">aff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Flags that are forbidden for affixes (will be passed to affix_forms)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="n">forbidden_flags</span> <span class="o">=</span> <span class="p">[</span><span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDFORBIDFLAG</span><span class="p">]</span> <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDFORBIDFLAG</span> <span class="k">else</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Flags that are required for affixes. Are passed to affix_forms, expept for:
+* for the last form suffix_flags not passed (any suffix will do)
+* for the first form, prefix_flags not passed (any prefix will do)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="n">permitflags</span> <span class="o">=</span> <span class="p">[</span><span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDPERMITFLAG</span><span class="p">]</span> <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDPERMITFLAG</span> <span class="k">else</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>If it is middle of compounding process “the rest of the word is the whole last part” is always
+possible, so we should check it as a compound end</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="n">depth</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>For all valid ways that the rest of the word might be from dictionary (stem+affixes)…</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">for</span> <span class="n">form</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">affix_forms</span><span class="p">(</span><span class="n">word_rest</span><span class="p">,</span>
+                                         <span class="n">captype</span><span class="o">=</span><span class="n">captype</span><span class="p">,</span>
+                                         <span class="n">compoundpos</span><span class="o">=</span><span class="n">CompoundPos</span><span class="o">.</span><span class="n">END</span><span class="p">,</span>
+                                         <span class="n">prefix_flags</span><span class="o">=</span><span class="n">permitflags</span><span class="p">,</span>
+                                         <span class="n">forbidden_flags</span><span class="o">=</span><span class="n">forbidden_flags</span><span class="p">,</span>
+                                         <span class="n">allow_nosuggest</span><span class="o">=</span><span class="n">allow_nosuggest</span><span class="p">):</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>return it to the recursively calling method</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="k">yield</span> <span class="p">[</span><span class="n">form</span><span class="p">]</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Check compounding limitation (if the rest of the word is less than 2 allowed parts, or if
+the further compounding would produce more parts than allowed)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_rest</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDMIN</span> <span class="o">*</span> <span class="mi">2</span> <span class="ow">or</span> <span class="p">(</span><span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDWORDMAX</span> <span class="ow">and</span> <span class="n">depth</span> <span class="o">&gt;=</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDWORDMAX</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="n">compoundpos</span> <span class="o">=</span> <span class="n">CompoundPos</span><span class="o">.</span><span class="n">MIDDLE</span> <span class="k">if</span> <span class="n">depth</span> <span class="k">else</span> <span class="n">CompoundPos</span><span class="o">.</span><span class="n">BEGIN</span>
+        <span class="n">prefix_flags</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">compoundpos</span> <span class="o">==</span> <span class="n">CompoundPos</span><span class="o">.</span><span class="n">BEGIN</span> <span class="k">else</span> <span class="n">permitflags</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Now, check all possible split positions, considering allowed size of compound part.
+E.g. for COMPOUNDMIN=3, and word is “foobarbaz”, the checked possible start of the current
+chunk are [foo, foob, fooba, foobar]</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDMIN</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_rest</span><span class="p">)</span> <span class="o">-</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDMIN</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Split the word by this position</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="n">beg</span> <span class="o">=</span> <span class="n">word_rest</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">pos</span><span class="p">]</span>
+            <span class="n">rest</span> <span class="o">=</span> <span class="n">word_rest</span><span class="p">[</span><span class="n">pos</span><span class="p">:]</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>And for all possible ways it migh be a valid word…</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">for</span> <span class="n">form</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">affix_forms</span><span class="p">(</span><span class="n">beg</span><span class="p">,</span> <span class="n">captype</span><span class="o">=</span><span class="n">captype</span><span class="p">,</span> <span class="n">compoundpos</span><span class="o">=</span><span class="n">compoundpos</span><span class="p">,</span>
+                                         <span class="n">prefix_flags</span><span class="o">=</span><span class="n">prefix_flags</span><span class="p">,</span>
+                                         <span class="n">suffix_flags</span><span class="o">=</span><span class="n">permitflags</span><span class="p">,</span>
+                                         <span class="n">forbidden_flags</span><span class="o">=</span><span class="n">forbidden_flags</span><span class="p">,</span>
+                                         <span class="n">allow_nosuggest</span><span class="o">=</span><span class="n">allow_nosuggest</span><span class="p">):</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Recursively try to split the rest of the word (“the whole rest is compound end” also
+might be the result)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="k">for</span> <span class="n">others</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">compounds_by_flags</span><span class="p">(</span><span class="n">rest</span><span class="p">,</span> <span class="n">captype</span><span class="o">=</span><span class="n">captype</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+                                                      <span class="n">allow_nosuggest</span><span class="o">=</span><span class="n">allow_nosuggest</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="p">[</span><span class="n">form</span><span class="p">,</span> <span class="o">*</span><span class="n">others</span><span class="p">]</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Complication! If the affix has SIMPLIFIEDTRIPLE boolean setting, we must check the
+possibility that “foobbar” is actually consisting of “foobb” and “bar” (some language
+rules in this case require the third repeating letter to be dropped).</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">SIMPLIFIEDTRIPLE</span> <span class="ow">and</span> <span class="n">beg</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">rest</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="c1"># FIXME: for now, we only try duplicating the first word&#39;s letter</span>
+                <span class="k">for</span> <span class="n">form</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">affix_forms</span><span class="p">(</span><span class="n">beg</span> <span class="o">+</span> <span class="n">beg</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">captype</span><span class="o">=</span><span class="n">captype</span><span class="p">,</span> <span class="n">compoundpos</span><span class="o">=</span><span class="n">compoundpos</span><span class="p">,</span>
+                                             <span class="n">prefix_flags</span><span class="o">=</span><span class="n">prefix_flags</span><span class="p">,</span>
+                                             <span class="n">suffix_flags</span><span class="o">=</span><span class="n">permitflags</span><span class="p">,</span>
+                                             <span class="n">forbidden_flags</span><span class="o">=</span><span class="n">forbidden_flags</span><span class="p">,</span>
+                                             <span class="n">allow_nosuggest</span><span class="o">=</span><span class="n">allow_nosuggest</span><span class="p">):</span>
+                    <span class="k">for</span> <span class="n">others</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">compounds_by_flags</span><span class="p">(</span><span class="n">rest</span><span class="p">,</span> <span class="n">captype</span><span class="o">=</span><span class="n">captype</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="n">depth</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span>
+                                                          <span class="n">allow_nosuggest</span><span class="o">=</span><span class="n">allow_nosuggest</span><span class="p">):</span>
+                        <span class="k">yield</span> <span class="p">[</span><span class="n">form</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">beg</span><span class="p">),</span> <span class="o">*</span><span class="n">others</span><span class="p">]</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Different way of producing compound words: by rules, looking like <code class="docutils literal notranslate"><span class="pre">A*BC?CD</span></code>, where A, B, C, D
+are flags the word might have, and <code class="docutils literal notranslate"><span class="pre">*?</span></code> have the same meaning as in regular expressions.</p>
+<p>In this way, we start by finding rules that partially match the word parts at the beginning,
+and then recursively split the rest of the word, limiting rules to those still partially matching
+current set of words.</p>
+<p>Most of the magic happens in CompoundRule</p>
+</td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">compounds_by_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                           <span class="n">word_rest</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                           <span class="n">prev_parts</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">dic</span><span class="o">.</span><span class="n">Word</span><span class="p">]</span> <span class="o">=</span> <span class="p">[],</span>
+                           <span class="n">rules</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">CompoundRule</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                           <span class="n">allow_nosuggest</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">CompoundForm</span><span class="p">]:</span>  <span class="c1"># pylint: disable=unused-argument</span>
+
+        <span class="n">aff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>initial run</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="n">rules</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>We start with all known rules</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="n">rules</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDRULE</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="c1"># FIXME: ignores flags like FORBIDDENWORD and nosuggest</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>If it is middle of compounding process “the rest of the word is the whole last part” is always
+possible</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="n">prev_parts</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">homonym</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dic</span><span class="o">.</span><span class="n">homonyms</span><span class="p">(</span><span class="n">word_rest</span><span class="p">):</span>
+                <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">prev_parts</span><span class="p">,</span> <span class="n">homonym</span><span class="p">]</span>
+                <span class="n">flag_sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">flags</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">]</span>
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">flag_sets</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">):</span>
+                    <span class="k">yield</span> <span class="p">[</span><span class="n">AffixForm</span><span class="p">(</span><span class="n">word_rest</span><span class="p">,</span> <span class="n">word_rest</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_rest</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDMIN</span> <span class="o">*</span> <span class="mi">2</span> <span class="ow">or</span> \
+                <span class="p">(</span><span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDWORDMAX</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">prev_parts</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDWORDMAX</span><span class="p">):</span>
+            <span class="k">return</span>
+
+        <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDMIN</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">word_rest</span><span class="p">)</span> <span class="o">-</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDMIN</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">beg</span> <span class="o">=</span> <span class="n">word_rest</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">pos</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">homonym</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dic</span><span class="o">.</span><span class="n">homonyms</span><span class="p">(</span><span class="n">beg</span><span class="p">):</span>
+                <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">prev_parts</span><span class="p">,</span> <span class="n">homonym</span><span class="p">]</span>
+                <span class="n">flag_sets</span> <span class="o">=</span> <span class="p">[</span><span class="n">w</span><span class="o">.</span><span class="n">flags</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">parts</span><span class="p">]</span>
+                <span class="n">compoundrules</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">rules</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">partial_match</span><span class="p">(</span><span class="n">flag_sets</span><span class="p">)]</span>
+                <span class="k">if</span> <span class="n">compoundrules</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">rest</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">compounds_by_rules</span><span class="p">(</span><span class="n">word_rest</span><span class="p">[</span><span class="n">pos</span><span class="p">:],</span> <span class="n">rules</span><span class="o">=</span><span class="n">compoundrules</span><span class="p">,</span> <span class="n">prev_parts</span><span class="o">=</span><span class="n">parts</span><span class="p">):</span>
+                        <span class="k">yield</span> <span class="p">[</span><span class="n">AffixForm</span><span class="p">(</span><span class="n">beg</span><span class="p">,</span> <span class="n">beg</span><span class="p">),</span> <span class="o">*</span><span class="n">rest</span><span class="p">]</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>After the hypothesis “this word is compound word, consisting of those parts” is produced, even
+if all the parts have appropriate flags (e.g. allowed to be in compound), there still could
+be some settings</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">is_bad_compound</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">compound</span><span class="p">:</span> <span class="n">CompoundForm</span><span class="p">,</span> <span class="n">captype</span><span class="p">:</span> <span class="n">CapType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="n">aff</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aff</span>
+
+        <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">FORCEUCASE</span> <span class="ow">and</span> <span class="n">captype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">CapType</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="n">CapType</span><span class="o">.</span><span class="n">INIT</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dic</span><span class="o">.</span><span class="n">has_flag</span><span class="p">(</span><span class="n">compound</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="n">aff</span><span class="o">.</span><span class="n">FORCEUCASE</span><span class="p">):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Now we check all adjacent pairs in the compound parts</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">left_paradigm</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">compound</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="n">left_paradigm</span><span class="o">.</span><span class="n">text</span>
+            <span class="n">right_paradigm</span> <span class="o">=</span> <span class="n">compound</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="n">right_paradigm</span><span class="o">.</span><span class="n">text</span>
+
+            <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDFORBIDFLAG</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>We don’t check right: compoundforbid prohibits words at the beginning and middle</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="c1"># TODO: Check?</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dic</span><span class="o">.</span><span class="n">has_flag</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">aff</span><span class="o">.</span><span class="n">COMPOUNDFORBIDFLAG</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>If “foo bar” is present as a _singular_ dictionary entry, compound word containing
+“(foo)(bar)” parts is not correct.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">affix_forms</span><span class="p">(</span><span class="n">left</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">right</span><span class="p">,</span> <span class="n">captype</span><span class="o">=</span><span class="n">captype</span><span class="p">)):</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+            <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">CHECKCOMPOUNDREP</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CHECKCOMPOUNDREP setting tells:
+If REP-table (suggesting simple char replacements) is present, and any of the
+replacements produces valid affix form, the compound can’t contain that.</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="c1"># FIXME: Or is it valid only for the whole &quot;foobar&quot; compound?..</span>
+                <span class="k">for</span> <span class="n">candidate</span> <span class="ow">in</span> <span class="n">pmt</span><span class="o">.</span><span class="n">replchars</span><span class="p">(</span><span class="n">left</span> <span class="o">+</span> <span class="n">right</span><span class="p">,</span> <span class="n">aff</span><span class="o">.</span><span class="n">REP</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">candidate</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">affix_forms</span><span class="p">(</span><span class="n">candidate</span><span class="p">,</span> <span class="n">captype</span><span class="o">=</span><span class="n">captype</span><span class="p">)):</span>
+                        <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">CHECKCOMPOUNDTRIPLE</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CHECKCOMPOUNDTRIPLE setting tells, that if there is triplificatioin of some letter
+on the bound of two parts (like “foobb” + “bar”), it is not correct compound word</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">+</span> <span class="n">right</span><span class="p">[:</span><span class="mi">1</span><span class="p">]))</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">left</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">right</span><span class="p">[:</span><span class="mi">2</span><span class="p">]))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">CHECKCOMPOUNDCASE</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>CHECKCOMPOUNDCASE prohibits capitalized letters on the bound of compound parts</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="n">right_c</span> <span class="o">=</span> <span class="n">right</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">left_c</span> <span class="o">=</span> <span class="n">left</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">right_c</span> <span class="o">==</span> <span class="n">right_c</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="ow">or</span> <span class="n">left_c</span> <span class="o">==</span> <span class="n">left_c</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span> <span class="ow">and</span> <span class="n">right_c</span> <span class="o">!=</span> <span class="s1">&#39;-&#39;</span> <span class="ow">and</span> <span class="n">left_c</span> <span class="o">!=</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">CHECKCOMPOUNDPATTERN</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>compound patterns is special micro-language to mark pairs of words that can’t be
+adjacent parts of compound (by their content or flags)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">left_paradigm</span><span class="p">,</span> <span class="n">right_paradigm</span><span class="p">)</span> <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">aff</span><span class="o">.</span><span class="n">CHECKCOMPOUNDPATTERN</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="k">if</span> <span class="n">aff</span><span class="o">.</span><span class="n">CHECKCOMPOUNDDUP</span><span class="p">:</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>duplication only forbidden at the end (TODO: check, that’s what I guess from test)</p></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>                <span class="k">if</span> <span class="n">left</span> <span class="o">==</span> <span class="n">right</span> <span class="ow">and</span> <span class="n">idx</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">compound</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+
+
+          </div>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+  </body>
+</html>

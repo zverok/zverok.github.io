@@ -1,0 +1,26 @@
+/* This file intentionally left blank. */
+
+td:nth-child(2) {
+  background-color: #eee;
+}
+
+td {
+  vertical-align: top;
+  border-bottom-width: 0 !important;
+}
+
+td:nth-child(2) pre {
+  width: 675px !important;
+}
+
+td:nth-child(1) pre {
+  width: 275px !important;
+}
+
+pre {
+  font-size: 13px;
+}
+
+div[class*="highlight-"] {
+  margin: 0;
+}
