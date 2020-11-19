@@ -8,7 +8,8 @@ See also my [public appearances and contributions](/public.html) page.
 
 ## Developed Software at
 
-* Since Nov 2017: Verbit.ai;
+* Since Oct 2020: Hubstaff;
+* Nov 2017-Oct 2020: Verbit.ai;
 * May 2016-Oct 2017: Toptal;
 * 2009-Apr 2016: BrandSpotter.ru (including CTO responsibilities);
 * Before 2009: own (non-public) full-cycle business software suite for small hardware store (accounting, invoicing, intellectual analysis of incoming data, CRM and so on); computer journalist for Computerra.ru, and a lot of other stuff.
@@ -19,7 +20,7 @@ See also my [public appearances and contributions](/public.html) page.
 * Rails since 2016, including participation in architecture for large Rails apps with DDD-like decoupling;
 * Huge fan of BDD with RSpec and documenting the code, developed tools for both;
 * Main development interests: tools for developers, information extraction, wrapping external libraries and APIs;
-* Other languages: deep, yet outdated, C++ knowledge; wrote some production code in Python, PHP, VBA (for Excel, don't laugh); had a hand or at least curious eye on tens of others; lately, some Rust;
+* Other languages: deep, yet outdated, C++ knowledge; wrote some production code in Python, PHP, VBA (for Excel, don't laugh); had a hand or at least curious eye on tens of others; lately, some Rust and more Python;
 * Storage technologies: MySQL, PostgreSQL, SQLite, Redis, Mongo, ElasticSearch, a bit of Cassandra;
 * No fear of database design, normalization, and denormalization (and making decisions between them), though, far from DBA level;
 * Have done a lot of things with AMQP (RabbitMQ);

@@ -7,7 +7,7 @@ layout: default
 Hi.
 
 I am Victor Shepelev (aka "zverok"), Ruby programmer and also poet.
-I live in Kharkiv, Ukraine* and work for [Verbit.ai](https://verbit.ai).
+I live in Kharkiv, Ukraine* and work for [Hubstaff](https://hubstaff.com).
 
 <small>* If, by chance, you care about actual politics, I am pro-[Euromaidan](http://en.wikipedia.org/wiki/Euromaidan) and pro-Ukrainian, despite what you may have been told about citizens of Eastern Ukraine. In fact, most of us kharkivites are.</small>
 
