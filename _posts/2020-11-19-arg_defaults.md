@@ -37,14 +37,14 @@ read_data
 # ^^ isn't it nice?..
 ```
 
-Of course, it is not _that_ useful with simple method with one argument, but for complicated APIs with several keyword args, it might be of some use. But what I was pleasantly suprised with is how simple it is—and that it works.
+Of course, it is not _that_ useful with a simple method with one argument, but for complicated APIs with several keyword args, it might be of some use. But what I was pleasantly surprised with is how simple it is—and that it works.
 
 ## How it works?
 
-The `argument = raise(...)` is not some separate Ruby feature, but it is a natural consequences of two facts:
+The `argument = raise(...)` is not some separate Ruby feature, but it is a natural consequence of two facts:
 
-1. You can put any Ruby expression as argument's default value, and it will be evaluated in the same context as method's body, on each method call (when the argument is not provided)
-2. `raise` is [just a method](https://docs.ruby-lang.org/en/2.7.0/Kernel.html#method-i-raise), not some special syntax, and as any other method call, it is an expresion and can be put as an argument's default value.
+1. You can put any Ruby expression as the argument's default value, and it will be evaluated in the same context as the method's body, on each method call (when the argument is not provided)
+2. `raise` is [just a method](https://docs.ruby-lang.org/en/2.7.0/Kernel.html#method-i-raise), not some special syntax, and like any other method call, it is an expression and can be put as an argument's default value.
 
 ## "Any expression"? Really?
 
@@ -70,7 +70,7 @@ read_data
 #  Reading evening.txt
 ```
 
-As was already said above, the context of evaluation is the same as for method body, and all default values are evaluated sequentally, so you can do this (and probably shouldn't!):
+As was already said above, the context of evaluation is the same as for method body, and all default values are evaluated sequentially, so you can do this (and probably shouldn't!):
 
 ```ruby
 class ArgsTracker
@@ -101,7 +101,7 @@ Cool. Ugly, but cool.
 
 ## How is this useful?
 
-The fact that default values are calculated on each call, and in the context of called class, have some simple and useful consequences. Probably you already seen and used some of them:
+The fact that default values are calculated on each call, and in the context of called class, have some simple and useful consequences. Probably you already have seen and used some of them:
 
 ```ruby
 def log(something, at: Time.now) # will be calculated at each call of log, when alternative at: is not provided
@@ -120,7 +120,7 @@ class A
   private
 
   def default_order
-    # some complicated calculation, depending on object's state
+    # some complicated calculation, depending on the object's state
   end
 end
 ```
@@ -151,6 +151,6 @@ some_method
 
 One might also imagine my initial example (with `fail`) extended for some _very friendly_ API to use like `fun(arg: friendly_fail(:arg))`, which fetches large explanatory string from constant/`i18n` config, enriches it with calling context (like, "if caller contains _this_, we are saying `this shouldn't be called from <framework>`") and raises Very Friendly Exception.
 
-Not you _should_ do something like this anytime soon, but rather "it is interesting you can, and probably some day you'd like to try".
+Not you _should_ do something like this anytime soon, but rather "it is interesting that you can, and probably someday you'd like to try".
 
 Have fun!
