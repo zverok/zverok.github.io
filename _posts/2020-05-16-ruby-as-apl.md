@@ -170,7 +170,7 @@ So, comparing with each number separately will give us...
 puts current_gen.wrap
   .product(AA[-1, 0, 1], &:hrotate)
   .product(AA[-1, 0, 1], &:vrotate)
-  .reduce(&:+).reduce(&:+)
+  .flatten(1).reduce(&:+)
   .eq(3)
 # ┌─────────┐
 # │0 0 0 0 0│
