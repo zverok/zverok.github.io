@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Recreating the most popular spellchecker. Part 1"
+title:  "Rebuilding the most popular spellchecker. Part 1"
 date:   2021-01-05
 categories: python spellchecker
 comments: true
