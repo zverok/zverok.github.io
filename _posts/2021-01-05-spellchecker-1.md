@@ -72,4 +72,4 @@ Currently, [Spylls](https://github.com/zverok/spylls) has **≈1.5k lines of lib
 
 With this being said, I am wrapping up the introductory post.
 
-**In the next series: An introduction to Hunspell's "lookup" and "suggest" concepts; and deeper dive into the lookup.**
+**In the [next series](2021-01-09-spellchecker-2.html): An introduction to Hunspell's "lookup" and "suggest" concepts; and deeper dive into the lookup.**
