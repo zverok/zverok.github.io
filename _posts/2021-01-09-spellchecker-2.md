@@ -95,4 +95,4 @@ Performance-wise, for each word correctness check, there could be many lookups t
 
 And once you tackle the affixes problem, it is all uphill from there!
 
-**Stay tuned for the next installment about the Hunspell lookup, where we'll cover word compounding problem, and some other important edge cases of the word correctness check.** Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](/subscribe.html) if you don't want to miss the follow-up!
+**Stay tuned for the next installment about the Hunspell lookup, where [we cover](2021-01-14-spellchecker-3.html) word compounding problem, and some other important edge cases of the word correctness check.** Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](/subscribe.html) if you don't want to miss the follow-up!

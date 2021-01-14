@@ -6,7 +6,7 @@ permalink: /subscribe.html
 
 Mailing list is started in 2021, because it is 2021 and everybody needs one!
 
-I plan to send to mailing list subscribes each blog entry a day before it is published on the blog and on social media. The expected frequency of emails is:
+I plan to send to mailing list subscribes annotation and link to each blog entry a day before it is announced on social media. The expected frequency of emails is:
 
 * When there is an ongoing series (like, right now, January 2021, I am working on "Rebuilding the spellchecker" series): once in a few days;
 * Other periods: once in a few weeks.
