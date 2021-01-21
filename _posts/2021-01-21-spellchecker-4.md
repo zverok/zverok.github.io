@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Rebuilding the spellchecker, pt.4: How to suggest?"
+title:  "Rebuilding the spellchecker, pt.4: Introduction to suggest algorithm"
 date:   2021-01-21
 categories: python spellchecker
 comments: true
