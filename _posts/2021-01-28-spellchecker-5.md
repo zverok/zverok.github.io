@@ -234,4 +234,4 @@ print(*english.suggester.suggestions("londun"))
 
 PS: Let me know your opinion on code examples: are they making the reading easier and more fun, or hard and tiresome? Should we have them in the next series?
 
-PPS: As usual, this post would be four times more cumbersome (and would have a much more boring title) without the precious help of [@squadette](https://twitter.com/squadette), my faithful editor.
+> PPS: As usual, this post would be four times more cumbersome (and would have a much more boring title) without the precious help of [@squadette](https://twitter.com/squadette), my faithful editor.
