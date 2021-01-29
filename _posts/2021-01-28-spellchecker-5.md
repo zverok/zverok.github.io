@@ -10,7 +10,7 @@ comments: true
 
 Today, we talk about **edit-based suggestions.**
 
-**Quick recap**: **[The first part](2021-01-05-spellchecker-1.html)** described what Hunspell is; and why I decided to rewrite it in Python. In **[the second](2021-01-09-spellchecker-2.html)** and **[the third](2021-01-14-spellchecker-3.html)** parts, we've talked about **lookup**: checking the word's correctness.
+**Quick recap**: **[The first part](2021-01-05-spellchecker-1.html)** described what Hunspell is; and why I decided to [rewrite it in Python](https://github.com/zverok/spylls). In **[the second](2021-01-09-spellchecker-2.html)** and **[the third](2021-01-14-spellchecker-3.html)** parts, we've talked about **lookup**: checking the word's correctness.
 
 **[The fourth part](https://zverok.github.io/blog/2021-01-21-spellchecker-4.html)** introduced **suggest**, an algorithm for search for corrections. We described that Hunspell performs suggest in two main stages:
 
