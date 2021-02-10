@@ -6,7 +6,7 @@ categories: python spellchecker
 comments: true
 ---
 
-**_This is the second part of the "Rebuilding the spellchecker" series, dedicated to the explanation of how the world's most popular spellchecker Hunspell works._**
+**_This is the second part of the ["Rebuilding the spellchecker"](/spellchecker.html) series, dedicated to the explanation of how the world's most popular spellchecker Hunspell works._**
 
 **Quick recap:** [In the first part](2021-01-05-spellchecker-1.html), I've described what Hunspell is; and why I decided to rewrite it in Python. It is an **explanatory rewrite** dedicated to uncovering the knowledge behind the Hunspell by "translating" it into a high-level language, with a lot of comments.
 

@@ -6,7 +6,7 @@ categories: python spellchecker
 comments: true
 ---
 
-**_This is the fifth part of the "Rebuilding the spellchecker" series, dedicated to explaining how the world's most popular spellchecker Hunspell works._**
+**_This is the fifth part of the ["Rebuilding the spellchecker"](/spellchecker.html) series, dedicated to explaining how the world's most popular spellchecker Hunspell works._**
 
 Today, we talk about **edit-based suggestions.**
 
@@ -230,7 +230,7 @@ print(*english.suggester.suggestions("londun"))
 #            ^^^^^
 ```
 
-**Ngram-base suggestion would be the theme of the next chapter.** Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](/subscribe.html) if you don't want to miss the follow-up!
+**Ngram-base suggestion would be the [theme of the next chapter](2021-02-10-spellchecker-6.html).** Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](/subscribe.html) if you don't want to miss the follow-up!
 
 PS: Let me know your opinion on code examples: are they making the reading easier and more fun, or hard and tiresome? Should we have them in the next series?
 

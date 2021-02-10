@@ -10,7 +10,7 @@ I write [in Ruby](/public.html), and [about Ruby](/blog/), and [contribute](http
 
 ## Featured content from blog
 
-* **Ongoing "Rebuilding the spellchecker" series**, about the project of explanatory rewrite of the most popular spellchecker in Python: **[Start from here](/blog/2021-01-05-spellchecker-1.html)**.
+* **Ongoing ["Rebuilding the spellchecker"](/spellchecker.html) series**, about the project of explanatory rewrite of the most popular spellchecker in Python: **[Start from here](/blog/2021-01-05-spellchecker-1.html)**.
 * [Game of Life in one Ruby statement... inspired by APL](/blog/2020-05-16-ruby-as-apl.html)
 * [On sustainable testing](/blog/2017-11-07-on-culture-of-bdd.html)
 * [Please stop calling it "magic"](/blog/2017-10-22-stop-magic.html)

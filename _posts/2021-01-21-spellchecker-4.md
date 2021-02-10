@@ -6,7 +6,7 @@ categories: python spellchecker
 comments: true
 ---
 
-**_This is the fourth part of the "Rebuilding the spellchecker" series, dedicated to explaining how the world's most popular spellchecker Hunspell works._**
+**_This is the fourth part of the ["Rebuilding the spellchecker"](/spellchecker.html) series, dedicated to explaining how the world's most popular spellchecker Hunspell works._**
 
 Today's topic is **suggest**!
 

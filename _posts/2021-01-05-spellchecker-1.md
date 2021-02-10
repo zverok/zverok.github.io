@@ -8,6 +8,8 @@ comments: true
 
 ## How I decided to write a spellchecker and almost died trying
 
+**[TOC for the entire series](/spellchecker.html)** (work in progress).
+
 A few years ago I had a fun idea for a "weekend project": pure-Ruby spellchecker. Ruby is my language of choice, and no-dependencies spellchecker seemed a small useful tool for the CI environment: for example, to check comments/docs spelling without installing any third-party software. I actually _could've_ pulled out the project in its limited scope (only English, only spot misspelled words without fixing, limited dictionary) with just a flat list of known words, but that's not what happened.
 
 Back then, I decided to make a moderately generic tool, at least able to work with multiple languages. Fortunately (or so I believed!), there were many already existing and freely available spellchecking dictionaries distributed as LibreOffice and Firefox extensions. All of those dictionaries are in the format defined by the **[Hunspell](http://hunspell.github.io/)** tool/library—which is an open-source library that is used for spellchecking in Libre/OpenOffice, Mozilla products (Firefox, Thunderbird), but also Google Chrome/Chromium, macOS, several Adobe products, and so on.
