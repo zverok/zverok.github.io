@@ -12,3 +12,4 @@ permalink: /spellchecker.html
 * [Introduction to suggest algorithm](/blog/2021-01-21-spellchecker-4.html)
 * ["Hunspell and the order of edits"](/blog/2021-01-28-spellchecker-5.html): Edit-based suggest
 * ["Well, akchualy..."](/blog/2021-02-10-spellchecker-6.html): Search for similar words suggest
+* ["17 (ever so slightly) weird facts about most popular dictionary format"](/blog/2021-03-16-spellchecking-dictionaries.html)
