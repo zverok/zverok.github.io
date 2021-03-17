@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "17 (ever so slightly) weird facts about most popular dictionary format"
+title:  "17 (ever so slightly) weird facts about the most popular dictionary format"
 date:   2021-03-16
 categories: python spellchecker
 comments: true
