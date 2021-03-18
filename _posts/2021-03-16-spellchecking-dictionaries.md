@@ -203,7 +203,7 @@ In the Slovak dictionary, we can find:
 ```
 kat/C po:noun is:masculine
 ```
-Meaning: "Cat: part of speech noun, masculine grammatical gender".
+Meaning: "Kat _(executioner)_: part of speech noun, masculine grammatical gender".
 
 Oh, and affixes can have, too:
 
@@ -211,7 +211,7 @@ Oh, and affixes can have, too:
 SFX C 0 a [^céior] is:genitive
 ```
 
-Meaning that, for example, "kata" ("cat" with suffix "a") is a word in a genitive case.
+Meaning that, for example, "kata" ("executioner" with suffix "a") is a word in a genitive case.
 
 Only five dictionaries contain such information: Breton, Galician, Icelandic, Lithuanian, and Slovak. My guess is languages with fewer users have their dictionaries prepared by professional linguists, while more common languages dictionaries are authored by IT people.
 
