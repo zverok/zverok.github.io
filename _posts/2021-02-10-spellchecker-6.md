@@ -159,6 +159,6 @@ Let's zoom out a little and see what we now know about implementing the suggesti
 * Phonetical similarity **is** important for suggestion search but is virtually unused by the Hunspell.
 
 Together with word lookup description (["Just look in the dictionary, they said!
-"](https://zverok.github.io/blog/2021-01-09-spellchecker-2.html), ["Compounds and solutions"](https://zverok.github.io/blog/2021-01-09-spellchecker-2.html)), this covers most of the Hunspell's core algorithms. The quality of spellchecking is defined by these algorithms and **how the dictionaries are built and maintained**—which, as everything about Hunspell, is a problem with a ton of nuances, edge cases, and unfortunate implementation details. **We'll see it in the next chapter.**
+"](https://zverok.github.io/blog/2021-01-09-spellchecker-2.html), ["Compounds and solutions"](https://zverok.github.io/blog/2021-01-09-spellchecker-2.html)), this covers most of the Hunspell's core algorithms. The quality of spellchecking is defined by these algorithms and **how the dictionaries are built and maintained**—which, as everything about Hunspell, is a problem with a ton of nuances, edge cases, and unfortunate implementation details. **We'll see it in the [next chapter](/blog/2021-03-16-spellchecking-dictionaries.html).**
 
 Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](/subscribe.html) if you don't want to miss the follow-up!
