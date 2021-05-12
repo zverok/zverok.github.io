@@ -18,7 +18,7 @@ Thus, **Hunspell dictionaries are the most common open dictionaries format**; th
 
 A dictionary for each language consists of two human-readable text files (more on that below).  Some dictionaries are developed in the open, and you could find those files in Github or some other source repository.  It's relatively easy to find and fix the issues in such dictionaries.
 
-However, dictionaries are usually packaged for distribution as software-specific packages: .xpi for Mozilla, .odt of LibreOffice, .deb for Debian/Ubuntu.  Those are ZIP files with a different file extension and some additional meta-information inside.
+However, dictionaries are usually packaged for distribution as software-specific packages: .xpi for Mozilla, .oxt of LibreOffice, .deb for Debian/Ubuntu.  Those are ZIP files with a different file extension and some additional meta-information inside.
 
 If your dictionary is only available as a package and you want to make some changes, you would have to unpack them or find the original source.
 
