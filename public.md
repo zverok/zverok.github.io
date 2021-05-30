@@ -6,8 +6,6 @@ permalink: /public.html
 
 <a class="github-button" href="https://github.com/zverok" data-size="large" aria-label="Follow @zverok on GitHub">Follow @zverok</a>
 
-<a href="https://www.patreon.com/bePatron?u=4691811" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
-
 ## Docs for Ruby
 
 * [Ruby Reference](https://rubyreferences.github.io/rubyref/) is an _always actual_ current Ruby version reference, compiled from official docs and other stuff in a readable e-book format;
