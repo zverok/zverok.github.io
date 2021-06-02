@@ -34,7 +34,7 @@ I write [in Ruby](/public.html), and [about Ruby](/blog/), and [contribute](http
 * [Ruby Changes](https://rubyreferences.github.io/rubychanges/) is full changelog of recent Ruby (2.4—3.0 at the moment), with full context and example for each and every change.
 * [molybdenum-99](https://github.com/molybdenum-99) project: developing a set of libraries to represent real-world data in Ruby:
   * [reality](https://github.com/molybdenum-99/reality) -- Most hi-level gem of the project, representing all world's data as Ruby entities;
-* [the_schema_is](https://github.com/zverok/the_schema_is) -- Rails DSL for model annotation with DB schema, done righ;
+* [the_schema_is](https://github.com/zverok/the_schema_is) -- Rails DSL for model annotation with DB schema, done right;
 * [saharspec](https://github.com/zverok/saharspec) -- a set of RSpec addons for DRY-er specs;
 * [time_calc](https://github.com/zverok/time_calc) -- Simple time arithmetics in a modern, readable, idiomatic, no-"magic" Ruby;
 * [whatthegem](https://github.com/zverok/whatthegem) -- information about any Ruby gem in your terminal: general information, usage examples, popularity stats, changes and more;
