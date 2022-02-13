@@ -11,7 +11,7 @@ permalink: /projects/
 
 ## Ruby {#ruby}
 
-I am an active contributor to Ruby programming language. My main interests are increasing naturality/expressiveness, and friendliness of the language for the newcomers.
+I am an active contributor to Ruby programming language. My main interests are making the language more naturally expressive, and more friendly for the newcomers.
 
 * [List of my contributions to the language itself](/ruby.html): documentation, and some features mostly on idea level, like `Kernel#then`, beginless ranges, `Enumerator#produce` etc.
 * [Ruby Changes](https://rubyreferences.github.io/rubychanges/) is full changelog of recent Ruby (2.4—3.1 at the moment), with full context and example for each and every change.
@@ -19,11 +19,11 @@ I am an active contributor to Ruby programming language. My main interests are i
 
 ## Common world knowledge API {#wikipedia_ql}
 
-Since 2016, I am experimenting with possibilities to make common open knowledge easiy accessible from scripting languages.
+Since 2016, I am experimenting with possibilities to make common open knowledge easily accessible from scripting languages.
 
 Current ongoing effort is focusing on a **Python library [WikipediaQL](https://github.com/zverok/wikipedia_ql)**.
 
-Before that, I developed a set of Ruby libraries, also mostly based on Wikipedia/Wikidata (with some sprinkles of OpenStreetMap and other services). The whole effort was named **[molybdenum-99](https://github.com/molybdenum-99)** (as a pun on Wolfram language which was the big inspiration), and peeked in [reality](https://github.com/molybdenum-99/reality)—the most hi-level gem of the project, representing all world's data as Ruby entities. Beneath it, mutiple libraries were developed:
+Before that, I developed a set of Ruby libraries, also mostly based on Wikipedia/Wikidata (with some sprinkles of OpenStreetMap and other services). The whole effort was named **[molybdenum-99](https://github.com/molybdenum-99)** (as a pun on Wolfram language which was the big inspiration), and peeked in [reality](https://github.com/molybdenum-99/reality)—the most hi-level gem of the project, representing all world's data as Ruby entities. Beneath it, multiple libraries were developed:
 
 * [infoboxer](https://github.com/molybdenum-99/infoboxer): Wikipedia client and parser, targeting data extraction;
 * [mediawiktory](https://github.com/molybdenum-99/mediawiktory): low-level MediaWiki API client that just works;
@@ -43,7 +43,7 @@ I documented the journey to do this and my discoveries in [a series of posts](/s
 ## Ruby libraries
 
 * Experimenting on Ruby edges:
-  * [time_calc](https://github.com/zverok/time_calc) -- Simple time arithmetics in a modern, readable, idiomatic, no-"magic" Ruby (previous approach to the problem: [time_math2](https://github.com/zverok/time_math2));
+  * [time_calc](https://github.com/zverok/time_calc) -- Simple time arithmetic in a modern, readable, idiomatic, no-"magic" Ruby (previous approach to the problem: [time_math2](https://github.com/zverok/time_math2));
   * [sho](https://github.com/zverok/sho) -- "post-framework" views library.
   * [hm](https://github.com/zverok/hm) -- idiomatic nested hash transformations;
   * [delegates](https://github.com/zverok/delegates) -- `delegate :methods, to: :target`, extracted from ActiveSupport;
@@ -62,6 +62,6 @@ I documented the journey to do this and my discoveries in [a series of posts](/s
 
 * [Grok {Shan, Shui}\*: Advent of understanding the generative art](/blog/2021-12-28-grok-shan-shui.html)
 * [Game of Life in one Ruby statement... inspired by APL](/blog/2020-05-16-ruby-as-apl.html)
-* [worldize](https://github.com/zverok/worldize) -- simple coloured countries stats drawing with RMagick;
-* [magic_cloud](http://github.com/zverok/magic_cloud) -- pretty Wordle-like wordcloud in pure Ruby;
+* [worldize](https://github.com/zverok/worldize) -- simple colored countries stats drawing with RMagick;
+* [magic_cloud](http://github.com/zverok/magic_cloud) -- pretty wordcloud in pure Ruby, done a long time ago;
 * [xkcdize](https://github.com/zverok/xkcdize) and [drosterize](https://github.com/zverok/drosterize) -- experiments on converting some "cool" image-processing tricks from Wolfram Language (Mathematica) to Ruby + RMagick;

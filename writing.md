@@ -12,7 +12,7 @@ permalink: /writing/
 
 **Gaining architectural insight from looking at code as text**
 
-The main topic of the book is looking into the ways of code writing that allow creating lucid code. Lucid code conveys its intention and means in the most humane ways possible. I’ll be exploring the ways of thinking that Ruby programming language, “designed for developer’s happiness” teaches, and how paying attention to singular (code) phrases allow one to write better.
+The main topic of the book is looking into the ways of code writing that allow creating lucid code. Lucid code conveys its intention and means in the most humane ways possible. I'll be exploring the ways of thinking that Ruby programming language, "designed for developer's happiness" teaches, and how paying attention to singular (code) phrases allow one to write better.
 
 <iframe src="https://rubyintuitions.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
 
