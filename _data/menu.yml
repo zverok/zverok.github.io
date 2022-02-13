@@ -1,0 +1,10 @@
+---
+pages:
+- title: Writing
+  path: '/writing/'
+- title: Projects
+  path: '/projects/'
+- title: Talks
+  path: '/talks/'
+- title: About me
+  path: '/about/'
