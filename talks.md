@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Talks and Conferences
-permalink: /talks.html
+permalink: /talks/
 ---
 
 * Gimme TOC
