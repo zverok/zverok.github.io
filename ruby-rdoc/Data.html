@@ -116,8 +116,8 @@
 <span class="ruby-comment">#=&gt; #&lt;data Measure amount=10, unit=&quot;mPh&quot;&gt;</span>
 
 <span class="ruby-comment"># Works with keyword arguments, too:</span>
-<span class="ruby-identifier">area</span> = <span class="ruby-constant">Measure</span>[<span class="ruby-value">amount:</span> <span class="ruby-value">1.5</span>, <span class="ruby-value">unit:</span> <span class="ruby-string">&#39;m²&#39;</span>]
-<span class="ruby-comment">#=&gt; #&lt;data Measure amount=1.5, unit=&quot;m²&quot;&gt;</span>
+<span class="ruby-identifier">area</span> = <span class="ruby-constant">Measure</span>[<span class="ruby-value">amount:</span> <span class="ruby-value">1.5</span>, <span class="ruby-value">unit:</span> <span class="ruby-string">&#39;m^2&#39;</span>]
+<span class="ruby-comment">#=&gt; #&lt;data Measure amount=1.5, unit=&quot;m^2&quot;&gt;</span>
 
 <span class="ruby-comment"># Argument accessors are provided:</span>
 <span class="ruby-identifier">distance</span>.<span class="ruby-identifier">amount</span> <span class="ruby-comment">#=&gt; 100</span>
@@ -197,12 +197,6 @@
 <span class="ruby-comment">#=&gt; Measure</span>
 <span class="ruby-constant">Measure</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">1</span>, <span class="ruby-string">&#39;km&#39;</span>)
 <span class="ruby-comment">#=&gt; #&lt;data Measure amount=1, unit=&quot;km&quot;&gt;</span>
-
-<span class="ruby-comment"># If you provide a name, the constant will be defined under Data</span>
-<span class="ruby-constant">Data</span>.<span class="ruby-identifier">define</span>(<span class="ruby-string">&#39;Measure&#39;</span>, <span class="ruby-value">:amount</span>, <span class="ruby-value">:unit</span>)
-<span class="ruby-comment">#=&gt; Data::Measure</span>
-<span class="ruby-constant">Data</span><span class="ruby-operator">::</span><span class="ruby-constant">Measure</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">1</span>, <span class="ruby-string">&#39;km&#39;</span>)
-<span class="ruby-comment">#=&gt; #&lt;data Data::Measure amount=1, unit=&quot;km&quot;&gt;</span>
 </pre>
 
 <p>Note that member-less Data is acceptable and might be a useful technique for defining several homogenous data classes, like</p>
@@ -234,7 +228,37 @@
             <pre>static VALUE
 rb_data_s_def(int argc, VALUE *argv, VALUE klass)
 {
-    return define_struct(argc, argv, klass, true);
+    VALUE rest;
+    long i;
+    VALUE data_class;
+    st_table *tbl;
+
+    argc = rb_scan_args(argc, argv, &quot;*&quot;, NULL);
+
+    rest = rb_ident_hash_new();
+    RBASIC_CLEAR_CLASS(rest);
+    OBJ_WB_UNPROTECT(rest);
+    tbl = RHASH_TBL_RAW(rest);
+    for (i=0; i&lt;argc; i++) {
+        VALUE mem = rb_to_symbol(argv[i]);
+        if (rb_is_attrset_sym(mem)) {
+            rb_raise(rb_eArgError, &quot;invalid data member: %&quot;PRIsVALUE, mem);
+        }
+        if (st_insert(tbl, mem, Qtrue)) {
+            rb_raise(rb_eArgError, &quot;duplicate member: %&quot;PRIsVALUE, mem);
+        }
+    }
+    rest = rb_hash_keys(rest);
+    st_clear(tbl);
+    RBASIC_CLEAR_CLASS(rest);
+    OBJ_FREEZE_RAW(rest);
+    data_class = anonymous_struct(klass);
+    setup_data(data_class, rest);
+    if (rb_block_given_p()) {
+        rb_mod_module_eval(0, 0, data_class);
+    }
+
+    return data_class;
 }</pre>
           </div>
         </div>
@@ -258,13 +282,7 @@ rb_data_s_def(int argc, VALUE *argv, VALUE klass)
 </pre>
 
           <div class="method-source-code" id="members-source">
-            <pre>static VALUE
-rb_data_s_members_m(VALUE klass)
-{
-    VALUE members = rb_struct_s_members(klass);
-
-    return rb_ary_dup(members);
-}</pre>
+            <pre>#define rb_data_s_members_m rb_struct_s_members_m</pre>
           </div>
         </div>
 
@@ -401,10 +419,7 @@ rb_data_initialize_m(int argc, const VALUE *argv, VALUE self)
 </pre>
 
           <div class="method-source-code" id="3D-3D-source">
-            <pre>static VALUE
-rb_data_equal(VALUE s, VALUE s2)
-{
-}</pre>
+            <pre>#define rb_data_equal rb_struct_equal</pre>
           </div>
         </div>
 
@@ -447,10 +462,7 @@ rb_data_equal(VALUE s, VALUE s2)
 </pre>
 
           <div class="method-source-code" id="deconstruct-source">
-            <pre>static VALUE
-rb_data_deconstruct(VALUE s)
-{
-}</pre>
+            <pre>#define rb_data_deconstruct rb_struct_to_a</pre>
           </div>
         </div>
 
@@ -494,10 +506,7 @@ rb_data_deconstruct(VALUE s)
 </pre>
 
           <div class="method-source-code" id="deconstruct_keys-source">
-            <pre>static VALUE
-rb_data_deconstruct_keys(VALUE s, VALUE keys)
-{
-}</pre>
+            <pre>#define rb_data_deconstruct_keys rb_struct_deconstruct_keys</pre>
           </div>
         </div>
 
@@ -527,10 +536,7 @@ rb_data_deconstruct_keys(VALUE s, VALUE keys)
 <p>See also <a href="Object.html#method-i-eql-3F"><code>Object#eql?</code></a> for further explanations of the method usage.</p>
 
           <div class="method-source-code" id="eql-3F-source">
-            <pre>static VALUE
-rb_data_eql(VALUE s, VALUE s2)
-{
-}</pre>
+            <pre>#define rb_data_eql rb_struct_eql</pre>
           </div>
         </div>
 
@@ -563,10 +569,7 @@ rb_data_eql(VALUE s, VALUE s2)
 </pre>
 
           <div class="method-source-code" id="hash-source">
-            <pre>static VALUE
-rb_data_hash(VALUE s)
-{
-}</pre>
+            <pre>#define rb_data_hash rb_struct_hash</pre>
           </div>
         </div>
 
@@ -599,6 +602,7 @@ rb_data_hash(VALUE s)
             <pre>static VALUE
 rb_data_inspect(VALUE s)
 {
+    return rb_exec_recursive(inspect_struct, s, rb_str_new2(&quot;#&lt;data &quot;));
 }</pre>
           </div>
         </div>
@@ -627,10 +631,7 @@ rb_data_inspect(VALUE s)
 </pre>
 
           <div class="method-source-code" id="members-source">
-            <pre>static VALUE
-rb_data_members_m(VALUE obj)
-{
-}</pre>
+            <pre>#define rb_data_members_m rb_struct_members_m</pre>
           </div>
         </div>
 
@@ -675,10 +676,7 @@ rb_data_members_m(VALUE obj)
 </pre>
 
           <div class="method-source-code" id="to_h-source">
-            <pre>static VALUE
-rb_data_to_h(VALUE s)
-{
-}</pre>
+            <pre>#define rb_data_to_h rb_struct_to_h</pre>
           </div>
         </div>
 
