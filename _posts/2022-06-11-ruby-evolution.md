@@ -74,4 +74,4 @@ I didn't lose all hope to write that Ruby book and to work on a new and shiny Ru
 
 Please proceed with your day.
 
-PS: How can you help? Please [donate to Ukraine](https://ua-aid-centers.com/funds-and-foundations), and call your government to increase the support. The quicker we win, the better for the world, you including.
+PS: How can you help? Please [donate to Ukraine](https://war.ukraine.ua/donate/), and call your government to increase the support. The quicker we win, the better for the world, you including.
