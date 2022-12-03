@@ -12,14 +12,14 @@ permalink: /writing/
 
 _**Before the war, the text was:** I write a lot but quite irregularly. Fiction, poetry, magazine articles, blog posts, <a href="https://twitter.com/zverok">Twitter</a>. The book and <a href="https://zverok.substack.com">Substack</a>/blog are my current main focuses._
 
-> You can also check [some of my old fiction/poetry](/writing/old/) (most of it is in Ukrainian and Russian, though).
+## [Fiction/poetry →](/writing/fiction/)
 
 ## Books
 
 Yeah, plural. There are two to talk about:
 
 * **41 Ruby Intuitions (Gaining architectural insight from looking at code as text)**: the book on Ruby I wanted to write for many years, and finally planned to start in 2022... Then the full-scale Russian invasion started, and I just don't have resource to proceed with it. I am still planning to do it, but after the war. There is an (empty) [Substack](https://rubyintuitions.substack.com/) dedicated to it; I'll also write on my [primary one](https://zverok.substack.com) when the project would move forward.
-* **Going to Yalta After the Apocalypse (a novel in 213 lost photographs)**: A post-apocalyptic road novel I also planned to write this year... And this is the one I was able to proceed with. It is written and [published on Substack](https://goingtoyalta.substack.com/) in everyday small (\~300-something words) chunks since May 1st, and is planned to be finished at December 1st. You can read more about the intention and writing process in the [author's intro](https://goingtoyalta.substack.com/p/pre-intro).
+* **Going to Yalta After the Apocalypse (a novel in 213 lost photographs)**: A post-apocalyptic road novel I also planned to write this year... And this is the one I was able to proceed with. It is written and [published on Substack](https://goingtoyalta.substack.com/) in everyday small (\~300-something words) chunks since May 1st, and is planned to be finished at December 1st. You can read more about the intention and writing process in the [author's intro](https://goingtoyalta.substack.com/p/pre-intro). **UPD:** The book was finished as scheduled, on December 1st. Author's outro and link to full unedited EPUB [are available here](https://goingtoyalta.substack.com/p/outro). I plan to remove it from the Internet in a month before editing and looking for a publisher.
 
 <!--
 ## "41 Ruby Intuitions"—book in progress {#ruby-intuitions}

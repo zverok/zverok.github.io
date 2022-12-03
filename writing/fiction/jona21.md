@@ -1,7 +1,8 @@
 ---
 layout: old-writing
 title: Українець Джонатан і 27 мерців. Глава 21. Усі коти Криму
-permalink: /writing/old/jona21.html
+permalink: /writing/fiction/jona21.html
+redirect_from: /writing/old/jona9.html
 ---
 
 Перетряхаючи на веранді наплічник, я знайшов в одній із кишень півпачки «Ювілейного» печива, що забув доїсти в літаку майже місяць тому. Йона несподівано і щиро зрадів.
