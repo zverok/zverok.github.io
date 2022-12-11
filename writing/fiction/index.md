@@ -25,7 +25,7 @@ This novel was written and sent to mailing list in everyday chunks May 1-Dec 1, 
 
 I wrote in russian before 2016. I never considered myself a part of the "russian literature," rather of "decolonized" literature in Ukrainian russian (akin to "American English"). I don't believe this idea anymore, but the texts are staying.
 
-* 2016-й: [Паром на Новый Харьков и разрушение Коктебеля](/old/ferry.html)
-* 2014-й: [Вопросы воды (рабочая тетрадь по физике)](/old/waterquestions.html)
-* 2012-й: [Врачи и рыбы городских поликлиник](/old/fishndoctor.html)
-* 2010-й: [Сочинение «Город будущего», которое написал бы человек с бейсбольной битой](/old/cityoffuture.html)
+* 2016-й: [Паром на Новый Харьков и разрушение Коктебеля](/writing/old/ferry.html)
+* 2014-й: [Вопросы воды (рабочая тетрадь по физике)](/writing/old/waterquestions.html)
+* 2012-й: [Врачи и рыбы городских поликлиник](/writing/old/fishndoctor.html)
+* 2010-й: [Сочинение «Город будущего», которое написал бы человек с бейсбольной битой](/writing/old/cityoffuture.html)
