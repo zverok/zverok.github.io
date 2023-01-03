@@ -315,3 +315,5 @@ This code worked perfectly before 3.2, and it should continue to work (even if i
 But with `Data`, we could introduce a cleaner, more narrowly defined yet usable API from scratch.
 
 And so we did.
+
+<iframe src="https://zverok.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
