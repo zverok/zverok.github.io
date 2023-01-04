@@ -25,18 +25,19 @@ p1 = Point.new(1, 2)       #=> #<data Point x=1, y=2>
 p2 = Point.new(x: 1, y: 2) #=> #<data Point x=1, y=2>
 ```
 
-Now, a quick pop quiz: looking at the examples above, what would you **expect** to be `Data#initialize` signature? The "knee-jerk reaction" answer would be something like this:
+Now, a quick pop quiz: looking at the examples above, what would you **expect** to be `Point#initialize` signature? The "knee-jerk reaction" answer would be something like this:
 ```ruby
 def initialize(*args, **kwargs)
   # now decide is it args or kwargs passed, and set internal variables
 end
 ```
 
-This would be the wrong answer because the signature is actually this:
+This would be the wrong answer because the signature is effectively[^1] this:
 ```ruby
 def initialize(x:, y:)
 end
 ```
+[^1]: As the method is defined in C and generic for all `Data` descendants, its reported signature is different, but it _behaves_ like having the signature shown above.
 
 You can check it by redefining `initialize` and seeing for yourself what arguments are passed there:
 ```ruby
