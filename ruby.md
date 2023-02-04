@@ -10,6 +10,9 @@ List of my ([zverok aka Victor Shepelev](https://zverok.space)) contributions to
 
 ### Accepted
 
+* **Ruby 3.2**:
+  * [`Data` class](https://bugs.ruby-lang.org/issues/16122)
+  * [`Time#deconstruct_keys`](https://bugs.ruby-lang.org/issues/19071), also [`Date` and `DateTime`](https://github.com/ruby/date/pull/80)
 * **Ruby 3.1**:
   * [`Enumerable#compact` and `Enumerator::Lazy#compact`](https://bugs.ruby-lang.org/issues/17312)
 * **Ruby 3.0**:
@@ -29,12 +32,12 @@ List of my ([zverok aka Victor Shepelev](https://zverok.space)) contributions to
 
 ### Pending
 
+* [`Hash#merge`: smarter protocol depending on passed block arity](https://bugs.ruby-lang.org/issues/19272)
+* [Make a concept of "consuming enumerator" explicit](https://bugs.ruby-lang.org/issues/19061)
 * [Update of semantics for `Range#step`](https://bugs.ruby-lang.org/issues/18368)
 * [`Enumerator::Lazy#partition`](https://bugs.ruby-lang.org/issues/18262)
 * [`Enumerable#take_while_after`](https://bugs.ruby-lang.org/issues/18136)
-* [`Struct::Value` immutable value object](https://bugs.ruby-lang.org/issues/16122)
 * [`Dir#empty?` and `File#empty?`](https://bugs.ruby-lang.org/issues/16249)
-* [Pattern matching deconstruction for various core objects](https://bugs.ruby-lang.org/issues/16464)
 * [`Object#non`](https://bugs.ruby-lang.org/issues/17330)
 
 ### Contributed to discussions
@@ -48,6 +51,7 @@ List of my ([zverok aka Victor Shepelev](https://zverok.space)) contributions to
 
 ## Minor clarifications and bugs
 
+* **3.2** [`Range#include?` inconsistency for beginless `String` ranges](https://bugs.ruby-lang.org/issues/18580)
 * **3.1** [Necessity of `require 'fiber'`](https://bugs.ruby-lang.org/issues/17407)
 * **3.0** [`Object.clone(freeze: true)`](https://bugs.ruby-lang.org/issues/16175)
 * **2.7** [Deprecate](https://bugs.ruby-lang.org/issues/15893) `Kernel#open` provided by `open-uri` in favor of more explicit `URI.open`
@@ -59,6 +63,13 @@ List of my ([zverok aka Victor Shepelev](https://zverok.space)) contributions to
 
 ### Merged
 
+* **Ruby 3.2**:
+  * [Improve `TracePoint#allow_reentry` docs](https://github.com/ruby/ruby/pull/5380)
+  * [Improve `Random::Formatter` docs](https://github.com/ruby/ruby/pull/5434)
+  * [Clarify `Class#subclases` behavior quirks](https://github.com/ruby/ruby/pull/5480)
+  * [Document `AST.parse`'s keyword arguments](https://github.com/ruby/ruby/pull/6996)
+  * [Group of pre-3.2 fixes for docs](https://github.com/ruby/ruby/pull/6985)
+  * [Document new methods of `IO::Buffer` and `Fiber::Scheduler`](https://github.com/ruby/ruby/pull/7016)
 * **Ruby 3.1**:
   * [Add documentation for new hash value omission syntax](https://github.com/ruby/ruby/pull/5244)
   * [Add documentation for new `Refinement` class](https://github.com/ruby/ruby/pull/5272)
@@ -111,7 +122,5 @@ List of my ([zverok aka Victor Shepelev](https://zverok.space)) contributions to
 
 ### Pending
 
-* [Improve `TracePoint#allow_reentry` docs](https://github.com/ruby/ruby/pull/5380)
-* [Improve `Random::Formatter` docs](https://github.com/ruby/ruby/pull/5434)
 * [Update docs on sharing module instance variables in Ractors](https://github.com/ruby/ruby/pull/5437)
 
