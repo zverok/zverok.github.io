@@ -44,7 +44,7 @@ That being said, I am in no mood for theoretical reminiscences planned as an acc
 
 While working on the changelog and looking into versions, years, and histories, I can't not juxtapose what happened to the language I care about with my personal life and the life of my country.
 
-I fell in love with Ruby in 2004. I studied it by a pirate copy of "Pickaxe book"—at that time, my salary was $80, and I didn't even have a bank card to pay online. It was a big year in my life: I finished the university, and my first daughter was born. It was also a year of our first Maidan: a democratic revolution against old (post-Soviet and pro-Russian) elites, whose achievements were hugely undermined by Russia's never-ending colonialistic pressure.
+I fell in love with Ruby in 2004. I studied it by a pirate copy of "Pickaxe book"—at that time, my salary was $80, and I didn't even have a bank card to pay online. It was a big year in my life: I finished the university, and my first daughter was born. It was also a year of our first Maidan: a democratic revolution against old (post-Soviet and pro-Russian) elites. Achievements of the revolution later were hugely undermined by Russia's never-ending colonialistic pressure.
 
 2013 was the year when the first version of "modern" Ruby was released (2.0 and 2.1, adding keyword arguments, lazy enumerators, proper Unicode, etc.) It is also the year when the EuroMaidan started: the second pro-democratic and pro-European revolution (also anti-Soviet, anti-dictator, and anti-Russian), with both sides—people and old government-backed by The Empire—now fighting more fiercely.
 
