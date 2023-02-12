@@ -250,7 +250,7 @@ Point.new(1, 2, 3)
 Note that the exception message says `in 'new'`. That's where the attempt to convert everything to keyword arguments is made, and if there are too many positional arguments, the code in `new` can't guess what keys they should belong to. So, the only way to make it work is redefining `new` as in the examples above:
 ```ruby
 Point = Data.define(:x, :y) do
-  def self.new(x, y, scale) = allocate.tap { _1.initialize(x:, y:, scale:) }
+  def self.new(x, y, scale) = allocate.tap { _1.send(:initialize, x:, y:, scale:) }
 
   def initialize(x:, y:, scale: 1)
     super(x: x * scale, y: y * scale)
