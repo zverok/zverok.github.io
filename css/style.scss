@@ -56,6 +56,9 @@ dl, dd, ol, ul, figure {
     padding: 0;
 }
 
+.post-content hr {
+  margin: 20px 0;
+}
 
 
 /**
@@ -186,7 +189,7 @@ pre {
 
 code {
     line-height: 1.2;
-    padding: 1px 5px;
+    /* padding: 1px 5px; */
 }
 
 pre {
