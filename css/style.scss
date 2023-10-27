@@ -686,3 +686,14 @@ pre {
     list-style-type: none;
   }
 }
+
+.post-content {
+  .one-ukrainian-thing {
+    border: 1px solid black;
+    padding: 20px;
+    background-color: $d-grey-color-light;
+    p {
+      font-size: 1.1em;
+    }
+  }
+}

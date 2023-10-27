@@ -3,5 +3,6 @@ _drafts
 .sass-cache
 .jekyll-metadata
 .jekyll-cache
+.ruby-version
 **.orig
 tmp

@@ -305,7 +305,9 @@ A big feature, after all. It required some significant compromises, and brought 
 * Taking it further;
 * Conclusions.
 
-You can subscribe to my [Substack](https://zverok.substack.com/) to not miss the next version, or follow me on [Twitter](https://twitter.com/zverok).
+_UPD: Here is the [next](http://zverok.space/blog/2023-10-27-syntax-sugar2-pattern-matching-cont.html), but sadly, not the last part! Stay tuned._
+
+You can subscribe to my [Substack](https://zverok.substack.com/) to not miss the next part, or follow me on [Twitter](https://twitter.com/zverok).
 
 ---
 
