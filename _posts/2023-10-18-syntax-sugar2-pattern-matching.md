@@ -10,7 +10,11 @@ image:  https://zverok.space/img/2023-10-20/pm.png
 
 > This is a part of a blog post series about "useless" (or: controversial) syntax elements that emerged in recent Ruby version. The goal of the series is not to defend (or criticize) the features, but to share a "thought framework" for analysis of their reasons, design, and effect the new syntax has on a code that uses it. See also [intro post](https://zverok.space/blog/2023-10-02-syntax-sugar.html), and the previos text that covered [numbered block arguments](https://zverok.space/blog/2023-10-11-syntax-sugar1-numeric-block-args.html).
 
-Our today's theme is **pattern matching**.
+Our today's theme is **pattern matching**. _Eventually, it took three blog posts to handle properly:_
+
+* **Part 1** (the current one);
+* [Part 2](http://zverok.space/blog/2023-10-27-syntax-sugar2-pattern-matching-cont.html);
+* [Part 3](https://zverok.space/blog/2023-11-03-syntax-sugar2-pattern-matching-fin.html).
 
 ## What
 
