@@ -70,7 +70,7 @@ Over the next couple of weeks, I'll publish small(ish! it is always the case wit
 The features I plan to cover:
 
 * **[Numbered block parameters](/blog/2023-10-11-syntax-sugar1-numeric-block-args.html)** ([Ruby 2.7](https://rubyreferences.github.io/rubychanges/2.7.html#numbered-block-parameters));
-* **Pattern matching: [part 1](/blog/2023-10-20-syntax-sugar2-pattern-matching.html), [part 2](http://zverok.space/blog/2023-10-27-syntax-sugar2-pattern-matching-cont.html)**, _part 3_ (introduced in [Ruby 2.7](https://rubyreferences.github.io/rubychanges/evolution.html#pattern-matching), took shape over a few next versions);
+* **Pattern matching: [part 1](/blog/2023-10-20-syntax-sugar2-pattern-matching.html), [part 2](http://zverok.space/blog/2023-10-27-syntax-sugar2-pattern-matching-cont.html), [part 3](https://zverok.space/blog/2023-11-03-syntax-sugar2-pattern-matching-fin.html)** (introduced in [Ruby 2.7](https://rubyreferences.github.io/rubychanges/evolution.html#pattern-matching), took shape over a few next versions);
 * Hash/keyword arguments values omission ([Ruby 3.1](https://rubyreferences.github.io/rubychanges/3.1.html#values-in-hash-literals-and-keyword-arguments-can-be-omitted))
 * Argument forwarding (introduced in [2.7](https://rubyreferences.github.io/rubychanges/2.7.html#keyword-argument-related-changes), adjusted in [3.0](https://rubyreferences.github.io/rubychanges/3.0.html#arguments-forwarding--supports-leading-arguments), [3.1](https://rubyreferences.github.io/rubychanges/3.1.html#anonymous-block-argument), [3.2](https://rubyreferences.github.io/rubychanges/3.2.html#anonymous-arguments-passing-improvements))
 * "Endless" methods ([3.0](https://rubyreferences.github.io/rubychanges/3.0.html#endless-method-definition))

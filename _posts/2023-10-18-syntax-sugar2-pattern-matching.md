@@ -305,7 +305,7 @@ A big feature, after all. It required some significant compromises, and brought 
 * Taking it further;
 * Conclusions.
 
-_UPD: Here is the [next](http://zverok.space/blog/2023-10-27-syntax-sugar2-pattern-matching-cont.html), but sadly, not the last part! Stay tuned._
+_UPD: Here are the **[next](http://zverok.space/blog/2023-10-27-syntax-sugar2-pattern-matching-cont.html)** part and the **[third and the final](https://zverok.space/blog/2023-11-03-syntax-sugar2-pattern-matching-fin.html)** one. The final about the pattern matching, that is, but not the last in the whole series._
 
 You can subscribe to my [Substack](https://zverok.substack.com/) to not miss the next part, or follow me on [Twitter](https://twitter.com/zverok).
 

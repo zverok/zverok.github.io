@@ -218,7 +218,7 @@ This is an important difference from the "neighbor" languages, even if it isn't 
 
 E.g., if in Python or JS code, you see `dog.name` and `dog.bark()`—this transparent `dog` object has attributes (core language concept) `name` and `bark`, the latter is also callable if you attach `()` to it.
 
-In Ruby code, when you see `dog.name` and `dog.bark()`, it means the opaque `dog` object _responds to methods_ `name` an `bark`: both are just method calls—which in Ruby allows to omit `()`. Unlike Python or JS, you could also write `dog.name()` and `dog.bark` with exactly the same effect.
+In Ruby code, when you see `dog.name` and `dog.bark()`, it means the opaque `dog` object _responds to methods_ `name` and `bark`: both are just method calls—which in Ruby allows to omit `()`. Unlike Python or JS, you could also write `dog.name()` and `dog.bark` with exactly the same effect.
 
 Even Ruby's [Struct](https://docs.ruby-lang.org/en/3.2/Struct.html) (and the recently added[^3] [Data](https://docs.ruby-lang.org/en/3.2/Data.html) with more narrow and strict semantics) are just shortcuts to create _objects_ with necessary _methods_ that would look like data structures of the desired shape (immutable in `Data`'s case).
 
@@ -250,12 +250,12 @@ class Point
     @y = y
   end
 
-  # That's the method pattern matching will call when it will see deconstruction
-  # with keys, like `point => x:, y:`
+  # That's the method pattern matching will call when it will see
+  # deconstruction with keys, like `point => x:, y:`
   def deconstruct_keys(*) = {x: @x, y: @y}
 
-  # And that's the method it will call to check for a positional deconstruction,
-  # like `point => [x, y]`
+  # And that's the method it will call to check for a positional
+  # deconstruction, like `point => [x, y]`
   def deconstruct_keys = [@x, @y]
 end
 ```
@@ -301,6 +301,8 @@ Pretty far from "a soup of objects sending messages to each other,"— So I migh
 * How others do it;
 * Taking it further;
 * Conclusions.
+
+ _UPD: **[Here it is](https://zverok.space/blog/2023-11-03-syntax-sugar2-pattern-matching-fin.html).** Thankfully, it is really the last one!_
 
 That's the price of taking a big and complicated feature and trying to cover it in the same way small evolutions of syntax are covered! (A person should have the strength to recognize mistakes but also should have the persistence to follow the promises, so the pattern matching part of the series _would_ be finished, and the series will continue further.)
 
