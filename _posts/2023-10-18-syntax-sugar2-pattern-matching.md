@@ -5,7 +5,7 @@ date:   2023-10-20
 description: "They said “...just switch to the language that already has it, would you?”"
 categories: ruby philosophy
 comments: true
-image:  https://zverok.space/img/2023-10-20/pm.png
+image: https://zverok.space/img/2023-10-20/pm.png
 ---
 
 > This is a part of a blog post series about "useless" (or: controversial) syntax elements that emerged in recent Ruby version. The goal of the series is not to defend (or criticize) the features, but to share a "thought framework" for analysis of their reasons, design, and effect the new syntax has on a code that uses it. See also [intro post](https://zverok.space/blog/2023-10-02-syntax-sugar.html), and the previos text that covered [numbered block arguments](https://zverok.space/blog/2023-10-11-syntax-sugar1-numeric-block-args.html).
