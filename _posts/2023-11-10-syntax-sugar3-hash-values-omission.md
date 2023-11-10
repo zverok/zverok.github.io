@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  '“Useless Ruby sugar”: Keyword argument and hash values omission'
-date:   2023-11-08
+date:   2023-11-10
 description: "How the small syntactical simplification of allowing to omit values when they names are the same as keys affects code design and structure."
 categories: ruby philosophy
 comments: true
