@@ -8,7 +8,6 @@ comments: true
 image: https://zverok.space/img/2023-11-10/some-omitted.png
 ---
 
-![](image00.png)
 > This is a part of a blog post series about "useless" (or: controversial) syntax elements that emerged in recent Ruby version. The goal of the series is not to defend (or criticize) the features, but to share a "thought framework" for analysis of their reasons, design, and effect the new syntax has on a code that uses it. See also [intro/ToC post](https://zverok.space/blog/2023-10-02-syntax-sugar.html).
 
 Today's topic is a small one, yet, nevertheless, the one that invoked a lot of mixed feelings: an ability to **omit hash[^1] or keyword argument values**.
@@ -386,6 +385,22 @@ y = 2
 ...which seems logical to some extent but too unlike the regular dictionary syntax. We'll see how it goes!
 
 > If you are aware of the feature existing in some other languages, or proposals to add it, please ping me! I might miss something interesting, which screws the perspective.
+
+**UPD:** As pointed [on Reddit](https://www.reddit.com/r/ruby/comments/17s45xg/comment/k8u1fb1/?context=3) by [/u/Richard-Degenne](https://www.reddit.com/user/Richard-Degenne/), [OCaml has](https://dev.realworldocaml.org/variables-and-functions.html#labeled-arguments) labeled arguments and "pinning" of local values to them:
+
+```ocaml
+(* a function that accepts labeled arguments with labels num and denom*)
+let ratio ~num ~denom = Float.of_int num /. Float.of_int denom;;
+val ratio : num:int -> denom:int -> float = <fun>
+
+(* call with label: value *)
+ratio ~num:3 ~denom:10;
+
+(* call with "pinning" of local names to labels *)
+let num = 3 in
+let denom = 4 in
+ratio ~num ~denom;;
+```
 
 ## Conclusions
 
