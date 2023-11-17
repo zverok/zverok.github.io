@@ -82,7 +82,7 @@ Public pressure on politicians to provide all necessary help to those attacked (
 
 Public pressure on Russia itself and all millions of Russians who support the war—some enthusiastically, some by their indifference—a public pressure that will clearly tell them what they are doing will never become "some political nuance."
 
-Pubic pressure on your own compatriots, who first try hard to ignore all information about what's _really happening_, and then put _their_ pressure on the politicians to "stop spending so much attention and money on that nonsense we don't really know a thing about."
+Public pressure on your own compatriots, who first try hard to ignore all information about what's _really happening_, and then put _their_ pressure on the politicians to "stop spending so much attention and money on that nonsense we don't really know a thing about."
 
 At the very least, in those first naive months, I hoped for small tokens of public support, like a stray Ukrainian flag on a homepage, a few retweets, a clear and unambiguous statement. With very few exceptions, I saw none. I hoped to see my fellow Rubyists as members of the awesomely whimsical and incredibly helpful "[fellas](https://en.wikipedia.org/wiki/NAFO_(group))" movement; remembering earlier days of the community, it had just the right kind of appeal— But, alas, I personally know no Rubyist who became a "fella."
 
