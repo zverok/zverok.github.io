@@ -18,7 +18,7 @@ I was suggested to submit a proposal, and "if it gets accepted," the organizers 
 
 For some reason (call it "victim entitlement"), I half-assumed that the perspective I proposed, in combination with my background, was unique/interesting enough to be accepted. So, while waiting for a final decision, I spent my free time (at the frontlines then—and you would be surprised how much bored free time one has there between the "busy" parts) plotting the talk and making some drafts of the key points.
 
-The talk was rejected, though—with a standard automatic notice that also suggested buying a ticket to conference at a rejected-speaker discount or coming to volunteer. Can't say I took it very well, though I blame nobody. Victim entitlement didn't work, who might've thought!
+The talk was rejected, though—with a standard automatic notice that also suggested buying a ticket to the conference at a rejected-speaker discount or coming to volunteer. Can't say I took it very well, though I blame nobody. Victim entitlement didn't work, who might've thought!
 
 So, today, I am publishing bare notes to that talk-that-never-was. No pretty illustrations, no code examples even, just a dotted line of thoughts I once intended to make into a talk.
 
