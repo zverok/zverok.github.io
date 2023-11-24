@@ -349,7 +349,7 @@ variadic(1, 2, 3, {foo: 'bar'})
 
 [^2]: This still works but is mostly frowned upon in favor of newer syntaxes.
 
-In a radical variant of this, Perl's `sub` doesn't have a syntax for arguments declaration at all, and all arguments are accessible inside the subroutine in a list variable `@_`, and the way to designate their names is to assign them to local variables:
+In a radical variant of this, Perl's `sub` doesn't have a syntax for arguments declaration at all[^3], and all arguments are accessible inside the subroutine in a list variable `@_`, and the way to designate their names is to assign them to local variables:
 ```perl
 sub test {
   my($x, $y) = @_;
@@ -359,6 +359,8 @@ sub test {
 test(1, 2)
 # prints x=1, y=2
 ```
+
+[^3]: As [pointed](https://news.ycombinator.com/item?id=38406739) by _chrismorgan_ on HN, it [does](https://perldoc.perl.org/perlsub#Signatures), since version 5.20.0 (May 2014), and they’re considered stable since 5.36.0 (May 2022).
 
 **Group 3, "New school":** Many languages have a special syntax for a function signature to declare a named parameter that would "catch" the variable list of parameters. Like in modern JS:
 ```js
@@ -373,9 +375,9 @@ The designation used is frequently `...` or `*`, though C# uses [`param`](https:
 
 It seems to be a generally agreed-upon practice nowadays.
 
-The symmetric question is also more or less agreed upon[^3]: if you have a list/array/tuple of values and want to pass them as separate arguments to some function, there is an operator for that (usually looking the same as "rest arguments" declaration, and frequently called "splat" or "spread"):
+The symmetric question is also more or less agreed upon[^4]: if you have a list/array/tuple of values and want to pass them as separate arguments to some function, there is an operator for that (usually looking the same as "rest arguments" declaration, and frequently called "splat" or "spread"):
 
-[^3]: At least in dynamic languages. The situation in static ones and their challenges produces quite interesting design space with many nuances and can be a topic for a separate article.
+[^4]: At least in dynamic languages. The situation in static ones and their challenges produces quite interesting design space with many nuances and can be a topic for a separate article.
 
 ```js
 function function_with_3_args(arg1, arg2, arg3) {
@@ -504,7 +506,7 @@ end
 
 The ticket, describing the idea, [exists](https://bugs.ruby-lang.org/issues/16296), but it never received much attention.
 
-BTW, there is place in Ruby where something like this works! Calling `super` ("parent class' version of this method") implicitly passes all arguments of the current method[^6], which allows for some very nice shortcuts. Say, here is everything you need to do to add some defaults to a `Data` initialization:
+BTW, there is place in Ruby where something like this works! Calling `super` ("parent class' version of this method") implicitly passes all arguments of the current method[^5], which allows for some very nice shortcuts. Say, here is everything you need to do to add some defaults to a `Data` initialization:
 
 ```ruby
 class Measurement < Data.define(:amount, :unit)
@@ -517,7 +519,7 @@ Measurement.new(100)      #=> #<data Measurement amount=100, unit="-none-">
 
 So, the idea of "accept params declared explicitly, then just pass everything" is not _unimaginable_, at least!
 
-[^6]: Actually, all current values of local variables with names of the arguments of the current method... Which have some interesting consequences, but let's not allow ourselves to be carried away.
+[^5]: Actually, all current values of local variables with names of the arguments of the current method... Which have some interesting consequences, but let's not allow ourselves to be carried away.
 
 ## Conclusions
 
