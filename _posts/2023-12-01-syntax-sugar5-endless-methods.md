@@ -430,7 +430,7 @@ I am not saying that it is not the "only expressive language" (and not even "one
 
 On this note, I have finished covering the last feature in the series I've planned. There would be one more post with some general conclusions and probably a bit of bonus content: a list of Ruby syntax elements that I actually don't like (there are some!) and a list of those that could but haven't (yet?) materialized.
 
-But now December is upon us, and it means the upcoming Ruby release, which, in turn, means I need to work on this year's changelog, and it usually takes quite some time. This year, I plan to publish a few diary notes from this work—and then get to other topics, including the "useless sugar" series wrap-up, after the New Year.
+But now December is upon us, and it means the upcoming Ruby release, which, in turn, means I need to work on this year's [changelog](https://rubyreferences.github.io/rubychanges/), and it usually takes quite some time. This year, I plan to publish a few diary notes from this work—and then get to other topics, including the "useless sugar" series wrap-up, after the New Year.
 
 You can subscribe to my [Substack](https://zverok.substack.com/) to not miss it, or follow me on [Twitter](https://twitter.com/zverok).
 
