@@ -78,7 +78,9 @@ However, the views of the Ruby community developed in the way that using `;` is 
 > def my_method(args) body end
 > ```
 >
-> What can I say! Once in a while, I forget how to Ruby :) This does _not_ make the argument invalid (this way of writing methods is still frowned upon and never used; and still, reads like "several phrases"), but it probably should've been centered around the community's view at `;`.
+> What can I say! Once in a while, I forget how to Ruby :)
+>
+> There is a reason for that, though (for me forgetting it is possible): **Yes**, many Ruby constructs allow to be flattened this way, but **no**, nobody writes code this way: an unclear transition from header to the body, and, most visibly, the dangling `end` makes the structure of the phrase messy. So while the syntax is _theoretically_ available, it is _practically_ unused. But it probably should've centered the original explanation around the community's view at `;`.
 
 [^1]: The syntax is helpful, though, when Ruby is used by its old vocation: as a scripting language to be invoked from a console, write one-time quick scripts, and fast, focused experiments.
 
@@ -186,10 +188,10 @@ Test.new(true).invoke
 Instead of printing `"works"` at the last line execution, this code will fail with a confusing message " undefined method \`invoke'". That's because of the aforementioned confusing parsing order:
 ```ruby
 # Expected:
-def print = (puts "works" if @active)
+def invoke = (puts "works" if @active)
 
 # Real:
-(def print = puts "works") if @active
+(def invoke = puts "works") if @active
 ```
 
 This is most definitely an unintended behavior, and one that apparently incredibly hard to fix, so the discussion is [still ongoing](https://bugs.ruby-lang.org/issues/19392).
@@ -198,7 +200,7 @@ As usual with syntax quirks, parentheses help!
 
 ```ruby
 # This will work as intended
-def print = (puts "works" if @active)
+def invoke = (puts "works" if @active)
 ```
 
 Another example of the parsing problem:
