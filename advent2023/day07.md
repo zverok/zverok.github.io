@@ -1,8 +1,8 @@
 ---
 layout: advent
 title: "Advent of changelog: Day 7"
-# next: day08
-# next_title: "Day 8"
+next: day08
+next_title: "Day 8"
 prev: day06
 prev_title: "Day 6"
 ---
@@ -39,5 +39,3 @@ A half-an-hour later, a small commit to the changelog is ready, too: **[c716b8e]
 After that, I am switching to house-keeping for my "self-publishing": move rough `day**.md` files into a separate folder, add some navigatin to them, and write a blog post covering this first week.
 
 > I would probably be more efficient working on changelog in silence, as I do every year... Or maybe not, because commitment to everyday diary makes me work on it _every single day_ instead of depending on the mood, physical and mental state. It is nice to have something organizing when no external factors push you to work on a hobby project (last year, I finally made myself finish it by _February_!)
-
-**_To be continued..._**
