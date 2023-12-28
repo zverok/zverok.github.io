@@ -1,11 +1,11 @@
 ---
 layout: post
 title:  'The making of Ruby Changes: A boring advent'
-date:   2023-12-14
+date:   2023-12-28
 description: "A diary of preparing Ruby 3.3's annotated changelog throughout the December of 2023."
 categories: ruby philosophy
 comments: true
-image:
+image: "https://zverok.space/img/2023-12-28/days.png"
 ---
 
 I have been writing in Ruby for almost 20 years; my first version was Ruby 1.6. I was always curious to observe how the language evolves, always trying to see what the changes might help me understand about my own usage of it, the community, and the ways of thinking in code. For me, understanding how it _changes_ helped me to understand how it _is_.
