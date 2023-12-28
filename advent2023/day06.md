@@ -7,7 +7,7 @@ prev: day05
 prev_title: "Day 5"
 ---
 
-So, today would be the day for submitting enhanced docs for two classes: `WeekMap` and `WeekKeyMap`.
+So, today would be the day for submitting enhanced docs for two classes: `WeakMap` and `WeakKeyMap`.
 
 How would one do that?
 
@@ -61,7 +61,7 @@ rdoc weakmap.c -o tmp/doc
 
 At voila!
 
-We can check at `tmp/doc/ObjectSpace/WeekMap.html` that we got from this:
+We can check at `tmp/doc/ObjectSpace/WeakMap.html` that we got from this:
 
 ![](/img/advent2023/image11.png)
 
@@ -74,7 +74,7 @@ The changes were trivial for methods like `#[]`/`#[]=`/`#delete` (as I've aknowl
 Welp, it doesn't:
 
 ```ruby
-m = ObjectSpace::WeekMap.new
+m = ObjectSpace::WeakMap.new
 k, v = 'foo', 'bar'
 m[k] = v
 m.each
@@ -85,7 +85,7 @@ I adjust docs a little, fighting the urge to expand them to the level of `Hash` 
 
 So, this part is done relatively quickly; and on the way I uncovered small bug in `WeakKeyMap` examples I copied: the code (probably adapted from `Hash` docs) referred to example object created as `m` by name `h` sometimes. Fixed, too!
 
-This mostly covers points 1-3 from the TODO above. The changes still mostly about `WeekMap`, after some consideration I don't think `WeekKeyMap`'s methods require more explanations— Save for slightly confusing `#getkey`. So, I try to add an explanation and example:
+This mostly covers points 1-3 from the TODO above. The changes still mostly about `WeakMap`, after some consideration I don't think `WeakKeyMap`'s methods require more explanations— Save for slightly confusing `#getkey`. So, I try to add an explanation and example:
 
 ![](/img/advent2023/image13.png)
 

@@ -17,7 +17,7 @@ As a short example: in Ruby 3.3 `Array#pack` and `String#unpack` raise `Argument
 
 When I invented the Ruby Changes format, I was driven by irritation at many blog posts emerging each December/January to discuss "top new features of Ruby" in several pages of text, spending all those pages on the most wordy explanation of trivia, but never demonstrating even the basic attempt to use the feature (or look at its edge cases, or describe the reasoning behind it). So I described the main driving factors for the Ruby Changes as this:
 
-![](image19.png)
+![](/img/advent2023/image19.png)
 
 ...and I try to follow this to the best ability of my wordy, graphomaniac, ADHD-driven nature. I am trying to only detail the reasoning behind the feature when it is non-obvious and put as many examples as necessary to demonstrate the base usage an the edge cases/limitations. Frequently, though, I indulge myself to additional "Notes" section, when I think a more detailed story behind the feature or its current limitations deserves some attention.
 

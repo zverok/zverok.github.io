@@ -10,7 +10,7 @@ prev_title: "Day 6"
 A week of ADHD-driven running around changelog and other new Ruby release-related tasks!
 
 The plan for today:
-* finalize adjusting `WeekMap`/`WeekKeyMap` docs and create a PR;
+* finalize adjusting `WeakMap`/`WeakKeyMap` docs and create a PR;
 * put what was discovered/understood into the corresponding changelog entries (that's the main driver of this adventure, after all!)
 * publish a blog post/email summarizing the first seven days and linking to this rough diary;
 * (maybe) also handle `Module#set_temporary_name` docs/changelog entry, while my memory of the investigation is still fresh.
@@ -23,7 +23,7 @@ Also, before we start, there is some new information that to some extent changes
 * A lot of new things [have happened](https://github.com/ruby/ruby/commits/master/NEWS.md) in `NEWS.md` since I initiated the changelog, so I'll need to add more entries into my files— but not today.<br/>
   ![](/img/advent2023/image14.png)
 
-So... Here we go at `WeekKeyMap` docs:
+So... Here we go at `WeakKeyMap` docs:
 
 ![](/img/advent2023/image15.png)
 

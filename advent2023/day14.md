@@ -1,8 +1,8 @@
 ---
 layout: advent
 title: "Advent of changelog: Day 14"
-# next: day15
-# next_title: "Day 15"
+next: day15
+next_title: "Day 15"
 prev: day13
 prev_title: "Day 13"
 ---
