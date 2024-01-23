@@ -412,7 +412,7 @@ call_something(multiply);
 ```
 ...so, you really have _assigned_ some value. But in Ruby:
 ```ruby
-def multyply(x, y) = x * y
+def multiply(x, y) = x * y
 
 # No, this immediately attempts to call multiply, and fails
 # due to missing arguments.

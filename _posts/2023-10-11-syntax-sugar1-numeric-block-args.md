@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  '"Useless syntax sugar": Numbered block parameters'
+title:  '"Useless Ruby sugar": Numbered block parameters'
 date:   2023-10-11
 description: "Are they as ugly as I was told?"
 categories: ruby philosophy
