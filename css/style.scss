@@ -312,7 +312,8 @@ pre {
   text-align: center;
 }
 .postDate {
-  float: left;
+  // float: left;
+  text-align: right;
   text-transform: uppercase;
   font-family: "Source Sans Pro";
   font-size: 16px;
@@ -538,7 +539,7 @@ pre {
   p {
     font-size: 1rem;
   }
-  .callout {
+  .callout, .callout p {
     font-size: 1.5rem;
   }
   h2 {
