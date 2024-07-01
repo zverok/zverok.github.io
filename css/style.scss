@@ -697,4 +697,13 @@ pre {
       font-size: 1.1em;
     }
   }
+
+  .footnotes {
+    border-top: 1px $d-grey-color-light dotted;
+    padding-top: 20px;
+    font-size: 0.9em;
+    color: $l-link-color;
+
+    p { font-size: 0.9em;  }
+  }
 }
