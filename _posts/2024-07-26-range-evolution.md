@@ -351,7 +351,7 @@ To be iterable, the range’s beginning value should implement only `#succ` meth
 
 In this case, we can use `#step` method to explain to Ruby how to iterate:
 ```ruby
-(1.5..2.5).step(1.5).to_a #=> [1.5, 2.0, 2.5]
+(1.5..2.5).step(0.5).to_a #=> [1.5, 2.0, 2.5]
 ```
 
 In the upcoming **Ruby 3.4** (hopefully: the change is [approved by Matz but not yet merged](https://bugs.ruby-lang.org/issues/18368)), I am trying to make `#step` more powerful for non-numeric values, so this would be possible:
