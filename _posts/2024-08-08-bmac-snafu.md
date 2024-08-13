@@ -10,6 +10,8 @@ image: https://zverok.space/img/2024-08-08-bmac/cover.png
 
 **Silent changes in payment methods on big creator funding platforms raise some unpleasant questions.**
 
+**UPD Aug 13, 2024:** The kind-of-official reply from BuyMeACoffee, and [my response to it](#upd-aug-13-2024).
+
 ## What happened
 
 Recently, many Ukrainian creators have reported problems with payouts from [BuyMeACoffee](https://buymeacoffee.com/), a creator funding/crowdfunding platform.
@@ -82,3 +84,59 @@ Have a good day, and have a screenshot of the latest message from BuyMeACoffee�
 Such a nice vibe! _(Neither their primary account nor [the founder’s personal one](https://x.com/jijosunny), which both have a history of replying to all relevant tweets, are currently giving any signs they are aware of the situation.)_
 
 PS: As a side note, [here is a story](https://en.ain.ua/2023/04/10/what-is-wrong-with-patreon-and-why-ukrainians-urge-canceling-it/) about why Patreon is not an option for Ukrainians. And [here](https://www.patreon.com/wargonzoo) is russian war correspondent’s Patreon account, mentioned in the story, still proudly present on the platform (though seemingly dormant).
+
+## UPD: Aug 13, 2024
+
+So, folks! After a week of poking, we have a kind-of-official answer from [@buymeacoffee](https://x.com/buymeacoffee)!
+
+Let’s unpack it!
+
+<blockquote class="twitter-tweet" data-conversation="none"><p lang="en" dir="ltr">This is simply not true. Let us clarify:<br><br>1. We never hold funds. If for some reason we cannot payout (potential fraud, bank account issues), the amount is refunded.<br><br>2. Not one Ukrainian creator&#39;s payout is held. We paid out to thousands of Ukrainian creators this week. Please…</p>&mdash; Buy Me a Coffee (@buymeacoffee) <a href="https://twitter.com/buymeacoffee/status/1823085434605605055?ref_src=twsrc%5Etfw">August 12, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+**0\.** For some reason, this answer is a reply to one of those repeatedly asked them. Not even a standalone X post, nor a blog/changelog entry, nor a newsletter to creators.
+
+So, if you aren’t a creator who constantly buggers them on X-formerly-Twitter (or follows all the discussions), you might still be unaware of the policy change or the existence of some answers.
+
+The official feeds are still clear of the topic.
+
+> 1. We never hold funds. If [...] we cannot payout [...] the amount is refunded.
+
+I believe this **intention** (well, anything less would be a legal suicide), but I would still like to hear:
+a. How the “cannot payout” decided and whether “the creator doesn’t have payout method we like, they should try another one” qualifies
+b. A success story of real refunding (say, $5 to thousands of people) and whether it really works or just a claim.
+
+> 2. Not one Ukrainian creator's payout is held. [...] Please reply with the creator @ if you know of any.
+
+I **want to believe** that. In my original thread, and many other threads and discussions, I saw a LOT of people with negative experience of interaction with support.
+
+Hopefully, **ALL** of Ukrainian creators who reported payout problems and unhelpful support responses are paid now? (And **hopefully**, it is not by means of “just find an EU friend who will agree to receive a payment for you”?.. Because I saw stories like that).
+
+Also, dear BuyMeACoffee, “please @-us if you know a creator who has problems” would be **a lot more persuasive** if it wasn’t in the effing _replies under just one tweet_.
+
+Just sayin’
+
+> 3. Almost all of our creators use our standard payout method powered by Stripe.
+
+Yeah, the so-called “First World”. But I get it. I do.
+
+> We've decided to focus on this for [...] reasons which are important for the sustainability of the business.
+
+That’s your business, and that’s your right to do so. As inconvenient as it might be for us, we have no say here. But the way it was communicated...
+
+> we're planning to continue offering an alternative payout method [...] for countries that are not supported. As we figure this out, we can confirm that it is business as usual for creators from Ukraine
+
+It would be such a nice message if communicated clearly & timely 🙏
+
+> We'd appreciate it if you stop spamming our socials, spreading misinformation about us such as "we blocked withdrawals to Ukraine". We'll have no option but to block you and move on.
+
+You know what?
+
+**We’d appreciate** if you would be clear, honest, and public about the changes you make.
+
+**We’d appreciate** your support not changing the story from the initial “it’s compliance standards”, to further “your payout method is not supported, it is your problem” to final (after the public outrage) “oh of course we would help everyone 🙏”.
+
+**We’d appreciate** the public communication of the situation (and no, the reply in one thread in X that ends with passive aggression is not it, thank you very much!)
+
+**We’d appreciate** having this convo, like, a couple of weeks ago.
+
+**In conclusion**, I don’t believe BMaC being malicious or scammy in this situation (and I _do want_ to believe they are looking for a solution that will work for us, too). But the amount of neglect and disregard that was displayed in the way the change was implemented and communicated, and in the interactions with support, makes it almost a textbook case of **bad communication**.
