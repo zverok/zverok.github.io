@@ -12,6 +12,8 @@ image: https://zverok.space/img/2024-08-08-bmac/cover.png
 
 **UPD Aug 13, 2024:** The kind-of-official reply from BuyMeACoffee, and [my response to it](#upd-aug-13-2024).
 
+**UPD Aug 14, 2024:** A support email to one of the users gives BuyMeACoffee’s reasons, and also they [blocked me on X (Twitter)](#upd-aug-14-2024).
+
 ## What happened
 
 Recently, many Ukrainian creators have reported problems with payouts from [BuyMeACoffee](https://buymeacoffee.com/), a creator funding/crowdfunding platform.
@@ -140,3 +142,11 @@ You know what?
 **We’d appreciate** having this convo, like, a couple of weeks ago.
 
 **In conclusion**, I don’t believe BMaC being malicious or scammy in this situation (and I _do want_ to believe they are looking for a solution that will work for us, too). But the amount of neglect and disregard that was displayed in the way the change was implemented and communicated, and in the interactions with support, makes it almost a textbook case of **bad communication**.
+
+## UPD: Aug 14, 2024
+
+One of the Ukrainian creators received an unusually honest explanation of the reasons behind dropping support for Payoneer and Wise: “Incompatible with our upcoming features.” So, like, a bit more convenience for the First World users, at a price of excluding those not that privileged. (Note also that in this communication there is no sign of that promise of that “planning to continue offering an alternative payout method [...] for countries that are not supported” which was sweetening their **public** communication.)
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I am disabling <a href="https://twitter.com/buymeacoffee?ref_src=twsrc%5Etfw">@buymeacoffee</a> account tomorrow.<br><br>The company is irresponsibly punches its Ukrainian clients in the guts by disabling Wise and making payouts impossible.<br><br>This isn’t just about switching platforms; each Ukrainian creator will lose their entire subscriber base. This… <a href="https://t.co/BPnuAgcutk">pic.twitter.com/BPnuAgcutk</a></p>&mdash; Kate from Kharkiv (@BohuslavskaKate) <a href="https://twitter.com/BohuslavskaKate/status/1823303795322822679?ref_src=twsrc%5Etfw">August 13, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+**And another update:** After several days of persistent, yet polite, poking their public X account, asking for public statement (more public than a reply in a thread), BuyMeACoffee [just blocked me](https://x.com/zverok/status/1823757570240340466).
