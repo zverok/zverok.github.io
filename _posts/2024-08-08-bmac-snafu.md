@@ -149,4 +149,10 @@ One of the Ukrainian creators received an unusually honest explanation of the re
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">I am disabling <a href="https://twitter.com/buymeacoffee?ref_src=twsrc%5Etfw">@buymeacoffee</a> account tomorrow.<br><br>The company is irresponsibly punches its Ukrainian clients in the guts by disabling Wise and making payouts impossible.<br><br>This isn’t just about switching platforms; each Ukrainian creator will lose their entire subscriber base. This… <a href="https://t.co/BPnuAgcutk">pic.twitter.com/BPnuAgcutk</a></p>&mdash; Kate from Kharkiv (@BohuslavskaKate) <a href="https://twitter.com/BohuslavskaKate/status/1823303795322822679?ref_src=twsrc%5Etfw">August 13, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-**And another update:** After several days of persistent, yet polite, poking their public X account, asking for public statement (more public than a reply in a thread), BuyMeACoffee [just blocked me](https://x.com/zverok/status/1823757570240340466).
+**And another update:** After several days of persistent, yet polite, poking their public X account, asking for public statement (more public than a reply in a thread), BuyMeACoffee [just blocked me](https://x.com/zverok/status/1823757570240340466), reportedly “for spreading misinformation”:
+
+![](/img/2024-08-08-bmac/image05.png)
+
+Note there is new, previously never stated, pieces of information: about Payoneer working till Nov.1—not “do your last payout in August,” as it was previously; and about Wise which they will “continue to offer” (currently, to the best of my understanding, they aren’t).
+
+
