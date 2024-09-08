@@ -2,7 +2,7 @@
 layout: page
 title: Translator’s explanations
 permalink: /writing/goingtoyalta/intro.html
-breadcrumbs: /writing/goingtoyalta/
+breadcrumbs: /writing/|/writing/goingtoyalta/
 ---
 
 ![](/img/goingtoyalta/cover.png)
