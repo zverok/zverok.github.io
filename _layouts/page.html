@@ -4,6 +4,22 @@ layout: default
 <article class="post">
 
   <header class="post-header">
+    {% if page.breadcrumbs %}
+      <div class="breadcrumbs">
+        {% assign crumbs = page.breadcrumbs | split: '|' %}
+        {% for crumb in crumbs %}
+          {% for page in site.pages %}
+            {% if page.url == crumb %}
+              <a href="{{ page.url }}">{{ page.title }}</a>
+            {% endif %}
+          {% endfor %}
+          {% unless forloop.last %}
+            <span class="breadcrumb-separator">/</span>
+          {% endunless %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
     <h1 class="post-title">{{ page.title }}</h1>
   </header>
 

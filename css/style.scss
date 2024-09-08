@@ -524,7 +524,7 @@ pre {
   margin-bottom: $spacing-unit;
 }
 .post-title {
-  font-size: 42px;
+  font-size: 30px;
 
   text-align: center;
   font-family: "PT Sans";
@@ -706,4 +706,12 @@ pre {
 
     p { font-size: 0.9em;  }
   }
+}
+
+/* breadcrumbs */
+
+.breadcrumbs {
+  margin-left: 30px;
+  margin-top: 20px;
+  margin-bottom: -10px;
 }

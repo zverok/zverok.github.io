@@ -40,7 +40,7 @@ Before the full-scale Russian invasion, I was working on an ambitionus Ruby book
 * [Game of Life in one Ruby statement... inspired by APL](/blog/2020-05-16-ruby-as-apl.html)
 * [On sustainable testing](/blog/2017-11-07-on-culture-of-bdd.html)
 
-### [All posts →](/writing/#blog)
+### [All posts →](/blog/)
 
 ## Projects
 

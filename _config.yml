@@ -17,6 +17,11 @@ github_username:  zverok
 # paginate: 50
 theme-dark: false #Set to true to change to dark website theme
 
+collections:
+  onwar:
+    output: true
+    permalink: "/writing/onwar/:year-:month-:day-:title.html"
+
 # plugins: [jekyll-paginate, kramdown]
 # Build settings
 markdown: kramdown

@@ -3,21 +3,30 @@ layout: old-writing
 title: "Тексти / Fiction & Poetry"
 permalink: /writing/fiction/
 redirect_from: /writing/old/
+breadcrumbs: /writing/
 ---
 
-## 2022: Going to Yalta After the Apocalypse
+### [Going to Yalta After The Apocalypse](/writing/goingtoyalta/)
 
-This novel was written and sent to mailing list in everyday chunks May 1-Dec 1, 2022, during the russian invasion.
+The novel I planned for three years, and started to write in May, 2022, during the Russian invasion. It was published in small daily chunks on the Substack mailing list, every day May 1—Dec 1, 2022.
 
-* [Intro and explanations](https://goingtoyalta.substack.com/pre-intro)
-* [Author's afterword + link to the whole (unedited) novel EPUB](https://goingtoyalta.substack.com/p/outro)
+The novel follows a group of survivors of a catastrophic event that destroyed the rest of the world on their journey through the Crimean peninsula in the early 2000s.
 
-## 2018: Роман «Українець Джонатан і 27 мерців»
+### [Українець Джонатан і двадцять сім мерців](/writing/jona/)
 
-(Наразі у редактурі)
+Написано у 2018-му, видано Видавництвом 21 у вересні 2024.
 
-* [Глава 9 «Раб Божий механік-водій»](jona9.html)
-* [Глава 21 «Усі коти Криму»](jona21.html)
+> «Мій батько Юджин воював у Другу світову в бразильському війську, навчався у британського літуна-аса і знався з > далай-ламою» — приблизно такими історіями про свою родину розважає оповідача українець Джонатан-Йона, нащадок емігрантської родини, яка колись заснувала селище Горобці в штаті Джорджія.
+>
+> Йонині родичі й сам він зберігають пам’ять про події з усіх періодів останнього століття Сполучених Штатів: Великої депресії і золотого віку Голлівуду, Другої світової та ери космосу, Вудстоку-69 та Олімпіади-84, війни з терором і урагану Катріна. Вони ніколи не відігравали значної ролі в цих подіях, але часто були свідками дивних і малоймовірних історій.
+>
+> Є в цих історіях і мерці, і їх рівно двадцять сім. Можете полічити.
+
+### [Ukrainian poetry translated](https://7uapoems.substack.com/)
+
+My irregular amateurish attempt to translate modern Ukrainian poetry, mostly writing by poets currently serving in the Ukrainian Armed Forces.
+
+It is a separate [Substack publication](https://7uapoems.substack.com/) you can subscribe to.
 
 ---
 

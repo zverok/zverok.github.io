@@ -4,66 +4,40 @@ title: Writing
 permalink: /writing/
 ---
 
-<div class="callout" markdown="1">
-  There is a [war](https://war.ukraine.ua/) in Ukraine. I am still trying to write about Ruby, and coding, and such things, but my Twitter is now mostly about the war.
-</div>
+## [On Software Development](blog/)
 
-<br/>
+My [articles on various aspects of software development](blog/), mostly Ruby, its style, evolution, and pragmatic approaches; though from time to time I get interested in various topics like [spellcheckers](/blog/2021-05-06-how-to-spellcheck.html) or [generative art](/blog/2021-12-28-grok-shan-shui.html). Also available at [Substack](https://zverok.substack.com/).
 
-_**Before the war, the text was:** I write a lot but quite irregularly. Fiction, poetry, magazine articles, blog posts, <a href="https://twitter.com/zverok">Twitter</a>. The book and <a href="https://zverok.substack.com">Substack</a>/blog are my current main focuses._
+_I migth be work on some book or another, but at the moment there is nothing sure to announce. If you saw a book announce here before, it is probably outdated._
+
+## [On War](onwar/)
+
+A [set of texts](onwar/)—mostly long Twitter threads put together and edited for ease of reading—that I am writing during the Russia’s full-scale invasion of Ukraine since 2022. Mourning friends, personal stories, and some political/sociological analysis on Russian and Western ways of about the genocidal invasion.
 
 ## Fiction/poetry
 
-* [Mine](/writing/fiction/) (mostly in Ukrainian)
-* [My translations of modern Ukrainian Poetry into English](https://7uapoems.substack.com/)
+I am a writer, first and foremost (writing code is just one of my activities); albeit not that successful one. At the moment of writing this paragraph (September 2024), I have one published novel in Ukrainian, one unpublished novel in English, some personal translation projects, and an archive of old poems online.
 
-<!--
+### [Going to Yalta After The Apocalypse](goingtoyalta/)
 
-## Books
+The novel I planned for three years, and started to write in May, 2022, during the Russian invasion. It was published in small daily chunks on the Substack mailing list, every day May 1—Dec 1, 2022.
 
-* **41 Ruby Intuitions (Gaining architectural insight from looking at code as text)**: the book on Ruby I wanted to write for many years, and finally planned to start in 2022... Then the full-scale Russian invasion started, and I just don't have resource to proceed with it. I am still planning to do it, but after the war. There is an (empty) [Substack](https://rubyintuitions.substack.com/) dedicated to it; I'll also write on my [primary one](https://zverok.substack.com) when the project would move forward.
-* **Ruby Evolution**:
+The novel follows a group of survivors of a catastrophic event that destroyed the rest of the world on their journey through the Crimean peninsula in the early 2000s.
 
-## Books
+### [Українець Джонатан і двадцять сім мерців](jona/)
 
-Yeah, plural. There are two to talk about:
+Написано у 2018-му, видано Видавництвом 21 у вересні 2024.
 
-* **41 Ruby Intuitions (Gaining architectural insight from looking at code as text)**: the book on Ruby I wanted to write for many years, and finally planned to start in 2022... Then the full-scale Russian invasion started, and I just don't have resource to proceed with it. I am still planning to do it, but after the war. There is an (empty) [Substack](https://rubyintuitions.substack.com/) dedicated to it; I'll also write on my [primary one](https://zverok.substack.com) when the project would move forward.
-* **Going to Yalta After the Apocalypse (a novel in 213 lost photographs)**: A post-apocalyptic road novel I also planned to write this year... And this is the one I was able to proceed with. It is written and [published on Substack](https://goingtoyalta.substack.com/) in everyday small (\~300-something words) chunks since May 1st, and is planned to be finished at December 1st. You can read more about the intention and writing process in the [author's intro](https://goingtoyalta.substack.com/p/pre-intro). **UPD:** The book was finished as scheduled, on December 1st. Author's outro and link to full unedited EPUB [are available here](https://goingtoyalta.substack.com/p/outro). I plan to remove it from the Internet in a month before editing and looking for a publisher.
+> «Мій батько Юджин воював у Другу світову в бразильському війську, навчався у британського літуна-аса і знався з > далай-ламою» — приблизно такими історіями про свою родину розважає оповідача українець Джонатан-Йона, нащадок емігрантської родини, яка колись заснувала селище Горобці в штаті Джорджія.
+>
+> Йонині родичі й сам він зберігають пам’ять про події з усіх періодів останнього століття Сполучених Штатів: Великої депресії і золотого віку Голлівуду, Другої світової та ери космосу, Вудстоку-69 та Олімпіади-84, війни з терором і урагану Катріна. Вони ніколи не відігравали значної ролі в цих подіях, але часто були свідками дивних і малоймовірних історій.
+>
+> Є в цих історіях і мерці, і їх рівно двадцять сім. Можете полічити.
 
-## "41 Ruby Intuitions"—book in progress {#ruby-intuitions}
+### [Ukrainian poetry translated](https://7uapoems.substack.com/)
 
-**Gaining architectural insight from looking at code as text**
+My irregular amateurish attempt to translate modern Ukrainian poetry, mostly writing by poets currently serving in the Ukrainian Armed Forces.
 
-The main topic of the book is looking into the ways of code writing that allow creating lucid code. Lucid code conveys its intention and means in the most humane ways possible. I'll be exploring the ways of thinking that Ruby programming language, "designed for developer's happiness" teaches, and how paying attention to singular (code) phrases allow one to write better.
+It is a separate [Substack publication](https://7uapoems.substack.com/) you can subscribe to.
 
-<iframe src="https://rubyintuitions.substack.com/embed" width="480" height="320" style="border:1px solid #EEE; background:white;" frameborder="0" scrolling="no"></iframe>
--->
-
-## Blog {#blog}
-
-**Note:** Most of my writing is currently first published at [Substack](https://zverok.substack.com). You can subscribe by email or read it on the web.
-
-{% for post in site.posts%}
-<div class="post postContent">
-  <!--
-  <div class="postTag">
-    {{post.tag}}
-  </div>
--->
-  <br>
-  <div class="postTitle">
-  <a class='postLink' href="{{site.url}}{{site.baseurl}}{{post.url}}">{{post.title}}</a>
-  </div>
-  <div  class="postDate"><time datetime="{{ post.date | date_to_xmlschema }}" itemprop="datePublished">{{ post.date | date: "%b %-d, %Y" }}</time>
-  </div>
-  <div class="postExt">
-    {% if post.description %}
-      {{ post.description }}
-    {% else %}
-      {{ post.content | strip_html | truncate:200}}
-    {% endif %}
-  </div>
-</div>
-
-{% endfor %}
+### [All the rest](fiction/)
