@@ -138,7 +138,7 @@ puts current_gen.wrap.product(AA[-1, 0, 1], &:hrotate).product(AA[-1, 0, 1], &:v
 # └─────────┘ └─────────┘ └─────────┘
 ```
 
-Note that what we currently see is a _2 dimensional matrix (3×3)_ of _2-dimensional matrices (5×5)_: inner metrices are wrapped in frames.
+Note that what we currently see is a _2 dimensional matrix (3×3)_ of _2-dimensional matrices (5×5)_: inner matrices are wrapped in frames.
 
 Now, let's sum them all up:
 
