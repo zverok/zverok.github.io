@@ -29,7 +29,7 @@ Why? Read below.
 
 > **Disclaimer**: for the sake of discussion, I am using made-up examples, not particularly based on
   any existing library. I just don't want my points to be lost in "Oh, he is just blaming %libraryname%",
-  like it already [happened in the past](http://zverok.github.io/blog/2016-10-09-minitest.html).
+  like it already [happened in the past](http://zverok.space/blog/2016-10-09-minitest.html).
 
 So...
 

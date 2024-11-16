@@ -21,7 +21,7 @@ It struck me with its beauty—as well as with the fact that I don't have the sl
 
 ## Trying to understand
 
-My usual way to understand how others' code works is to translate it into another language. I did [quite](https://github.com/zverok/xkcdize) [a](https://github.com/zverok/drosterize) [few](https://github.com/zverok/magic_cloud) [projects](https://zverok.github.io/blog/2020-05-16-ruby-as-apl.html) [of](https://github.com/molybdenum-99/mormor) [this kind](https://zverok.github.io/spellchecker.html). And deciding on what language to translate it to, I made a weird decision: to just rewrite (some parts of the) `{Shan, Shui}*` in the same JavaScript—but using modern features of the latest versions and semi-functional style of chained computations I am fond of.
+My usual way to understand how others' code works is to translate it into another language. I did [quite](https://github.com/zverok/xkcdize) [a](https://github.com/zverok/drosterize) [few](https://github.com/zverok/magic_cloud) [projects](https://zverok.space/blog/2020-05-16-ruby-as-apl.html) [of](https://github.com/molybdenum-99/mormor) [this kind](https://zverok.space/spellchecker.html). And deciding on what language to translate it to, I made a weird decision: to just rewrite (some parts of the) `{Shan, Shui}*` in the same JavaScript—but using modern features of the latest versions and semi-functional style of chained computations I am fond of.
 
 This is not to say the original author's code was "bad," and I made it "good"—nothing of the kind. I just experimented with how things _might_ be expressed so they would be closer to my reading/writing habits—just as _some_ goal making me understand them.
 

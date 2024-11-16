@@ -12,7 +12,7 @@ Today, we talk about **edit-based suggestions.**
 
 **Quick recap**: **[The first part](2021-01-05-spellchecker-1.html)** described what Hunspell is; and why I decided to [rewrite it in Python](https://github.com/zverok/spylls). In **[the second](2021-01-09-spellchecker-2.html)** and **[the third](2021-01-14-spellchecker-3.html)** parts, we've talked about **lookup**: checking the word's correctness.
 
-**[The fourth part](https://zverok.github.io/blog/2021-01-21-spellchecker-4.html)** introduced **suggest**, an algorithm for search for corrections. We described that Hunspell performs suggest in two main stages:
+**[The fourth part](https://zverok.space/blog/2021-01-21-spellchecker-4.html)** introduced **suggest**, an algorithm for search for corrections. We described that Hunspell performs suggest in two main stages:
 
 1. Generate edits and test them for the correctness
 2. (If the first stage didn't produce good enough results) Search through the entire dictionary and find similar words
@@ -230,7 +230,7 @@ print(*english.suggester.suggestions("londun"))
 #            ^^^^^
 ```
 
-**Ngram-base suggestion would be the [theme of the next chapter](2021-02-10-spellchecker-6.html).** Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](/subscribe.html) if you don't want to miss the follow-up!
+**Ngram-base suggestion would be the [theme of the next chapter](2021-02-10-spellchecker-6.html).** Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](https://zverok.substack.com/) if you don't want to miss the follow-up!
 
 PS: Let me know your opinion on code examples: are they making the reading easier and more fun, or hard and tiresome? Should we have them in the next series?
 

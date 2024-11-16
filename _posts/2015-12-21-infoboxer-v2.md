@@ -13,7 +13,7 @@ highly useful MediaWiki (including Wikipedia) hi-level _data client_**.
 Please look at Infoboxer's [showcase](https://github.com/molybdenum-99/infoboxer/wiki/Showcase)
 to have a feeling of what it can do for you.
 
-Since [first announce](http://zverok.github.io/blog/2015-08-18-infoboxer.html)
+Since [first announce](http://zverok.space/blog/2015-08-18-infoboxer.html)
 in Aug 2015, Infoboxer already made a huge advance in stability and usability.
 
 In new release:

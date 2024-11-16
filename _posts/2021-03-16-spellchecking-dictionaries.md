@@ -227,4 +227,4 @@ Another example is a huge list of `CHECKCOMPOUNDPATTERN` in Dutch dictionary, ha
 
 The final part of the series will do a huge wrap up of everything I've learned and everything I've thought while investigating Hunspell, and some ideas of **[how the spellchecking should actually look in 2021](/blog/2021-05-06-how-to-spellcheck.html)**.
 
-Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](/subscribe.html) if you don't want to miss the follow-up!
+Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](https://zverok.substack.com/) if you don't want to miss the follow-up!

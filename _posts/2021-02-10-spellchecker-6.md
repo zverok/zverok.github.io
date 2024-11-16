@@ -6,15 +6,15 @@ categories: python spellchecker
 comments: true
 ---
 
-**_This is a part of the ongoing ["Rebuilding the spellchecker"](/spellchecker.html) series, dedicated to explaining how the world's most popular spellchecker Hunspell works, via its Python port called [Spylls](https://github.com/zverok/spylls). You can start reading from the [first part](https://zverok.github.io/blog/2021-01-05-spellchecker-1.html) (or look into the series [TOC](/spellchecker.html)), but this is not a requirement: I provide here all the necessary context to follow this article._**
+**_This is a part of the ongoing ["Rebuilding the spellchecker"](/spellchecker.html) series, dedicated to explaining how the world's most popular spellchecker Hunspell works, via its Python port called [Spylls](https://github.com/zverok/spylls). You can start reading from the [first part](https://zverok.space/blog/2021-01-05-spellchecker-1.html) (or look into the series [TOC](/spellchecker.html)), but this is not a requirement: I provide here all the necessary context to follow this article._**
 
 In the heart of every spellchecker is the algorithm for suggesting corrections, called just **suggest** in Hunspell. Ideally, it should provide a list of suggestions that is comprehensive yet concise, trying hard not to miss the right suggestion for a severely misspelled word, and at the same time not to overwhelm the user with too many variants.
 
-As we've seen in the **[suggest overview](https://zverok.github.io/blog/2021-01-21-spellchecker-4.html)**, the task is not only complicated, but also it doesn't have a singular right answer, and the quality of the solution is quite hard to estimate objectively.
+As we've seen in the **[suggest overview](https://zverok.space/blog/2021-01-21-spellchecker-4.html)**, the task is not only complicated, but also it doesn't have a singular right answer, and the quality of the solution is quite hard to estimate objectively.
 
 ## Full dictionary search
 
-> The [previous part](https://zverok.github.io/blog/2021-01-28-spellchecker-5.html) demonstrates Hunspell's approach to simple misspellings: it generates a list of "edits" (like inserting one letter, removing one letter, and so on), and tries to find out whether some of them are correct dictionary words. Too often, though, it is not enough: all corrections found via edits are one or two characters different from the misspelling, so the search space is limited. In real life, even the accidental typos of the perfectly educated writer will not always be possible to correct this way. If we consider genuine spelling mistakes, we'll see a wide range of possibilities for how severely a word can be corrupted while still staying recognizable to the human reader.
+> The [previous part](https://zverok.space/blog/2021-01-28-spellchecker-5.html) demonstrates Hunspell's approach to simple misspellings: it generates a list of "edits" (like inserting one letter, removing one letter, and so on), and tries to find out whether some of them are correct dictionary words. Too often, though, it is not enough: all corrections found via edits are one or two characters different from the misspelling, so the search space is limited. In real life, even the accidental typos of the perfectly educated writer will not always be possible to correct this way. If we consider genuine spelling mistakes, we'll see a wide range of possibilities for how severely a word can be corrupted while still staying recognizable to the human reader.
 
 When all attempts to generate suggestions based on edits have failed, Hunspell uses another strategy: just stop guessing and **search for similar words through the entire dictionary**.
 
@@ -35,7 +35,7 @@ print(*english.suggester.suggestions('akchualy'))
 ```
 -->
 
-Those who follow the series long enough might remember that we have a problem here: there is **no complete list of all possible words**. Hunspell's dictionary is [a list of stems and affixes](https://zverok.github.io/blog/2021-01-09-spellchecker-2.html) that can be attached to them. Iterating through all possible word forms is computationally expensive—not even mentioning the problem of iterating through [compound words](https://zverok.github.io/blog/2021-01-14-spellchecker-3.html)... because the lookup through entire dictionary ignores them completely.
+Those who follow the series long enough might remember that we have a problem here: there is **no complete list of all possible words**. Hunspell's dictionary is [a list of stems and affixes](https://zverok.space/blog/2021-01-09-spellchecker-2.html) that can be attached to them. Iterating through all possible word forms is computationally expensive—not even mentioning the problem of iterating through [compound words](https://zverok.space/blog/2021-01-14-spellchecker-3.html)... because the lookup through entire dictionary ignores them completely.
 
 Another problem is how to estimate the similarity of suggestion to a misspelling so it will be aligned with the user's intuitive understanding. Hunspell uses two approaches (the first one much more often): lexicographical, or **n-gram-based** similarity; and **phonetic** similarity.
 
@@ -153,12 +153,12 @@ On this sad note, let's wrap it all up!
 
 Let's zoom out a little and see what we now know about implementing the suggestions for misspellings—at least about the way Hunspell does it:
 
-* Finding the corrections for a misspelled word [is a non-trivial task](https://zverok.github.io/blog/2021-01-21-spellchecker-4.html); finding the corrections that would look meaningful for the human—ten times more so.
-* There are three base approaches to suggest: [edit](https://zverok.github.io/blog/2021-01-28-spellchecker-5.html) the misspelled word and see if it will produce a good word; look through the entire dictionary and find most similar words; look through the table of known misspellings and check if the provided word is there. Hunspell uses all three (the third one via `REP` table if it is present in aff-file of the dictionary, on the edit stage).
+* Finding the corrections for a misspelled word [is a non-trivial task](https://zverok.space/blog/2021-01-21-spellchecker-4.html); finding the corrections that would look meaningful for the human—ten times more so.
+* There are three base approaches to suggest: [edit](https://zverok.space/blog/2021-01-28-spellchecker-5.html) the misspelled word and see if it will produce a good word; look through the entire dictionary and find most similar words; look through the table of known misspellings and check if the provided word is there. Hunspell uses all three (the third one via `REP` table if it is present in aff-file of the dictionary, on the edit stage).
 * There is no single state-of-the-art algorithm, neither single all-consuming lexicographical formula to "solve" the suggestion search; the (relatively) decent quality of Hunspell's suggestion is achieved by a rigid combination of simple algorithms and calculations developed through many years.
 * Phonetical similarity **is** important for suggestion search but is virtually unused by the Hunspell.
 
 Together with word lookup description (["Just look in the dictionary, they said!
-"](https://zverok.github.io/blog/2021-01-09-spellchecker-2.html), ["Compounds and solutions"](https://zverok.github.io/blog/2021-01-09-spellchecker-2.html)), this covers most of the Hunspell's core algorithms. The quality of spellchecking is defined by these algorithms and **how the dictionaries are built and maintained**—which, as everything about Hunspell, is a problem with a ton of nuances, edge cases, and unfortunate implementation details. **We'll see it in the [next chapter](/blog/2021-03-16-spellchecking-dictionaries.html).**
+"](https://zverok.space/blog/2021-01-09-spellchecker-2.html), ["Compounds and solutions"](https://zverok.space/blog/2021-01-09-spellchecker-2.html)), this covers most of the Hunspell's core algorithms. The quality of spellchecking is defined by these algorithms and **how the dictionaries are built and maintained**—which, as everything about Hunspell, is a problem with a ton of nuances, edge cases, and unfortunate implementation details. **We'll see it in the [next chapter](/blog/2021-03-16-spellchecking-dictionaries.html).**
 
-Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](/subscribe.html) if you don't want to miss the follow-up!
+Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](https://zverok.substack.com/) if you don't want to miss the follow-up!

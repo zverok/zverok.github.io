@@ -93,9 +93,9 @@ But it became worse quickly: **the method references feature [was reverted](http
 
 I was heartbroken, but it wasn't even the last grief of the year. Another one—or what at the time felt like one—was pattern-matching merging.
 
-I, as many of us, dreamed about "proper" pattern-matching in Ruby for a long time. In fact, my Ruby-dedicated blog was once started with an [experiment in implementing it](https://zverok.github.io/blog/2015-07-18-matchish.html) at a library level. I [returned to the questions](https://zverok.github.io/blog/2018-06-26-pattern-matching.html) [many times](https://bugs.ruby-lang.org/issues/14709)—as did others. As with method references, the potential syntaxes were discussed in the issue tracker, twitters, blogs, [even conferences](https://rubykaigi.org/2017/presentations/yotii23.html) for many years.
+I, as many of us, dreamed about "proper" pattern-matching in Ruby for a long time. In fact, my Ruby-dedicated blog was once started with an [experiment in implementing it](https://zverok.space/blog/2015-07-18-matchish.html) at a library level. I [returned to the questions](https://zverok.space/blog/2018-06-26-pattern-matching.html) [many times](https://bugs.ruby-lang.org/issues/14709)—as did others. As with method references, the potential syntaxes were discussed in the issue tracker, twitters, blogs, [even conferences](https://rubykaigi.org/2017/presentations/yotii23.html) for many years.
 
-And then, out of the blue—_or so it felt_—**some pattern-matching syntax was [just merged](https://bugs.ruby-lang.org/issues/14912) during Ruby 2.7 development**. It seemed neat. It appeared even similar to my latest [published ideas](https://zverok.github.io/blog/2018-06-26-pattern-matching.html) of how it should look¹.
+And then, out of the blue—_or so it felt_—**some pattern-matching syntax was [just merged](https://bugs.ruby-lang.org/issues/14912) during Ruby 2.7 development**. It seemed neat. It appeared even similar to my latest [published ideas](https://zverok.space/blog/2018-06-26-pattern-matching.html) of how it should look¹.
 
 ![](/img/2022-01-13-it-evolves/pm-merged.png)
 

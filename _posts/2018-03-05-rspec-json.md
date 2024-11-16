@@ -24,7 +24,7 @@ its(:status) { is_expected.to eq 201 }
 its(:headers) { are_expected.to include('Location') }
 its(:body) { is_expected.to ... what?.. }
 ```
-> **Note:** If you feel uneasy or unfamiliar with this style of RSpec (exactly one statement per test being expectation, description-less `it`, use of `rspec-its`), you can read my [theoretical rant](https://zverok.github.io/blog/2017-11-07-on-culture-of-bdd.html) about why it could be preferred. If you are familiar with it and prefer your test verbose and "magic-less" (duh), probably this article would not be that interesting for you.
+> **Note:** If you feel uneasy or unfamiliar with this style of RSpec (exactly one statement per test being expectation, description-less `it`, use of `rspec-its`), you can read my [theoretical rant](https://zverok.space/blog/2017-11-07-on-culture-of-bdd.html) about why it could be preferred. If you are familiar with it and prefer your test verbose and "magic-less" (duh), probably this article would not be that interesting for you.
 
 There are suprisingly lot of attempts to find the "holy grail" of this simple json matcher ([1](https://github.com/waterlink/rspec-json_expectations), [2](https://github.com/collectiveidea/json_spec), [3](https://github.com/brooklynDev/airborne), [4](https://github.com/paul/rspec-resembles_json_matchers), [5](https://github.com/brigade/rspec_json_matchers)), and I've used one or another of them eventually, yet it always was a mixing feeling like "OK, it works, but not the way I'd like it to".
 

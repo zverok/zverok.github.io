@@ -8,9 +8,9 @@ comments: true
 
 **I spent a year building a spellchecker, and all I got is some grumbling to share.**
 
-When I [started rebuilding](https://zverok.github.io/blog/2021-01-05-spellchecker-1.html) the [world's most popular spellchecker](http://hunspell.github.io/), I had several goals. But the main one was: understand spellchecking better, share this understanding with others, and, ideally, push spellchecking development a little bit.
+When I [started rebuilding](https://zverok.space/blog/2021-01-05-spellchecker-1.html) the [world's most popular spellchecker](http://hunspell.github.io/), I had several goals. But the main one was: understand spellchecking better, share this understanding with others, and, ideally, push spellchecking development a little bit.
 
-I spent most of 2020 building and documenting [Spylls](https://github.com/zverok/spylls). Then, I am spending my 2021 on [the series of articles](https://zverok.github.io/spellchecker.html) about the details of Hunspell's algorithms.
+I spent most of 2020 building and documenting [Spylls](https://github.com/zverok/spylls). Then, I am spending my 2021 on [the series of articles](https://zverok.space/spellchecker.html) about the details of Hunspell's algorithms.
 
 After all those months, I can proudly state that now I understand less about how the spellchecking should be done "right" in 2021 than I've understood at the beginning of the project. But I am almost sure it shouldn't be done the way Hunspell does it.
 
@@ -105,6 +105,6 @@ For me, though, the story ends here. Despite all the frustration and complexitie
 
 I still hope the end result (both [software](https://github.com/zverok/spylls) and [writeup](/spellchecker.html)) would be useful or at least curious for some.
 
-I'll continue to write about adjoining topics: open data, handling cultural differences in software, reading and understanding code. Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](/subscribe.html) if you are interested in those topics.
+I'll continue to write about adjoining topics: open data, handling cultural differences in software, reading and understanding code. Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](https://zverok.substack.com/) if you are interested in those topics.
 
 PS: "Rebuilding the spellchecker" article series were conceived as an idea for one long post-mortem article. In the end, it spanned eight installments through 5 months. I would never finish this work (maybe will never move further than the first draft of the first article) without the precious advice and razor-sharp editing of my friend and colleague Alexey Makhotkin. BTW, he now writes "[Minimal modeling](https://minimalmodeling.substack.com/)" substack: a series of takes on DB modeling approaches, challenging common truths and dark corner cases of it. Follow it; it is brilliant.

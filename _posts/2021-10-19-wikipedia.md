@@ -142,4 +142,4 @@ We need to parse our civilization's knowledge and make it programmatically avail
 
 This year, I am starting to attack a problem from scratch: now with Python, and from a different angle, with the [WikipediaQL](https://github.com/zverok/wikipedia_ql) project.
 
-Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](/subscribe.html) to see the road together.
+Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](https://zverok.substack.com/) to see the road together.

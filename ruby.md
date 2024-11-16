@@ -25,7 +25,7 @@ List of my ([zverok aka Victor Shepelev](https://zverok.space)) contributions to
   * [`Method#inspect`](https://bugs.ruby-lang.org/issues/14145)
   * ~[`Date#inspect` simplified](https://github.com/ruby/date/pull/12)~ (reverted)
 * **Ruby 2.6**:
-  * [`Kernel#then`](https://bugs.ruby-lang.org/issues/14594) as a synonym (better name) for `#yield_self` ([context](https://zverok.github.io/blog/2018-03-23-yield_self2.html))
+  * [`Kernel#then`](https://bugs.ruby-lang.org/issues/14594) as a synonym (better name) for `#yield_self` ([context](https://zverok.space/blog/2018-03-23-yield_self2.html))
   * [`Enumerable#chain`](https://bugs.ruby-lang.org/issues/15144)
   * [`Range#===`](https://bugs.ruby-lang.org/issues/14575) to use `cover?` instead of `include?`
   * [`CSV::Row#each_pair`](https://github.com/ruby/csv/pull/33) for compatibility with `OpenStruct`

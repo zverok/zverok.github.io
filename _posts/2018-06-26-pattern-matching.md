@@ -6,7 +6,7 @@ categories: ruby
 comments: true
 ---
 
-It happened so that this blog was started almost 3 years ago with [post](https://zverok.github.io/blog/2015-07-18-matchish.html) about exercise in imitating pattern matching as a Ruby library. That was fun, but ended in a sad realization:
+It happened so that this blog was started almost 3 years ago with [post](https://zverok.space/blog/2015-07-18-matchish.html) about exercise in imitating pattern matching as a Ruby library. That was fun, but ended in a sad realization:
 
 > **All in all, powerful pattern matching need to be core language feature**.
 
@@ -24,7 +24,7 @@ Now, this post is **an invitation to discuss** possible pattern matching (or its
 
 Ruby _has_ some elements of those in different places, which we'll investigate a bit later.
 
-There are several attempts to implement pattern matching as a library, some of them are referenced from my [previous post](https://zverok.github.io/blog/2015-07-18-matchish.html), and to that we now can add:
+There are several attempts to implement pattern matching as a library, some of them are referenced from my [previous post](https://zverok.space/blog/2015-07-18-matchish.html), and to that we now can add:
 
 * [Qo](https://github.com/baweaver/qo) library by Brandon Weaver aka [@keystonelemur](https://twitter.com/keystonelemur), which includes some interesting experiments and theoretical discussion of the subject;
 * Yuki Torii's [prototype](https://github.com/yakitorii/pattern-match-ruby) ([Ruby Kaigi presentation](http://rubykaigi.org/2017/presentations/yotii23.html)) of how _core language_ implementation may look.

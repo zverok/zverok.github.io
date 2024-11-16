@@ -11,7 +11,7 @@ Amid GitHub Copilot kerfuffle _(I am as concerned about the usefulness and ethic
 
 **Can AI be really useful in code writing? If so, how?..**
 
-I mean here the AI-as-we-know it, a.k.a. statistically trained "models", not some genius "general intelligence". My take on modern AI is that it encapsulates "experience" (as opposed to knowledge/analysis). As stated in [one of my spellchecker articles](https://zverok.github.io/blog/2021-05-06-how-to-spellcheck.html):
+I mean here the AI-as-we-know it, a.k.a. statistically trained "models", not some genius "general intelligence". My take on modern AI is that it encapsulates "experience" (as opposed to knowledge/analysis). As stated in [one of my spellchecker articles](https://zverok.space/blog/2021-05-06-how-to-spellcheck.html):
 
 > The solution to every intellectual problem lies between two opposites: “with understanding” and “with experience”. Most of the time, we use a mix of both, though one can imagine “pure understanding, no experience” and “pure experience, no understanding” ways of solving.
 

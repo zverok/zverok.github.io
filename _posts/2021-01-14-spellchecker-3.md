@@ -138,7 +138,7 @@ To reiterate on everything said above: There are good and useful dictionaries fo
 
 Some of those tasks are directly related to how Hunspell is built and could've been done differently. But mostly, this chapter tries to show that **"check if the word spelled correctly", especially in languages other than English, should be seen as a not-that-trivial task**, to say the least.
 
-And we haven't even started on **corrections suggestion yet, which we'll gladly do [in the next part](2021-01-21-spellchecker-4.html)**.  Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](/subscribe.html) if you don't want to miss the follow-up!
+And we haven't even started on **corrections suggestion yet, which we'll gladly do [in the next part](2021-01-21-spellchecker-4.html)**.  Follow me [on Twitter](https://twitter.com/zverok) or [subscribe to my mailing list](https://zverok.substack.com/) if you don't want to miss the follow-up!
 
 PS: Huge thanks to [@squadette](https://twitter.com/squadette), my faithful editor. Without his precious help, the text would be even more convoluted!
 
