@@ -7,6 +7,12 @@ permalink: /talks/
 * Gimme TOC
 {:toc}
 
+## Seven things I know after 25 years of development
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/r9EQjBPU474?si=R69e9N4kxQrxpAHz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+> Keynote at EuRuKo'24 ([transcript](/blog/2025-01-25-7things-euruko.html))
+
 ## The struggle for better documentation (for Ruby itself)
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2VVEcOyeYLA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

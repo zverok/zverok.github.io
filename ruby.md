@@ -10,6 +10,8 @@ List of my ([zverok aka Victor Shepelev](https://zverok.space)) contributions to
 
 ### Accepted
 
+* **Ruby 3.3**:
+  * [`Range#step` behavior change](https://bugs.ruby-lang.org/issues/18368) to become more useful for non-numeric iteration.
 * **Ruby 3.2**:
   * [`Data` class](https://bugs.ruby-lang.org/issues/16122)
   * [`Time#deconstruct_keys`](https://bugs.ruby-lang.org/issues/19071), also [`Date` and `DateTime`](https://github.com/ruby/date/pull/80)
@@ -32,9 +34,7 @@ List of my ([zverok aka Victor Shepelev](https://zverok.space)) contributions to
 
 ### Pending
 
-* [`Hash#merge`: smarter protocol depending on passed block arity](https://bugs.ruby-lang.org/issues/19272)
 * [Make a concept of "consuming enumerator" explicit](https://bugs.ruby-lang.org/issues/19061)
-* [Update of semantics for `Range#step`](https://bugs.ruby-lang.org/issues/18368)
 * [`Enumerator::Lazy#partition`](https://bugs.ruby-lang.org/issues/18262)
 * [`Enumerable#take_while_after`](https://bugs.ruby-lang.org/issues/18136)
 * [`Dir#empty?` and `File#empty?`](https://bugs.ruby-lang.org/issues/16249)
@@ -63,6 +63,10 @@ List of my ([zverok aka Victor Shepelev](https://zverok.space)) contributions to
 
 ### Merged
 
+* **Ruby 3.3**:
+  * [Document `it` anonymous block argument](https://github.com/ruby/ruby/pull/12375)
+  * [Document `**nil` and update splatting documentation](https://github.com/ruby/ruby/pull/12228)
+  * [Rewrite backtraces-related documentation](https://github.com/ruby/ruby/pull/12420)
 * **Ruby 3.2**:
   * [Improve `TracePoint#allow_reentry` docs](https://github.com/ruby/ruby/pull/5380)
   * [Improve `Random::Formatter` docs](https://github.com/ruby/ruby/pull/5434)
@@ -85,7 +89,7 @@ List of my ([zverok aka Victor Shepelev](https://zverok.space)) contributions to
   * [New docs for `Fiber.transfer`](https://github.com/ruby/ruby/pull/3981)
   * [Full class- and method-level docs for Ractors](https://github.com/ruby/ruby/pull/3895)
   * [Update method definition docs to include `...` and one-line methods](https://github.com/ruby/ruby/pull/3997)
-  * [group of small fixes in 3.0 core docs](https://github.com/ruby/ruby/pull/3997)
+  * [A group of small fixes in 3.0 core docs](https://github.com/ruby/ruby/pull/3997)
   * [JSON](https://github.com/flori/json/pull/349): hide irrelevant parts of docs
   * [JSON: enhance generic `JSON` and `#generate` docs](https://github.com/flori/json/pull/347)
 * **Ruby 2.7**:
