@@ -18,6 +18,12 @@ A [set of texts](onwar/)—mostly long Twitter threads put together and edited f
 
 I am a writer, first and foremost (writing code is just one of my activities); albeit not that successful one. At the moment of writing this paragraph (September 2024), I have one published novel in Ukrainian, one unpublished novel in English, some personal translation projects, and an archive of old poems online.
 
+### [Чорні канікули](https://black-vacation.beehiiv.com/)
+
+Роман, який я зараз пишу, можна підписатися і читати (це безкоштовно).
+
+Про підлітків у світі, де від Харкова залишився один острів, дорослі втратили мову, батько перетворився на дерево, а лисиця — на балакучу людину.
+
 ### [Going to Yalta After The Apocalypse](goingtoyalta/)
 
 The novel I planned for three years, and started to write in May, 2022, during the Russian invasion. It was published in small daily chunks on the Substack mailing list, every day May 1—Dec 1, 2022.

@@ -724,3 +724,21 @@ div.talk-slide {
   margin-top: 20px;
   margin-bottom: 10px;
 }
+
+/* post blurbs (code as text) */
+
+div.blurb {
+  text-align: center;
+  color: #4D4533;
+  border: 5px solid #4D4533;
+  padding: 20px;
+  margin: 20px;
+}
+
+div.blurb p {
+  font-size: 24px;
+}
+
+div.blurb p b {
+  font-size: 30px;
+}

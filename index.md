@@ -63,6 +63,7 @@ Before the full-scale Russian invasion, I was working on an ambitionus Ruby book
 
 ## Talks
 
+* [Seven things I know after 25 years of development](https://youtu.be/r9EQjBPU474) Keynote at EuruKo'25 ([transcript article](/blog/2025-01-25-7things-euruko.html))
 * [The struggle for better documentation (for Ruby itself)](https://www.youtube.com/watch?v=2VVEcOyeYLA) at NoRuKo'20 ([slides](https://bit.ly/noruko2020zverok))
 * [Language as a tool of thought](https://www.youtube.com/watch?v=iMBqqjkbvl4) at RubyConf Nashville'19 ([slides](http://bit.ly/rc19zverok))
 * [Towards the post-framework future](https://www.youtube.com/watch?v=5UiBQtfRDUI&list=PLoGBNJiQoqRDJvwOYLuu7jnprRKhuc7Cp&index=10&t=1165s) at WrocLove.rb 2019 ([slides](https://docs.google.com/presentation/d/1ve4At8Vwww9ww3iM7BrQTTkBN9bWkOXmuSK2mmugSOQ/edit?usp=sharing))
