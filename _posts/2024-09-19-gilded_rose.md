@@ -72,8 +72,7 @@ That’s how I am [doing it](https://github.com/zverok/gilded_rose_kata/blob/mai
 
 ```ruby
 require_relative 'gilded_rose'
-require 'saharspec'
-require 'saharspec/its/with'
+require 'moarspec'
 
 RSpec.describe GildedRose do
   before { days.times { gilded_rose.update_quality } }
@@ -100,7 +99,7 @@ RSpec.describe GildedRose do
 
   # ...and so on
 ```
-This code uses [saharspec](https://github.com/zverok/saharspec), my RSpec extensions library (which tries to be ideologically compatible with RSpec, just taking its ideas further), namely its recent [experimental](https://github.com/zverok/saharspec/tree/experimental) branch where `it_with` method is implemented.
+This code uses [moarspec](https://github.com/zverok/moarspec), my RSpec extensions library (which tries to be ideologically compatible with RSpec, just taking its ideas further), namely its recently added `it_with` method.
 
 This method is just a shortcut for what RSpec already has. This code:
 ```ruby

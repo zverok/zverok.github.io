@@ -52,7 +52,7 @@ I documented the journey to do this and my discoveries in [a series of posts](/s
   * [the_schema_is](https://github.com/zverok/the_schema_is) -- Rails DSL for model annotation with DB schema, done right
   * [whatthegem](https://github.com/zverok/whatthegem) -- information about any Ruby gem in your terminal: general information, usage examples, popularity stats, changes and more (successor of [any_good](https://github.com/zverok/any_good) -- quick command-line evaluation of Ruby gem freshness/popularity)
   * [yard-junk](https://github.com/zverok/yard-junk) -- [YARD](https://github.com/lsegal/yard) plugin for checking for errors in docs;
-  * [saharspec](https://github.com/zverok/saharspec) -- a set of RSpec addons for DRY-er specs;
+  * [moarspec](https://github.com/zverok/moarspec) -- a set of RSpec addons for DRY-er specs;
   * [dokaz](http://github.com/zverok/dokaz) -- test code from inside of your Markdown documentation files;
 * Other stuff:
   * [linkhum](https://github.com/zverok/linkhum) -- "links-in-text humanizer", linkify text-only input;

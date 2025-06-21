@@ -55,7 +55,7 @@ Before the full-scale Russian invasion, I was working on an ambitionus Ruby book
 * Rails libraries:
   * [the_schema_is](https://github.com/zverok/the_schema_is) -- Rails DSL for model annotation with DB schema, done right;
 * Ruby libraries
-  * [saharspec](https://github.com/zverok/saharspec) -- a set of RSpec addons for DRY-er specs;
+  * [moarspec](https://github.com/zverok/moarspec) -- a set of RSpec addons for DRY-er specs;
   * [time_calc](https://github.com/zverok/time_calc) -- Simple time arithmetic in a modern, readable, idiomatic, no-"magic" Ruby;
   * [whatthegem](https://github.com/zverok/whatthegem) -- information about any Ruby gem in your terminal: general information, usage examples, popularity stats, changes and more;
 
