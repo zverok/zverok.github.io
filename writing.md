@@ -40,6 +40,10 @@ The novel follows a group of survivors of a catastrophic event that destroyed th
 >
 > Є в цих історіях і мерці, і їх рівно двадцять сім. Можете полічити.
 
+### Оповідання
+
+#### [Льоха і Люся](/writing/stories/lyoha-and-lyusya.html)
+
 ### [Ukrainian poetry translated](https://7uapoems.substack.com/)
 
 My irregular amateurish attempt to translate modern Ukrainian poetry, mostly writing by poets currently serving in the Ukrainian Armed Forces.
