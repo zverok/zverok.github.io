@@ -10,7 +10,7 @@ List of my ([zverok aka Victor Shepelev](https://zverok.space)) contributions to
 
 ### Accepted
 
-* **Ruby 3.3**:
+* **Ruby 3.4**:
   * [`Range#step` behavior change](https://bugs.ruby-lang.org/issues/18368) to become more useful for non-numeric iteration.
 * **Ruby 3.2**:
   * [`Data` class](https://bugs.ruby-lang.org/issues/16122)
@@ -39,11 +39,13 @@ List of my ([zverok aka Victor Shepelev](https://zverok.space)) contributions to
 * [`Enumerable#take_while_after`](https://bugs.ruby-lang.org/issues/18136)
 * [`Dir#empty?` and `File#empty?`](https://bugs.ruby-lang.org/issues/16249)
 * [`Object#non`](https://bugs.ruby-lang.org/issues/17330)
+*  `Ruby::Box` improvements: [1](https://bugs.ruby-lang.org/issues/21760), [2](https://bugs.ruby-lang.org/issues/21762)
 
 ### Contributed to discussions
 
 (The cases where I was not an author of initial proposal, but believe my contribution/pushing for solution was significant enough)
 
+* **4.0**: [`Enumerator.produce` behavior clarification](https://bugs.ruby-lang.org/issues/21780)
 * **3.1**: `IO::Buffer` [reviews/proposals](https://bugs.ruby-lang.org/issues/18417)
 * **3.0**: [`Hash#except`](https://bugs.ruby-lang.org/issues/15822)
 * ~~**2.7**: [Syntax sugar for method reference](https://bugs.ruby-lang.org/issues/13581): seems `.:` is finally accepted for 2.7~~ (ugh, [reverted](https://bugs.ruby-lang.org/issues/16275))
@@ -63,10 +65,17 @@ List of my ([zverok aka Victor Shepelev](https://zverok.space)) contributions to
 
 ### Merged
 
-* **Ruby 3.3**:
+* **Ruby 4.0**:
+  * [Adjust `Set` documentation](https://github.com/ruby/ruby/pull/15547)
+  * [Add base code layouting logic documentation](https://github.com/ruby/ruby/pull/15696)
+  * Various small imporements: [1](https://github.com/ruby/ruby/pull/15634), [2](https://github.com/ruby/ruby/pull/15615)
+* **Ruby 3.4**:
   * [Document `it` anonymous block argument](https://github.com/ruby/ruby/pull/12375)
   * [Document `**nil` and update splatting documentation](https://github.com/ruby/ruby/pull/12228)
+* **Ruby 3.3**:
   * [Rewrite backtraces-related documentation](https://github.com/ruby/ruby/pull/12420)
+  * [Enhance docs for `WeakMap` and `WeakKeyMap`](https://github.com/ruby/ruby/pull/9160)
+  * Small documentation improvements: [1](https://github.com/ruby/ruby/pull/9174), [2](https://github.com/ruby/ruby/pull/9183), [3](https://github.com/ruby/ruby/pull/9183)
 * **Ruby 3.2**:
   * [Improve `TracePoint#allow_reentry` docs](https://github.com/ruby/ruby/pull/5380)
   * [Improve `Random::Formatter` docs](https://github.com/ruby/ruby/pull/5434)

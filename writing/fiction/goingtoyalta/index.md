@@ -13,8 +13,7 @@ breadcrumbs: /writing/
   The novel I planned for three years, and started to write in May, 2022, during the Russian invasion. It was published in small daily chunks on the Substack mailing list, every day May 1—Dec 1, 2022.
 </div>
 
-The novel is complete, and currently I am looking for the publisher (or, alternatively, contemplating self-publishing). The Substack (where separate fragment and the whole end result in Epub format are available) is made private after the novel was finished, but you might [request to subscribe](https://goingtoyalta.substack.com/) while I haven’t decided on its fate.
-
+The novel is complete, and currently I am looking for the publisher (or, alternatively, contemplating self-publishing).
 Here’s an annotation I am sending to literary agents:
 
 > The novel follows a group of survivors of a catastrophic event that destroyed the rest of the world on their journey through the Crimean peninsula in the early 2000s.
@@ -29,4 +28,3 @@ A couple of fragments:
 
 * [Author’s introduction](/writing/goingtoyalta/pre-intro.html) announcing the start of writing, Apr 30, 2022
 * [Translator’s introduction](/writing/goingtoyalta/intro.html) (in-universe intro)
-* The first chapter _(to be published)_

@@ -6,11 +6,13 @@ redirect_from: /writing/old/
 breadcrumbs: /writing/
 ---
 
-### [Going to Yalta After The Apocalypse](/writing/goingtoyalta/)
+## [English Below](#in-english)
 
-The novel I planned for three years, and started to write in May, 2022, during the Russian invasion. It was published in small daily chunks on the Substack mailing list, every day May 1—Dec 1, 2022.
+## Українською
 
-The novel follows a group of survivors of a catastrophic event that destroyed the rest of the world on their journey through the Crimean peninsula in the early 2000s.
+### Чорні канікули
+
+Роман, який я писав з листопада 2024-го по листопад 2025-го. Наразі в редактурі. Більше інформації згодом.
 
 ### [Українець Джонатан і двадцять сім мерців](/writing/jona/)
 
@@ -25,6 +27,14 @@ The novel follows a group of survivors of a catastrophic event that destroyed th
 ### Оповідання
 
 #### [Льоха і Люся](/writing/stories/lyoha-and-lyusya.html)
+
+## In English
+
+### [Going to Yalta After The Apocalypse](/writing/goingtoyalta/)
+
+The novel I planned for three years, and started to write in May, 2022, during the Russian invasion. It was published in small daily chunks on the Substack mailing list, every day May 1—Dec 1, 2022.
+
+The novel follows a group of survivors of a catastrophic event that destroyed the rest of the world on their journey through the Crimean peninsula in the early 2000s.
 
 ### [Ukrainian poetry translated](https://7uapoems.substack.com/)
 

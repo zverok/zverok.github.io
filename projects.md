@@ -13,15 +13,15 @@ permalink: /projects/
 
 I am an active contributor to Ruby programming language. My main interests are making the language more naturally expressive, and more friendly for the newcomers.
 
-* [List of my contributions to the language itself](/ruby.html): documentation, and some features mostly on idea level, like `Kernel#then`, beginless ranges, `Enumerator#produce` etc.
+* [List of my contributions to the language itself](/ruby.html): documentation, and some features mostly on idea level, like `Kernel#then`, beginless ranges, `Enumerator#produce` etc. I have also implemented some of the recent changes, like `Data` class or `Range#step` that supports non-numeric steps.
 * [Ruby Changes](https://rubyreferences.github.io/rubychanges/) is full changelog of recent Ruby (2.4—3.1 at the moment), with full context and example for each and every change.
 * [Ruby Reference](https://rubyreferences.github.io/rubyref/) is an attempt to generate full Ruby reference from official docs and other stuff in a readable e-book-alike format; this year, there is a work planned to make it an official version at `ruby-lang.org`.
 
 ## Common world knowledge API {#wikipedia_ql}
 
-Since 2016, I am experimenting with possibilities to make common open knowledge easily accessible from scripting languages.
+Since 2016 to 2024, I was experimenting with possibilities to make common open knowledge easily accessible from scripting languages.
 
-Current ongoing effort is focusing on a **Python library [WikipediaQL](https://github.com/zverok/wikipedia_ql)**.
+The last effort was focused on a **Python library [WikipediaQL](https://github.com/zverok/wikipedia_ql)**.
 
 Before that, I developed a set of Ruby libraries, also mostly based on Wikipedia/Wikidata (with some sprinkles of OpenStreetMap and other services). The whole effort was named **[molybdenum-99](https://github.com/molybdenum-99)** (as a pun on Wolfram language which was the big inspiration), and peeked in [reality](https://github.com/molybdenum-99/reality)—the most hi-level gem of the project, representing all world's data as Ruby entities. Beneath it, multiple libraries were developed:
 
